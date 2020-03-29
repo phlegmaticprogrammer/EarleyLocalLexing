@@ -7,11 +7,16 @@
 
 import Foundation
 
-public final class Grammar<C : ConstructResult> {
+public protocol EvalEnv {
+    
+    func copy() -> Self
+
+}
+
+public final class Grammar<C : ConstructResult, Env : EvalEnv> {
     
     public typealias Value = C.Value
     public typealias Result = C.Result
-    public typealias Env = C.Env
     public typealias F = (Env, [Value]) -> Value?
     
     typealias Item = EarleyItem<Env, Value, Result>

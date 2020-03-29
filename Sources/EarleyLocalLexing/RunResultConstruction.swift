@@ -1,15 +1,16 @@
 import Foundation
 
-final class EarleyParseTree<C : ConstructResult, In : Input> where In.Char == C.Value {
+final class RunResultConstruction<C : ConstructResult, Env : EvalEnv, In : Input> where In.Char == C.Value {
     
     typealias Value = C.Value
     typealias Result = C.Result
-    typealias Bin = EarleyBin<C.Env, Value, Result>
+    typealias Bin = EarleyBin<Env, Value, Result>
     typealias Bins = [Bin]
-    typealias Item = Grammar<C>.Item
+    typealias Item = Grammar<C, Env>.Item
     typealias Key = ItemKey<Value>
+    typealias G = Grammar<C, Env>
     
-    let grammar : Grammar<C>
+    let grammar : G
     let bins : Bins
     let input : In
         
@@ -19,10 +20,10 @@ final class EarleyParseTree<C : ConstructResult, In : Input> where In.Char == C.
     }
     
     private var cache : [Key : CachedResult]
-    private let treatedAsNonterminals : Set<Grammar<C>.TerminalIndex>
+    private let treatedAsNonterminals : Set<G.TerminalIndex>
     private let startOffset : Int
     
-    init(input : In, grammar : Grammar<C>, treatedAsNonterminals : Set<Grammar<C>.TerminalIndex>, bins : Bins, startOffset : Int) {
+    init(input : In, grammar : G, treatedAsNonterminals : Set<G.TerminalIndex>, bins : Bins, startOffset : Int) {
         self.grammar = grammar
         self.bins = bins
         self.cache = [:]

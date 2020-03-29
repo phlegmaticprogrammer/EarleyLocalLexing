@@ -1,12 +1,6 @@
 import Foundation
 
-public protocol EarleyItemEnv {
-    
-    func copy() -> Self
-
-}
-
-struct EarleyItem<Env : EarleyItemEnv, Value : Hashable, Result> : Hashable, CompletedItem {
+struct EarleyItem<Env : EvalEnv, Value : Hashable, Result> : Hashable, CompletedItem {
     let ruleIndex : Int
     let env : Env
     let values : [Value]
@@ -48,19 +42,20 @@ struct EarleyItem<Env : EarleyItemEnv, Value : Hashable, Result> : Hashable, Com
     }
 }
 
-typealias EarleyBin<Env : EarleyItemEnv, Value : Hashable, Result> = Set<EarleyItem<Env, Value, Result>>
+typealias EarleyBin<Env : EvalEnv, Value : Hashable, Result> = Set<EarleyItem<Env, Value, Result>>
 
 
-public final class EarleyParser<C : ConstructResult, In : Input> where In.Char == C.Value {
+public final class EarleyParser<C : ConstructResult, Env : EvalEnv, In : Input> where In.Char == C.Value {
     
     public typealias Value = C.Value
-    typealias Env = C.Env
+    //typealias Env = C.Env
     typealias Bin = EarleyBin<Env, Value, C.Result>
     typealias Bins = [Bin]
-    public typealias TerminalSet = Set<Grammar<C>.TerminalIndex>
-    typealias Tokens = Grammar<C>.Tokens
-    typealias Item = Grammar<C>.Item
-    typealias TerminalKey = Grammar<C>.TerminalKey
+    public typealias G = Grammar<C, Env>
+    public typealias TerminalSet = Set<G.TerminalIndex>
+    typealias Tokens = G.Tokens
+    typealias Item = G.Item
+    typealias TerminalKey = G.TerminalKey
     
     enum RecognitionResult {
         case failed(position : Int)
@@ -72,14 +67,14 @@ public final class EarleyParser<C : ConstructResult, In : Input> where In.Char =
         case success(length : Int, results : [Value : C.Result?])
     }
     
-    let grammar : Grammar<C>
+    let grammar : G
     let initialSymbol : Symbol
     let initialParam : Value
     let input : In
     let treatedAsNonterminals : TerminalSet
     let startPosition : Int
     
-    public init(grammar : Grammar<C>, initialSymbol : Symbol, initialParam : Value, input : In, startPosition : Int, treatedAsNonterminals : TerminalSet) {
+    public init(grammar : G, initialSymbol : Symbol, initialParam : Value, input : In, startPosition : Int, treatedAsNonterminals : TerminalSet) {
         self.grammar = grammar
         self.initialSymbol = initialSymbol
         self.initialParam = initialParam
@@ -184,7 +179,7 @@ public final class EarleyParser<C : ConstructResult, In : Input> where In.Char =
             case .failed: break
             case let .success(length: length, results: results):
                 for (value, result) in results {
-                    let tr = Grammar<C>.TokenResult(length: length, value: value, result: result)
+                    let tr = G.TokenResult(length: length, value: value, result: result)
                     insertTo(dict: &newTokens, key: candidate, value: tr)
                 }
             }
@@ -317,7 +312,7 @@ public final class EarleyParser<C : ConstructResult, In : Input> where In.Char =
         var lastNonEmpty : Int? = nil
         while i >= 0 {
             if hasBeenRecognized(bin: bins[i]) {
-                let c = EarleyParseTree<C, In>(input: input, grammar: grammar, treatedAsNonterminals: treatedAsNonterminals, bins: Array(bins[0 ... i]), startOffset: startPosition)
+                let c = RunResultConstruction<C, Env, In>(input: input, grammar: grammar, treatedAsNonterminals: treatedAsNonterminals, bins: Array(bins[0 ... i]), startOffset: startPosition)
                 return .success(length: i, results: c.construct(symbol: initialSymbol, param: initialParam))
             }
             if lastNonEmpty == nil && !bins[i].isEmpty {
