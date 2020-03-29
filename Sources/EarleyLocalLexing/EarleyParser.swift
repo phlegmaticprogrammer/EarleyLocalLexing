@@ -91,7 +91,7 @@ public final class EarleyParser<C : ConstructResult, In : Input> where In.Char =
         var bin : Bin = []
         for ruleIndex in grammar.rulesOf(symbol: initialSymbol) {
             let rule = grammar.rules[ruleIndex]
-            if let item = rule.initialItem(k: startPosition, param: initialParam) {
+            if let item : EarleyItem<Value, C.Result> = rule.initialItem(k: startPosition, param: initialParam) {
                 bin.insert(item)
             }
         }
@@ -117,7 +117,7 @@ public final class EarleyParser<C : ConstructResult, In : Input> where In.Char =
                 let param = item.nextParam
                 for ruleIndex in grammar.rulesOf(symbol: nextSymbol) {
                     let rule = grammar.rules[ruleIndex]
-                    if let item = rule.initialItem(k: k, param: param) {
+                    if let item : EarleyItem<Value, C.Result> = rule.initialItem(k: k, param: param) {
                         if bins[k - startPosition].insert(item).inserted {
                             changed = true
                         }
