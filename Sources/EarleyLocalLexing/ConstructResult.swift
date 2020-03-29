@@ -35,7 +35,7 @@ public protocol ConstructResult {
     
     func evalTerminal(key : ItemKey<Value>, result : Result?) -> Result?
     
-    func evalCharacter(position : Int, value : Value) -> Result?
+    func evalCharacter(position : Int, character : Value) -> Result?
     
     func merge(key : ItemKey<Value>, results : [Result]) -> Result?
     

@@ -125,7 +125,7 @@ final class RunResultConstruction<C : ConstructResult, In : Input> where In.Char
                     commandStack.append(.push(result: grammar.constructResult.evalTerminal(key: childKey, result: child.result)))
                 }
             case .character:
-                commandStack.append(.push(result: grammar.constructResult.evalCharacter(position: child.from, value: child.out)))
+                commandStack.append(.push(result: grammar.constructResult.evalCharacter(position: child.from, character: child.out)))
             }
         }
     }
