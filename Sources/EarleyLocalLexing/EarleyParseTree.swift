@@ -1,23 +1,17 @@
-//
-//  Created by Steven Obua on 28/03/2020.
-//
-
 import Foundation
 
-final class EarleyParseTree<C : ConstructResult> {
+final class EarleyParseTree<C : ConstructResult, In : Input> where In.Char == C.Value {
     
     typealias Value = C.Value
     typealias Result = C.Result
-    typealias Kernel = EarleyKernel<C>
     typealias Bin = EarleyBin<C.Env, Value, Result>
     typealias Bins = [Bin]
-    typealias Symbol = Kernel.Symbol
-    typealias Item = Kernel.Item
-    typealias Key = EarleyKey<Value>
+    typealias Item = Grammar<C>.Item
+    typealias Key = ItemKey<Value>
     
-    let kernel : Kernel
+    let grammar : Grammar<C>
     let bins : Bins
-    let input : C.I
+    let input : In
         
     enum CachedResult {
         case computing
@@ -25,11 +19,11 @@ final class EarleyParseTree<C : ConstructResult> {
     }
     
     private var cache : [Key : CachedResult]
-    private let treatedAsNonterminals : Set<Kernel.TerminalIndex>
+    private let treatedAsNonterminals : Set<Grammar<C>.TerminalIndex>
     private let startOffset : Int
     
-    init(input : C.I, kernel : Kernel, treatedAsNonterminals : Set<Kernel.TerminalIndex>, bins : Bins, startOffset : Int) {
-        self.kernel = kernel
+    init(input : In, grammar : Grammar<C>, treatedAsNonterminals : Set<Grammar<C>.TerminalIndex>, bins : Bins, startOffset : Int) {
+        self.grammar = grammar
         self.bins = bins
         self.cache = [:]
         self.treatedAsNonterminals = treatedAsNonterminals
@@ -54,7 +48,7 @@ final class EarleyParseTree<C : ConstructResult> {
         }
         var results : [Value : Result?] = [:]
         for (key, rs) in keyedResults {
-            let result = kernel.constructResult.merge(key: key, results: rs)
+            let result = grammar.constructResult.merge(key: key, results: rs)
             results[key.output] = result
         }
         return results
@@ -112,7 +106,7 @@ final class EarleyParseTree<C : ConstructResult> {
     }
         
     private func startTask(key: Key, item: Item, commandStack: inout CommandStack) {
-        let rule = kernel.rules[item.ruleIndex]
+        let rule = grammar.rules[item.ruleIndex]
         let count = rule.rhs.count
         commandStack.append(.completeKeyItemTask(key: key, item: item, count: count))
         for i in 0 ..< count {
@@ -127,10 +121,10 @@ final class EarleyParseTree<C : ConstructResult> {
                 if treatedAsNonterminals.contains(index) {
                     commandStack.append(.startKeyTask(key: childKey))
                 } else {
-                    commandStack.append(.push(result: kernel.constructResult.evalTerminal(key: childKey, result: child.result)))
+                    commandStack.append(.push(result: grammar.constructResult.evalTerminal(key: childKey, result: child.result)))
                 }
             case .character:
-                commandStack.append(.push(result: kernel.constructResult.evalCharacter(position: child.from, value: child.out)))
+                commandStack.append(.push(result: grammar.constructResult.evalCharacter(position: child.from, value: child.out)))
             }
         }
     }
@@ -144,7 +138,7 @@ final class EarleyParseTree<C : ConstructResult> {
         func subtrees(i : Int) -> Result? {
             return results[i]
         }
-        let result = kernel.constructResult.evalRule(input: input, key: key, item : item, rhs: subtrees)
+        let result = grammar.constructResult.evalRule(input: input, key: key, item : item, rhs: subtrees)
         resultStack.append(result)
     }
     
@@ -155,7 +149,7 @@ final class EarleyParseTree<C : ConstructResult> {
                 results.append(r)
             }
         }
-        let result = kernel.constructResult.merge(key : key, results: results)
+        let result = grammar.constructResult.merge(key : key, results: results)
         resultStack.append(result)
         cache[key] = .done(result: result)
     }
@@ -165,7 +159,7 @@ final class EarleyParseTree<C : ConstructResult> {
         var items : [Item] = []
         for item in bin {
             guard item.origin == startPosition else { continue }
-            let rule = kernel.rules[item.ruleIndex]
+            let rule = grammar.rules[item.ruleIndex]
             if rule.lhs == symbol {
                 if rule.nextSymbol(dot: item.dot) == nil && item.param == input && (output == nil || item.out == output!) {
                     items.append(item)

@@ -1,9 +1,3 @@
-//
-//  Utils.swift
-//
-//  Created by Steven Obua on 11/12/2019.
-//
-
 import Foundation
 
 func appendTo<S, T>(dict : inout [S : [T]], key : S, value : T) {
