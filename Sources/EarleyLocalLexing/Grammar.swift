@@ -70,11 +70,10 @@ public struct Rule<Value> {
 public final class Grammar<C : ConstructResult> {
     
     public typealias Value = C.Value
-    public typealias Result = C.Result
     
-    typealias Item = EarleyItem<Value, Result>
-        
-    typealias RuleIndex = Int
+    public typealias Result = C.Result
+            
+    public typealias RuleIndex = Int
     
     public struct TokenResult : Hashable {
         public let length : Int
@@ -111,7 +110,7 @@ public final class Grammar<C : ConstructResult> {
     
     public let constructResult : C
     
-    func rulesOf(symbol : Symbol) -> [RuleIndex] {
+    public func rulesOf(symbol : Symbol) -> [RuleIndex] {
         return rulesOfSymbols[symbol] ?? []
     }
     

@@ -53,7 +53,7 @@ public final class EarleyParser<C : ConstructResult, In : Input> where In.Char =
     public typealias G = Grammar<C>
     public typealias TerminalSet = Set<G.TerminalIndex>
     typealias Tokens = G.Tokens
-    typealias Item = G.Item
+    typealias Item = EarleyItem<Value, C.Result>
     typealias TerminalKey = G.TerminalKey
     
     enum RecognitionResult {

@@ -6,7 +6,7 @@ final class RunResultConstruction<C : ConstructResult, In : Input> where In.Char
     typealias Result = C.Result
     typealias Bin = EarleyBin<Value, Result>
     typealias Bins = [Bin]
-    typealias Item = Grammar<C>.Item
+    typealias Item = EarleyItem<C.Value, C.Result>
     typealias Key = ItemKey<Value>
     typealias G = Grammar<C>
     
