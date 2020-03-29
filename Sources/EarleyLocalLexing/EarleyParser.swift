@@ -1,8 +1,8 @@
 import Foundation
 
-struct EarleyItem<Env : EvalEnv, Value : Hashable, Result> : Hashable, CompletedItem {
+struct EarleyItem<Value : Hashable, Result> : Hashable, CompletedItem {
     let ruleIndex : Int
-    let env : Env
+    let env : EvalEnv
     let values : [Value]
     let results : [Result?]
     let indices : [Int]
@@ -37,21 +37,20 @@ struct EarleyItem<Env : EvalEnv, Value : Hashable, Result> : Hashable, Completed
         hasher.combine(indices)
     }
         
-    static func == (left : EarleyItem<Env, Value, Result>, right : EarleyItem<Env, Value, Result>) -> Bool {
+    static func == (left : EarleyItem<Value, Result>, right : EarleyItem<Value, Result>) -> Bool {
         return left.ruleIndex == right.ruleIndex && left.values == right.values && left.indices == right.indices
     }
 }
 
-typealias EarleyBin<Env : EvalEnv, Value : Hashable, Result> = Set<EarleyItem<Env, Value, Result>>
+typealias EarleyBin<Value : Hashable, Result> = Set<EarleyItem<Value, Result>>
 
 
-public final class EarleyParser<C : ConstructResult, Env : EvalEnv, In : Input> where In.Char == C.Value {
+public final class EarleyParser<C : ConstructResult, In : Input> where In.Char == C.Value {
     
     public typealias Value = C.Value
-    //typealias Env = C.Env
-    typealias Bin = EarleyBin<Env, Value, C.Result>
+    typealias Bin = EarleyBin<Value, C.Result>
     typealias Bins = [Bin]
-    public typealias G = Grammar<C, Env>
+    public typealias G = Grammar<C>
     public typealias TerminalSet = Set<G.TerminalIndex>
     typealias Tokens = G.Tokens
     typealias Item = G.Item
@@ -312,7 +311,7 @@ public final class EarleyParser<C : ConstructResult, Env : EvalEnv, In : Input> 
         var lastNonEmpty : Int? = nil
         while i >= 0 {
             if hasBeenRecognized(bin: bins[i]) {
-                let c = RunResultConstruction<C, Env, In>(input: input, grammar: grammar, treatedAsNonterminals: treatedAsNonterminals, bins: Array(bins[0 ... i]), startOffset: startPosition)
+                let c = RunResultConstruction<C, In>(input: input, grammar: grammar, treatedAsNonterminals: treatedAsNonterminals, bins: Array(bins[0 ... i]), startOffset: startPosition)
                 return .success(length: i, results: c.construct(symbol: initialSymbol, param: initialParam))
             }
             if lastNonEmpty == nil && !bins[i].isEmpty {

@@ -30,8 +30,6 @@ public protocol ConstructResult {
     associatedtype Result
     
     associatedtype Value : Hashable
-
-    //associatedtype Env : EarleyItemEnv
         
     func evalRule<Item : CompletedItem, In : Input>(input : In, key : ItemKey<Value>, item : Item, rhs : @escaping (Int) -> Result?) -> Result? where Item.Result == Result, Item.Value == Value, In.Char == Value
     

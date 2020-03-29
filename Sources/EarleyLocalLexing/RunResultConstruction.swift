@@ -1,14 +1,14 @@
 import Foundation
 
-final class RunResultConstruction<C : ConstructResult, Env : EvalEnv, In : Input> where In.Char == C.Value {
+final class RunResultConstruction<C : ConstructResult, In : Input> where In.Char == C.Value {
     
     typealias Value = C.Value
     typealias Result = C.Result
-    typealias Bin = EarleyBin<Env, Value, Result>
+    typealias Bin = EarleyBin<Value, Result>
     typealias Bins = [Bin]
-    typealias Item = Grammar<C, Env>.Item
+    typealias Item = Grammar<C>.Item
     typealias Key = ItemKey<Value>
-    typealias G = Grammar<C, Env>
+    typealias G = Grammar<C>
     
     let grammar : G
     let bins : Bins

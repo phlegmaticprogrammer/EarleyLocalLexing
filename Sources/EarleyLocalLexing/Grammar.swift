@@ -13,22 +13,22 @@ public protocol EvalEnv {
 
 }
 
-public final class Grammar<C : ConstructResult, Env : EvalEnv> {
+public final class Grammar<C : ConstructResult> {
     
     public typealias Value = C.Value
     public typealias Result = C.Result
-    public typealias F = (Env, [Value]) -> Value?
+    public typealias EvalFunc = (EvalEnv, [Value]) -> Value?
     
-    typealias Item = EarleyItem<Env, Value, Result>
+    typealias Item = EarleyItem<Value, Result>
     
     public struct Rule {
-        public let initialEnv : () -> Env
+        public let initialEnv : EvalEnv
         public let lhs : Symbol
-        public let rhs : [(F, Symbol)]
-        public let out : F
+        public let rhs : [(EvalFunc, Symbol)]
+        public let out : EvalFunc
         public let ruleIndex : Int
         
-        public init(initialEnv : @escaping () -> Env, lhs : Symbol, rhs : [(F, Symbol)], out : @escaping F, ruleIndex : Int) {
+        public init(initialEnv : EvalEnv, lhs : Symbol, rhs : [(EvalFunc, Symbol)], out : @escaping EvalFunc, ruleIndex : Int) {
             precondition(lhs != .character)
             self.initialEnv = initialEnv
             self.lhs = lhs
@@ -42,12 +42,12 @@ public final class Grammar<C : ConstructResult, Env : EvalEnv> {
             else { return rhs[dot].1 }
         }
         
-        func nextF(dot : Int) -> F {
+        func nextF(dot : Int) -> EvalFunc {
             if dot >= rhs.count { return out } else { return rhs[dot].0 }
         }
         
         func initialItem(k : Int, param : Value) -> Item? {
-            let env = initialEnv()
+            let env = initialEnv.copy()
             if let value = nextF(dot: 0)(env, [param]) {
                 return Item(ruleIndex: ruleIndex, env: env, values: [param, value], results: [], indices: [k])
             } else {
