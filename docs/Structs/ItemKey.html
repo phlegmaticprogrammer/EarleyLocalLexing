@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>CompletedItem Protocol Reference</title>
+    <title>ItemKey Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Protocol/CompletedItem" class="dashAnchor"></a>
-    <a title="CompletedItem Protocol Reference"></a>
+    <a name="//apple_ref/swift/Struct/ItemKey" class="dashAnchor"></a>
+    <a title="ItemKey Structure Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">EarleyLocalLexing Docs</a> (4% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">EarleyLocalLexing Reference</a>
         <img id="carat" src="../img/carat.png" />
-        CompletedItem Protocol Reference
+        ItemKey Structure Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -96,10 +96,10 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>CompletedItem</h1>
+            <h1>ItemKey</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">CompletedItem</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ItemKey</span><span class="o">&lt;</span><span class="kt">Value</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">Hashable</span> <span class="k">where</span> <span class="kt">Value</span> <span class="p">:</span> <span class="kt">Hashable</span></code></pre>
 
                 </div>
               </div>
@@ -112,9 +112,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:17EarleyLocalLexing13CompletedItemP5ValueQa"></a>
-                    <a name="//apple_ref/swift/Alias/Value" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17EarleyLocalLexing13CompletedItemP5ValueQa">Value</a>
+                    <a name="/s:17EarleyLocalLexing7ItemKeyV6symbolAA6SymbolOvp"></a>
+                    <a name="//apple_ref/swift/Property/symbol" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing7ItemKeyV6symbolAA6SymbolOvp">symbol</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -129,7 +129,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">Value</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">symbol</span><span class="p">:</span> <span class="kt"><a href="../Enums/Symbol.html">Symbol</a></span></code></pre>
 
                         </div>
                       </div>
@@ -139,9 +139,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:17EarleyLocalLexing13CompletedItemP6ResultQa"></a>
-                    <a name="//apple_ref/swift/Alias/Result" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17EarleyLocalLexing13CompletedItemP6ResultQa">Result</a>
+                    <a name="/s:17EarleyLocalLexing7ItemKeyV5inputxvp"></a>
+                    <a name="//apple_ref/swift/Property/input" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing7ItemKeyV5inputxvp">input</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -156,7 +156,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">Result</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">input</span><span class="p">:</span> <span class="kt">Value</span></code></pre>
 
                         </div>
                       </div>
@@ -166,9 +166,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:17EarleyLocalLexing13CompletedItemP9ruleIndexSivp"></a>
-                    <a name="//apple_ref/swift/Property/ruleIndex" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17EarleyLocalLexing13CompletedItemP9ruleIndexSivp">ruleIndex</a>
+                    <a name="/s:17EarleyLocalLexing7ItemKeyV6outputxvp"></a>
+                    <a name="//apple_ref/swift/Property/output" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing7ItemKeyV6outputxvp">output</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -183,7 +183,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">ruleIndex</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">output</span><span class="p">:</span> <span class="kt">Value</span></code></pre>
 
                         </div>
                       </div>
@@ -193,9 +193,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:17EarleyLocalLexing13CompletedItemP5child3rhs5ValueQz2in_AG3out6ResultQzSg6resultSi4fromSi2totSi_tF"></a>
-                    <a name="//apple_ref/swift/Method/child(rhs:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17EarleyLocalLexing13CompletedItemP5child3rhs5ValueQz2in_AG3out6ResultQzSg6resultSi4fromSi2totSi_tF">child(rhs:)</a>
+                    <a name="/s:17EarleyLocalLexing7ItemKeyV13startPositionSivp"></a>
+                    <a name="//apple_ref/swift/Property/startPosition" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing7ItemKeyV13startPositionSivp">startPosition</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -210,7 +210,34 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">child</span><span class="p">(</span><span class="nv">rhs</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="kt"><a href="../Protocols/CompletedItem.html#/s:17EarleyLocalLexing13CompletedItemP5ValueQa">Value</a></span><span class="p">,</span> <span class="nv">out</span><span class="p">:</span> <span class="kt"><a href="../Protocols/CompletedItem.html#/s:17EarleyLocalLexing13CompletedItemP5ValueQa">Value</a></span><span class="p">,</span> <span class="nv">result</span><span class="p">:</span> <span class="kt"><a href="../Protocols/CompletedItem.html#/s:17EarleyLocalLexing13CompletedItemP6ResultQa">Result</a></span><span class="p">?,</span> <span class="nv">from</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">to</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">startPosition</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:17EarleyLocalLexing7ItemKeyV11endPositionSivp"></a>
+                    <a name="//apple_ref/swift/Property/endPosition" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing7ItemKeyV11endPositionSivp">endPosition</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">endPosition</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
 
                         </div>
                       </div>

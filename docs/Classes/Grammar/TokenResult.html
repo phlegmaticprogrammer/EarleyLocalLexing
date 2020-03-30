@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ParseResult Enumeration Reference</title>
+    <title>TokenResult Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Enum/ParseResult" class="dashAnchor"></a>
-    <a title="ParseResult Enumeration Reference"></a>
+    <a name="//apple_ref/swift/Struct/TokenResult" class="dashAnchor"></a>
+    <a title="TokenResult Structure Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../../index.html">EarleyLocalLexing Docs</a> (4% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../../index.html">EarleyLocalLexing Reference</a>
         <img id="carat" src="../../img/carat.png" />
-        ParseResult Enumeration Reference
+        TokenResult Structure Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -96,10 +96,10 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>ParseResult</h1>
+            <h1>TokenResult</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">ParseResult</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">TokenResult</span> <span class="p">:</span> <span class="kt">Hashable</span></code></pre>
 
                 </div>
               </div>
@@ -112,9 +112,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:17EarleyLocalLexing0A6ParserC11ParseResultO6failedyAEyxq__GSi_tcAGmAA09ConstructF0RzAA5InputR_4CharQy_5ValueRtzr0_lF"></a>
-                    <a name="//apple_ref/swift/Element/failed(position:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17EarleyLocalLexing0A6ParserC11ParseResultO6failedyAEyxq__GSi_tcAGmAA09ConstructF0RzAA5InputR_4CharQy_5ValueRtzr0_lF">failed(position:)</a>
+                    <a name="/s:17EarleyLocalLexing7GrammarC11TokenResultV6lengthSivp"></a>
+                    <a name="//apple_ref/swift/Property/length" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing7GrammarC11TokenResultV6lengthSivp">length</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -129,7 +129,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">failed</span><span class="p">(</span><span class="nv">position</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">length</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
 
                         </div>
                       </div>
@@ -139,9 +139,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:17EarleyLocalLexing0A6ParserC11ParseResultO7successyAEyxq__GSi_SDy5ValueQz0F0QzSgGtcAGmAA09ConstructF0RzAA5InputR_4CharQy_AIRSr0_lF"></a>
-                    <a name="//apple_ref/swift/Element/success(length:results:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17EarleyLocalLexing0A6ParserC11ParseResultO7successyAEyxq__GSi_SDy5ValueQz0F0QzSgGtcAGmAA09ConstructF0RzAA5InputR_4CharQy_AIRSr0_lF">success(length:results:)</a>
+                    <a name="/s:17EarleyLocalLexing7GrammarC11TokenResultV5value5ValueQzvp"></a>
+                    <a name="//apple_ref/swift/Property/value" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing7GrammarC11TokenResultV5value5ValueQzvp">value</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -156,7 +156,86 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">success</span><span class="p">(</span><span class="nv">length</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">results</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../../Classes/EarleyParser.html#/s:17EarleyLocalLexing0A6ParserC5Valuea">Value</a></span> <span class="p">:</span> <span class="kt">C</span><span class="o">.</span><span class="kt">Result</span><span class="p">?])</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">value</span><span class="p">:</span> <span class="kt"><a href="../../Classes/Grammar.html#/s:17EarleyLocalLexing7GrammarC5Valuea">Value</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:17EarleyLocalLexing7GrammarC11TokenResultV6result0F0QzSgvp"></a>
+                    <a name="//apple_ref/swift/Property/result" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing7GrammarC11TokenResultV6result0F0QzSgvp">result</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">result</span><span class="p">:</span> <span class="kt"><a href="../../Classes/Grammar.html#/s:17EarleyLocalLexing7GrammarC6Resulta">Result</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:SH4hash4intoys6HasherVz_tF"></a>
+                    <a name="//apple_ref/swift/Method/hash(into:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:SH4hash4intoys6HasherVz_tF">hash(into:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">hash</span><span class="p">(</span><span class="n">into</span> <span class="nv">hasher</span><span class="p">:</span> <span class="k">inout</span> <span class="kt">Hasher</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:SQ2eeoiySbx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/==(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:SQ2eeoiySbx_xtFZ">==(_:_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">==</span> <span class="p">(</span><span class="nv">left</span><span class="p">:</span> <span class="kt">TokenResult</span><span class="p">,</span> <span class="nv">right</span><span class="p">:</span> <span class="kt">TokenResult</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>

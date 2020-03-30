@@ -1,486 +1,444 @@
 {
   "warnings": [
     {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 9,
-      "symbol": "EarleyItemEnv",
-      "symbol_kind": "source.lang.swift.decl.protocol",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 11,
-      "symbol": "EarleyItemEnv.copy()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 15,
-      "symbol": "EarleyKernelSymbol",
-      "symbol_kind": "source.lang.swift.decl.enum",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 17,
-      "symbol": "EarleyKernelSymbol.terminal(index:)",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 18,
-      "symbol": "EarleyKernelSymbol.nonterminal(index:)",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 19,
-      "symbol": "EarleyKernelSymbol.character",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 30,
-      "symbol": "EarleyKey",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 32,
-      "symbol": "EarleyKey.symbol",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 34,
-      "symbol": "EarleyKey.input",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 36,
-      "symbol": "EarleyKey.output",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 38,
-      "symbol": "EarleyKey.startPosition",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 40,
-      "symbol": "EarleyKey.endPosition",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 43,
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/ConstructResult.swift",
+      "line": 3,
       "symbol": "CompletedItem",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 45,
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/ConstructResult.swift",
+      "line": 5,
       "symbol": "CompletedItem.Value",
       "symbol_kind": "source.lang.swift.decl.associatedtype",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 47,
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/ConstructResult.swift",
+      "line": 7,
       "symbol": "CompletedItem.Result",
       "symbol_kind": "source.lang.swift.decl.associatedtype",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 49,
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/ConstructResult.swift",
+      "line": 9,
       "symbol": "CompletedItem.ruleIndex",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 51,
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/ConstructResult.swift",
+      "line": 11,
       "symbol": "CompletedItem.child(rhs:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 96,
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/ConstructResult.swift",
+      "line": 14,
+      "symbol": "ItemKey",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/ConstructResult.swift",
+      "line": 16,
+      "symbol": "ItemKey.symbol",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/ConstructResult.swift",
+      "line": 18,
+      "symbol": "ItemKey.input",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/ConstructResult.swift",
+      "line": 20,
+      "symbol": "ItemKey.output",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/ConstructResult.swift",
+      "line": 22,
+      "symbol": "ItemKey.startPosition",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/ConstructResult.swift",
+      "line": 24,
+      "symbol": "ItemKey.endPosition",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/ConstructResult.swift",
+      "line": 28,
       "symbol": "ConstructResult",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 98,
-      "symbol": "ConstructResult.Env",
-      "symbol_kind": "source.lang.swift.decl.associatedtype",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 99,
-      "symbol": "ConstructResult.Value",
-      "symbol_kind": "source.lang.swift.decl.associatedtype",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 100,
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/ConstructResult.swift",
+      "line": 30,
       "symbol": "ConstructResult.Result",
       "symbol_kind": "source.lang.swift.decl.associatedtype",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 101,
-      "symbol": "ConstructResult.I",
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/ConstructResult.swift",
+      "line": 32,
+      "symbol": "ConstructResult.Value",
       "symbol_kind": "source.lang.swift.decl.associatedtype",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 103,
-      "symbol": "ConstructResult.Key",
-      "symbol_kind": "source.lang.swift.decl.typealias",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 105,
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/ConstructResult.swift",
+      "line": 34,
       "symbol": "ConstructResult.evalRule(input:key:item:rhs:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 107,
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/ConstructResult.swift",
+      "line": 36,
       "symbol": "ConstructResult.evalTerminal(key:result:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 109,
-      "symbol": "ConstructResult.evalCharacter(position:value:)",
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/ConstructResult.swift",
+      "line": 38,
+      "symbol": "ConstructResult.evalCharacter(position:character:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 111,
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/ConstructResult.swift",
+      "line": 40,
       "symbol": "ConstructResult.merge(key:results:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 117,
-      "symbol": "EarleyKernel",
-      "symbol_kind": "source.lang.swift.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 119,
-      "symbol": "EarleyKernel.Value",
-      "symbol_kind": "source.lang.swift.decl.typealias",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 120,
-      "symbol": "EarleyKernel.Result",
-      "symbol_kind": "source.lang.swift.decl.typealias",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 121,
-      "symbol": "EarleyKernel.Env",
-      "symbol_kind": "source.lang.swift.decl.typealias",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 122,
-      "symbol": "EarleyKernel.Symbol",
-      "symbol_kind": "source.lang.swift.decl.typealias",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 123,
-      "symbol": "EarleyKernel.F",
-      "symbol_kind": "source.lang.swift.decl.typealias",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 127,
-      "symbol": "EarleyKernel.Rule",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 128,
-      "symbol": "EarleyKernel.Rule.initialEnv",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 129,
-      "symbol": "EarleyKernel.Rule.lhs",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 130,
-      "symbol": "EarleyKernel.Rule.rhs",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 131,
-      "symbol": "EarleyKernel.Rule.out",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 132,
-      "symbol": "EarleyKernel.Rule.ruleIndex",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 134,
-      "symbol": "EarleyKernel.Rule.init(initialEnv:lhs:rhs:out:ruleIndex:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 180,
-      "symbol": "EarleyKernel.TokenResult",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 181,
-      "symbol": "EarleyKernel.TokenResult.length",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 182,
-      "symbol": "EarleyKernel.TokenResult.value",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 183,
-      "symbol": "EarleyKernel.TokenResult.result",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 196,
-      "symbol": "EarleyKernel.TerminalIndex",
-      "symbol_kind": "source.lang.swift.decl.typealias",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 198,
-      "symbol": "EarleyKernel.TerminalKey",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 199,
-      "symbol": "EarleyKernel.TerminalKey.terminalIndex",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 200,
-      "symbol": "EarleyKernel.TerminalKey.value",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 203,
-      "symbol": "EarleyKernel.Tokens",
-      "symbol_kind": "source.lang.swift.decl.typealias",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 205,
-      "symbol": "EarleyKernel.Selector",
-      "symbol_kind": "source.lang.swift.decl.typealias",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 207,
-      "symbol": "EarleyKernel.rules",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 209,
-      "symbol": "EarleyKernel.selector",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 213,
-      "symbol": "EarleyKernel.constructResult",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 219,
-      "symbol": "EarleyKernel.init(rules:selector:constructResult:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 233,
+      "line": 48,
       "symbol": "EarleyParser",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
       "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 235,
+      "line": 50,
       "symbol": "EarleyParser.Value",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
       "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 237,
-      "symbol": "EarleyParser.Kernel",
+      "line": 53,
+      "symbol": "EarleyParser.G",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
       "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 240,
-      "symbol": "EarleyParser.Symbol",
-      "symbol_kind": "source.lang.swift.decl.typealias",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 241,
+      "line": 54,
       "symbol": "EarleyParser.TerminalSet",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
       "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 244,
-      "symbol": "EarleyParser.I",
-      "symbol_kind": "source.lang.swift.decl.typealias",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 252,
+      "line": 64,
       "symbol": "EarleyParser.ParseResult",
       "symbol_kind": "source.lang.swift.decl.enum",
       "warning": "undocumented"
     },
     {
       "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 253,
+      "line": 65,
       "symbol": "EarleyParser.ParseResult.failed(position:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 254,
+      "line": 66,
       "symbol": "EarleyParser.ParseResult.success(length:results:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 264,
-      "symbol": "EarleyParser.init(kernel:initialSymbol:initialParam:input:startPosition:treatedAsNonterminals:)",
+      "line": 76,
+      "symbol": "EarleyParser.init(grammar:initialSymbol:initialParam:input:startPosition:treatedAsNonterminals:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/EarleyParser.swift",
-      "line": 490,
+      "line": 302,
       "symbol": "EarleyParser.parse()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Input.swift",
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
       "line": 10,
+      "symbol": "EvalEnv",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 12,
+      "symbol": "EvalEnv.copy()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 16,
+      "symbol": "EvalFunc",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 18,
+      "symbol": "Rule",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 19,
+      "symbol": "Rule.initialEnv",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 20,
+      "symbol": "Rule.lhs",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 21,
+      "symbol": "Rule.rhs",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 22,
+      "symbol": "Rule.out",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 23,
+      "symbol": "Rule.ruleIndex",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 25,
+      "symbol": "Rule.init(initialEnv:lhs:rhs:out:ruleIndex:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 70,
+      "symbol": "Grammar",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 72,
+      "symbol": "Grammar.Value",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 74,
+      "symbol": "Grammar.Result",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 76,
+      "symbol": "Grammar.RuleIndex",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 78,
+      "symbol": "Grammar.TokenResult",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 79,
+      "symbol": "Grammar.TokenResult.length",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 80,
+      "symbol": "Grammar.TokenResult.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 81,
+      "symbol": "Grammar.TokenResult.result",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 94,
+      "symbol": "Grammar.TerminalIndex",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 96,
+      "symbol": "Grammar.TerminalKey",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 97,
+      "symbol": "Grammar.TerminalKey.terminalIndex",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 98,
+      "symbol": "Grammar.TerminalKey.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 101,
+      "symbol": "Grammar.Tokens",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 103,
+      "symbol": "Grammar.Selector",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 105,
+      "symbol": "Grammar.rules",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 107,
+      "symbol": "Grammar.selector",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 111,
+      "symbol": "Grammar.constructResult",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 113,
+      "symbol": "Grammar.rulesOf(symbol:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
+      "line": 117,
+      "symbol": "Grammar.init(rules:selector:constructResult:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Input.swift",
+      "line": 3,
       "symbol": "Input",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
       "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Input.swift",
-      "line": 12,
+      "line": 5,
       "symbol": "Input.Char",
       "symbol_kind": "source.lang.swift.decl.associatedtype",
       "warning": "undocumented"
     },
     {
       "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Input.swift",
-      "line": 14,
-      "symbol": "Input.Position",
-      "symbol_kind": "source.lang.swift.decl.typealias",
+      "line": 7,
+      "symbol": "Input.subscript(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.subscript",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Input.swift",
-      "line": 16,
-      "symbol": "Input.subscript(_:)",
-      "symbol_kind": "source.lang.swift.decl.function.subscript",
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Symbol.swift",
+      "line": 3,
+      "symbol": "Symbol",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Symbol.swift",
+      "line": 5,
+      "symbol": "Symbol.terminal(index:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Symbol.swift",
+      "line": 6,
+      "symbol": "Symbol.nonterminal(index:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Symbol.swift",
+      "line": 7,
+      "symbol": "Symbol.character",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     }
   ],

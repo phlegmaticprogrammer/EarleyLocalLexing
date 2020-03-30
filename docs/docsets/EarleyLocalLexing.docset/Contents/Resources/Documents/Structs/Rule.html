@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ConstructResult Protocol Reference</title>
+    <title>Rule Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Protocol/ConstructResult" class="dashAnchor"></a>
-    <a title="ConstructResult Protocol Reference"></a>
+    <a name="//apple_ref/swift/Struct/Rule" class="dashAnchor"></a>
+    <a title="Rule Structure Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">EarleyLocalLexing Docs</a> (4% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">EarleyLocalLexing Reference</a>
         <img id="carat" src="../img/carat.png" />
-        ConstructResult Protocol Reference
+        Rule Structure Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -96,10 +96,10 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>ConstructResult</h1>
+            <h1>Rule</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ConstructResult</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Rule</span><span class="o">&lt;</span><span class="kt">Value</span><span class="o">&gt;</span></code></pre>
 
                 </div>
               </div>
@@ -112,9 +112,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:17EarleyLocalLexing15ConstructResultP0E0Qa"></a>
-                    <a name="//apple_ref/swift/Alias/Result" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17EarleyLocalLexing15ConstructResultP0E0Qa">Result</a>
+                    <a name="/s:17EarleyLocalLexing4RuleV10initialEnvAA04EvalF0_pvp"></a>
+                    <a name="//apple_ref/swift/Property/initialEnv" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing4RuleV10initialEnvAA04EvalF0_pvp">initialEnv</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -129,7 +129,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">Result</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">initialEnv</span><span class="p">:</span> <span class="kt"><a href="../Protocols/EvalEnv.html">EvalEnv</a></span></code></pre>
 
                         </div>
                       </div>
@@ -139,9 +139,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:17EarleyLocalLexing15ConstructResultP5ValueQa"></a>
-                    <a name="//apple_ref/swift/Alias/Value" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17EarleyLocalLexing15ConstructResultP5ValueQa">Value</a>
+                    <a name="/s:17EarleyLocalLexing4RuleV3lhsAA6SymbolOvp"></a>
+                    <a name="//apple_ref/swift/Property/lhs" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing4RuleV3lhsAA6SymbolOvp">lhs</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -156,7 +156,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">Value</span> <span class="p">:</span> <span class="kt">Hashable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">lhs</span><span class="p">:</span> <span class="kt"><a href="../Enums/Symbol.html">Symbol</a></span></code></pre>
 
                         </div>
                       </div>
@@ -166,9 +166,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:17EarleyLocalLexing15ConstructResultP8evalRule5input3key4item3rhs0E0QzSgqd_0__AA7ItemKeyVy5ValueQzGqd__AKSictAA09CompletedL0Rd__AA5InputRd_0_AIQyd__AJRSANQyd__AORS4CharQyd_0_ATRSr0_lF"></a>
-                    <a name="//apple_ref/swift/Method/evalRule(input:key:item:rhs:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17EarleyLocalLexing15ConstructResultP8evalRule5input3key4item3rhs0E0QzSgqd_0__AA7ItemKeyVy5ValueQzGqd__AKSictAA09CompletedL0Rd__AA5InputRd_0_AIQyd__AJRSANQyd__AORS4CharQyd_0_ATRSr0_lF">evalRule(input:key:item:rhs:)</a>
+                    <a name="/s:17EarleyLocalLexing4RuleV3rhsSayxSgAA7EvalEnv_p_SayxGtc_AA6SymbolOtGvp"></a>
+                    <a name="//apple_ref/swift/Property/rhs" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing4RuleV3rhsSayxSgAA7EvalEnv_p_SayxGtc_AA6SymbolOtGvp">rhs</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -183,7 +183,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">evalRule</span><span class="o">&lt;</span><span class="kt">Item</span><span class="p">,</span> <span class="kt">In</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">input</span><span class="p">:</span> <span class="kt">In</span><span class="p">,</span> <span class="nv">key</span><span class="p">:</span> <span class="kt"><a href="../Structs/ItemKey.html">ItemKey</a></span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/ConstructResult.html#/s:17EarleyLocalLexing15ConstructResultP5ValueQa">Value</a></span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">item</span><span class="p">:</span> <span class="kt">Item</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/ConstructResult.html#/s:17EarleyLocalLexing15ConstructResultP0E0Qa">Result</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/ConstructResult.html#/s:17EarleyLocalLexing15ConstructResultP0E0Qa">Result</a></span><span class="p">?</span> <span class="k">where</span> <span class="kt">Item</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/CompletedItem.html">CompletedItem</a></span><span class="p">,</span> <span class="kt">In</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/Input.html">Input</a></span><span class="p">,</span> <span class="k">Self</span><span class="o">.</span><span class="kt"><a href="../Protocols/ConstructResult.html#/s:17EarleyLocalLexing15ConstructResultP0E0Qa">Result</a></span> <span class="o">==</span> <span class="kt">Item</span><span class="o">.</span><span class="kt"><a href="../Protocols/ConstructResult.html#/s:17EarleyLocalLexing15ConstructResultP0E0Qa">Result</a></span><span class="p">,</span> <span class="k">Self</span><span class="o">.</span><span class="kt"><a href="../Protocols/ConstructResult.html#/s:17EarleyLocalLexing15ConstructResultP5ValueQa">Value</a></span> <span class="o">==</span> <span class="kt">Item</span><span class="o">.</span><span class="kt"><a href="../Protocols/ConstructResult.html#/s:17EarleyLocalLexing15ConstructResultP5ValueQa">Value</a></span><span class="p">,</span> <span class="kt">Item</span><span class="o">.</span><span class="kt"><a href="../Protocols/ConstructResult.html#/s:17EarleyLocalLexing15ConstructResultP5ValueQa">Value</a></span> <span class="o">==</span> <span class="kt">In</span><span class="o">.</span><span class="kt">Char</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">rhs</span><span class="p">:</span> <span class="p">[(</span><span class="kt"><a href="../Typealiases.html#/s:17EarleyLocalLexing8EvalFunca">EvalFunc</a></span><span class="o">&lt;</span><span class="kt">Value</span><span class="o">&gt;</span><span class="p">,</span> <span class="kt"><a href="../Enums/Symbol.html">Symbol</a></span><span class="p">)]</span></code></pre>
 
                         </div>
                       </div>
@@ -193,9 +193,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:17EarleyLocalLexing15ConstructResultP12evalTerminal3key6result0E0QzSgAA7ItemKeyVy5ValueQzG_AItF"></a>
-                    <a name="//apple_ref/swift/Method/evalTerminal(key:result:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17EarleyLocalLexing15ConstructResultP12evalTerminal3key6result0E0QzSgAA7ItemKeyVy5ValueQzG_AItF">evalTerminal(key:result:)</a>
+                    <a name="/s:17EarleyLocalLexing4RuleV3outyxSgAA7EvalEnv_p_SayxGtcvp"></a>
+                    <a name="//apple_ref/swift/Property/out" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing4RuleV3outyxSgAA7EvalEnv_p_SayxGtcvp">out</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -210,7 +210,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">evalTerminal</span><span class="p">(</span><span class="nv">key</span><span class="p">:</span> <span class="kt"><a href="../Structs/ItemKey.html">ItemKey</a></span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/ConstructResult.html#/s:17EarleyLocalLexing15ConstructResultP5ValueQa">Value</a></span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">result</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ConstructResult.html#/s:17EarleyLocalLexing15ConstructResultP0E0Qa">Result</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/ConstructResult.html#/s:17EarleyLocalLexing15ConstructResultP0E0Qa">Result</a></span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">out</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:17EarleyLocalLexing8EvalFunca">EvalFunc</a></span><span class="o">&lt;</span><span class="kt">Value</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -220,9 +220,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:17EarleyLocalLexing15ConstructResultP13evalCharacter8position9character0E0QzSgSi_5ValueQztF"></a>
-                    <a name="//apple_ref/swift/Method/evalCharacter(position:character:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17EarleyLocalLexing15ConstructResultP13evalCharacter8position9character0E0QzSgSi_5ValueQztF">evalCharacter(position:character:)</a>
+                    <a name="/s:17EarleyLocalLexing4RuleV9ruleIndexSivp"></a>
+                    <a name="//apple_ref/swift/Property/ruleIndex" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing4RuleV9ruleIndexSivp">ruleIndex</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -237,7 +237,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">evalCharacter</span><span class="p">(</span><span class="nv">position</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">character</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ConstructResult.html#/s:17EarleyLocalLexing15ConstructResultP5ValueQa">Value</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/ConstructResult.html#/s:17EarleyLocalLexing15ConstructResultP0E0Qa">Result</a></span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">ruleIndex</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
 
                         </div>
                       </div>
@@ -247,9 +247,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:17EarleyLocalLexing15ConstructResultP5merge3key7results0E0QzSgAA7ItemKeyVy5ValueQzG_SayAHGtF"></a>
-                    <a name="//apple_ref/swift/Method/merge(key:results:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17EarleyLocalLexing15ConstructResultP5merge3key7results0E0QzSgAA7ItemKeyVy5ValueQzG_SayAHGtF">merge(key:results:)</a>
+                    <a name="/s:17EarleyLocalLexing4RuleV10initialEnv3lhs3rhs3out9ruleIndexACyxGAA04EvalF0_p_AA6SymbolOSayxSgAaJ_p_SayxGtc_ALtGAmaJ_p_ANtcSitcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(initialEnv:lhs:rhs:out:ruleIndex:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing4RuleV10initialEnv3lhs3rhs3out9ruleIndexACyxGAA04EvalF0_p_AA6SymbolOSayxSgAaJ_p_SayxGtc_ALtGAmaJ_p_ANtcSitcfc">init(initialEnv:lhs:rhs:out:ruleIndex:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -264,7 +264,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">merge</span><span class="p">(</span><span class="nv">key</span><span class="p">:</span> <span class="kt"><a href="../Structs/ItemKey.html">ItemKey</a></span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/ConstructResult.html#/s:17EarleyLocalLexing15ConstructResultP5ValueQa">Value</a></span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">results</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/ConstructResult.html#/s:17EarleyLocalLexing15ConstructResultP0E0Qa">Result</a></span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/ConstructResult.html#/s:17EarleyLocalLexing15ConstructResultP0E0Qa">Result</a></span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">initialEnv</span><span class="p">:</span> <span class="kt"><a href="../Protocols/EvalEnv.html">EvalEnv</a></span><span class="p">,</span> <span class="nv">lhs</span><span class="p">:</span> <span class="kt"><a href="../Enums/Symbol.html">Symbol</a></span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="p">[(</span><span class="kt"><a href="../Typealiases.html#/s:17EarleyLocalLexing8EvalFunca">EvalFunc</a></span><span class="o">&lt;</span><span class="kt">Value</span><span class="o">&gt;</span><span class="p">,</span> <span class="kt"><a href="../Enums/Symbol.html">Symbol</a></span><span class="p">)],</span> <span class="nv">out</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:17EarleyLocalLexing8EvalFunca">EvalFunc</a></span><span class="o">&lt;</span><span class="kt">Value</span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">ruleIndex</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>

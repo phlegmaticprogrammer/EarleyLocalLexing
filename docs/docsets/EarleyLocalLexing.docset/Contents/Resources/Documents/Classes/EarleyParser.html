@@ -31,22 +31,19 @@
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Classes/EarleyKernel.html">EarleyKernel</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/EarleyKernel/Rule.html">– Rule</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/EarleyKernel/TokenResult.html">– TokenResult</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/EarleyKernel/TerminalKey.html">– TerminalKey</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Classes/EarleyParser.html">EarleyParser</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/EarleyParser/ParseResult.html">– ParseResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Grammar.html">Grammar</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Grammar/TokenResult.html">– TokenResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Grammar/TerminalKey.html">– TerminalKey</a>
               </li>
             </ul>
           </li>
@@ -54,7 +51,7 @@
             <a href="../Enums.html">Enumerations</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Enums/EarleyKernelSymbol.html">EarleyKernelSymbol</a>
+                <a href="../Enums/Symbol.html">Symbol</a>
               </li>
             </ul>
           </li>
@@ -68,7 +65,7 @@
                 <a href="../Protocols/ConstructResult.html">ConstructResult</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/EarleyItemEnv.html">EarleyItemEnv</a>
+                <a href="../Protocols/EvalEnv.html">EvalEnv</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/Input.html">Input</a>
@@ -79,7 +76,18 @@
             <a href="../Structs.html">Structures</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Structs/EarleyKey.html">EarleyKey</a>
+                <a href="../Structs/ItemKey.html">ItemKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Rule.html">Rule</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:17EarleyLocalLexing8EvalFunca">EvalFunc</a>
               </li>
             </ul>
           </li>
@@ -91,7 +99,7 @@
             <h1>EarleyParser</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">EarleyParser</span><span class="o">&lt;</span><span class="kt">C</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">C</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ConstructResult.html">ConstructResult</a></span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">EarleyParser</span><span class="o">&lt;</span><span class="kt">C</span><span class="p">,</span> <span class="kt">In</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">C</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ConstructResult.html">ConstructResult</a></span><span class="p">,</span> <span class="kt">In</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/Input.html">Input</a></span><span class="p">,</span> <span class="kt">C</span><span class="o">.</span><span class="kt">Value</span> <span class="o">==</span> <span class="kt">In</span><span class="o">.</span><span class="kt">Char</span></code></pre>
 
                 </div>
               </div>
@@ -131,9 +139,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:17EarleyLocalLexing0A6ParserC6Kernela"></a>
-                    <a name="//apple_ref/swift/Alias/Kernel" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17EarleyLocalLexing0A6ParserC6Kernela">Kernel</a>
+                    <a name="/s:17EarleyLocalLexing0A6ParserC1Ga"></a>
+                    <a name="//apple_ref/swift/Alias/G" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing0A6ParserC1Ga">G</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -148,34 +156,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Kernel</span> <span class="o">=</span> <span class="kt"><a href="../Classes/EarleyKernel.html">EarleyKernel</a></span><span class="o">&lt;</span><span class="kt">C</span><span class="o">&gt;</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:17EarleyLocalLexing0A6ParserC6Symbola"></a>
-                    <a name="//apple_ref/swift/Alias/Symbol" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17EarleyLocalLexing0A6ParserC6Symbola">Symbol</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Symbol</span> <span class="o">=</span> <span class="kt"><a href="../Classes/EarleyParser.html#/s:17EarleyLocalLexing0A6ParserC6Kernela">Kernel</a></span><span class="o">.</span><span class="kt">Symbol</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">G</span> <span class="o">=</span> <span class="kt"><a href="../Classes/Grammar.html">Grammar</a></span><span class="o">&lt;</span><span class="kt">C</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -202,34 +183,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">TerminalSet</span> <span class="o">=</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/EarleyParser.html#/s:17EarleyLocalLexing0A6ParserC6Kernela">Kernel</a></span><span class="o">.</span><span class="kt">TerminalIndex</span><span class="o">&gt;</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:17EarleyLocalLexing0A6ParserC1Ia"></a>
-                    <a name="//apple_ref/swift/Alias/I" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17EarleyLocalLexing0A6ParserC1Ia">I</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">I</span> <span class="o">=</span> <span class="kt">C</span><span class="o">.</span><span class="kt">I</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">TerminalSet</span> <span class="o">=</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/EarleyParser.html#/s:17EarleyLocalLexing0A6ParserC1Ga">G</a></span><span class="o">.</span><span class="kt">TerminalIndex</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -267,9 +221,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:17EarleyLocalLexing0A6ParserC6kernel13initialSymbol0F5Param5input13startPosition21treatedAsNonterminalsACyxGAA0A6KernelCyxG_AA0aoG0O5ValueQz1IQzSiShySiGtcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(kernel:initialSymbol:initialParam:input:startPosition:treatedAsNonterminals:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17EarleyLocalLexing0A6ParserC6kernel13initialSymbol0F5Param5input13startPosition21treatedAsNonterminalsACyxGAA0A6KernelCyxG_AA0aoG0O5ValueQz1IQzSiShySiGtcfc">init(kernel:initialSymbol:initialParam:input:startPosition:treatedAsNonterminals:)</a>
+                    <a name="/s:17EarleyLocalLexing0A6ParserC7grammar13initialSymbol0F5Param5input13startPosition21treatedAsNonterminalsACyxq_GAA7GrammarCyxG_AA0G0O5ValueQzq_SiShySiGtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(grammar:initialSymbol:initialParam:input:startPosition:treatedAsNonterminals:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing0A6ParserC7grammar13initialSymbol0F5Param5input13startPosition21treatedAsNonterminalsACyxq_GAA7GrammarCyxG_AA0G0O5ValueQzq_SiShySiGtcfc">init(grammar:initialSymbol:initialParam:input:startPosition:treatedAsNonterminals:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -284,7 +238,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">kernel</span><span class="p">:</span> <span class="kt"><a href="../Classes/EarleyParser.html#/s:17EarleyLocalLexing0A6ParserC6Kernela">Kernel</a></span><span class="p">,</span> <span class="nv">initialSymbol</span><span class="p">:</span> <span class="kt"><a href="../Classes/EarleyParser.html#/s:17EarleyLocalLexing0A6ParserC6Symbola">Symbol</a></span><span class="p">,</span> <span class="nv">initialParam</span><span class="p">:</span> <span class="kt"><a href="../Classes/EarleyParser.html#/s:17EarleyLocalLexing0A6ParserC5Valuea">Value</a></span><span class="p">,</span> <span class="nv">input</span><span class="p">:</span> <span class="kt"><a href="../Classes/EarleyParser.html#/s:17EarleyLocalLexing0A6ParserC1Ia">I</a></span><span class="p">,</span> <span class="nv">startPosition</span><span class="p">:</span> <span class="kt"><a href="../Classes/EarleyParser.html#/s:17EarleyLocalLexing0A6ParserC1Ia">I</a></span><span class="o">.</span><span class="kt">Position</span><span class="p">,</span> <span class="nv">treatedAsNonterminals</span><span class="p">:</span> <span class="kt"><a href="../Classes/EarleyParser.html#/s:17EarleyLocalLexing0A6ParserC11TerminalSeta">TerminalSet</a></span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">grammar</span><span class="p">:</span> <span class="kt"><a href="../Classes/EarleyParser.html#/s:17EarleyLocalLexing0A6ParserC1Ga">G</a></span><span class="p">,</span> <span class="nv">initialSymbol</span><span class="p">:</span> <span class="kt"><a href="../Enums/Symbol.html">Symbol</a></span><span class="p">,</span> <span class="nv">initialParam</span><span class="p">:</span> <span class="kt"><a href="../Classes/EarleyParser.html#/s:17EarleyLocalLexing0A6ParserC5Valuea">Value</a></span><span class="p">,</span> <span class="nv">input</span><span class="p">:</span> <span class="kt">In</span><span class="p">,</span> <span class="nv">startPosition</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">treatedAsNonterminals</span><span class="p">:</span> <span class="kt"><a href="../Classes/EarleyParser.html#/s:17EarleyLocalLexing0A6ParserC11TerminalSeta">TerminalSet</a></span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -294,9 +248,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:17EarleyLocalLexing0A6ParserC5parseAC11ParseResultOyx_GyF"></a>
+                    <a name="/s:17EarleyLocalLexing0A6ParserC5parseAC11ParseResultOyxq__GyF"></a>
                     <a name="//apple_ref/swift/Method/parse()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17EarleyLocalLexing0A6ParserC5parseAC11ParseResultOyx_GyF">parse()</a>
+                    <a class="token" href="#/s:17EarleyLocalLexing0A6ParserC5parseAC11ParseResultOyxq__GyF">parse()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -323,7 +277,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2020-03-29)</p>
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2020-03-30)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
