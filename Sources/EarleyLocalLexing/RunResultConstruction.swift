@@ -9,6 +9,7 @@ final class RunResultConstruction<C : ConstructResult, In : Input> where In.Char
     typealias Item = EarleyItem<C.Param, C.Result>
     typealias Key = ItemKey<Param>
     typealias G = Grammar<C>
+    typealias TerminalSet = EarleyParser<C, In>.TerminalSet
     
     let grammar : G
     let bins : Bins
@@ -20,10 +21,10 @@ final class RunResultConstruction<C : ConstructResult, In : Input> where In.Char
     }
     
     private var cache : [Key : CachedResult]
-    private let treatedAsNonterminals : Set<G.TerminalIndex>
+    private let treatedAsNonterminals : TerminalSet
     private let startOffset : Int
     
-    init(input : In, grammar : G, treatedAsNonterminals : Set<G.TerminalIndex>, bins : Bins, startOffset : Int) {
+    init(input : In, grammar : G, treatedAsNonterminals : TerminalSet, bins : Bins, startOffset : Int) {
         self.grammar = grammar
         self.bins = bins
         self.cache = [:]

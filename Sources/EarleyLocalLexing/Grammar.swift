@@ -89,48 +89,46 @@ public enum ParseResult<Param : Hashable, Result> {
     case success(length : Int, results : [Param : Result?])
 }
 
+public struct TokenResult<Param : Hashable, Result> : Hashable {
+    public let length : Int
+    public let outputParam : Param
+    public let result : Result?
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(length)
+        hasher.combine(outputParam)
+    }
+    
+    public static func == (left : TokenResult<Param, Result>, right : TokenResult<Param, Result>) -> Bool {
+        return left.length == right.length && left.outputParam == right.outputParam
+    }
+
+}
+
+public struct TerminalKey<Param : Hashable> : Hashable {
+    public let terminalIndex : Int
+    public let inputParam : Param
+}
+
 public final class Grammar<C : ConstructResult> {
     
     public typealias Param = C.Param
     
     public typealias Result = C.Result
-            
+                
     public typealias RuleIndex = Int
-    
-    public struct TokenResult : Hashable {
-        public let length : Int
-        public let value : Param
-        public let result : Result?
         
-        public func hash(into hasher: inout Hasher) {
-            hasher.combine(length)
-            hasher.combine(value)
-        }
-        
-        public static func == (left : TokenResult, right : TokenResult) -> Bool {
-            return left.length == right.length && left.value == right.value
-        }
-
-    }
-    
-    public typealias TerminalIndex = Int
-    
-    public struct TerminalKey : Hashable {
-        public let terminalIndex : TerminalIndex
-        public let value : Param
-    }
-    
-    public typealias Tokens = [TerminalKey : Set<TokenResult>]
+    public typealias Tokens = [TerminalKey<Param> : Set<TokenResult<Param, Result>>]
     
     public typealias Selector = (Tokens) -> Tokens
 
     public let rules : [Rule<Param>]
     
-    public let selector : Selector
+    let selector : Selector
     
     private let rulesOfSymbols : [Symbol : [RuleIndex]]
     
-    public let constructResult : C
+    let constructResult : C
     
     public func rulesOf(symbol : Symbol) -> [RuleIndex] {
         return rulesOfSymbols[symbol] ?? []

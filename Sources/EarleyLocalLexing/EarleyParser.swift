@@ -50,10 +50,9 @@ final class EarleyParser<C : ConstructResult, In : Input> where In.Char == C.Par
     typealias Bin = EarleyBin<Param, C.Result>
     typealias Bins = [Bin]
     typealias G = Grammar<C>
-    typealias TerminalSet = Set<G.TerminalIndex>
+    typealias TerminalSet = Set<Int>
     typealias Tokens = G.Tokens
     typealias Item = EarleyItem<Param, C.Result>
-    typealias TerminalKey = G.TerminalKey
             
     let grammar : G
     let initialSymbol : Symbol
@@ -140,13 +139,13 @@ final class EarleyParser<C : ConstructResult, In : Input> where In.Char == C.Par
     }
     
     func CollectTokens(bins : Bins, tokens : inout Tokens, k : Int) {
-        var tokenCandidates : Set<TerminalKey> = []
+        var tokenCandidates : Set<TerminalKey<Param>> = []
         for item in bins[k - startPosition] {
             let rule = grammar.rules[item.ruleIndex]
             if let nextSymbol = rule.nextSymbol(dot: item.dot) {
                 switch nextSymbol {
                 case let .terminal(index: index) where !treatAsNonterminal(nextSymbol):
-                    let candidate = TerminalKey(terminalIndex: index, value: item.nextParam)
+                    let candidate = TerminalKey(terminalIndex: index, inputParam: item.nextParam)
                     if tokens[candidate] == nil {
                         tokenCandidates.insert(candidate)
                     }
@@ -159,7 +158,7 @@ final class EarleyParser<C : ConstructResult, In : Input> where In.Char == C.Par
         for candidate in tokenCandidates {
             let parser = EarleyParser(grammar: grammar,
                                       initialSymbol: .terminal(index: candidate.terminalIndex),
-                                      initialParam: candidate.value,
+                                      initialParam: candidate.inputParam,
                                       input: input,
                                       startPosition: k,
                                       treatedAsNonterminals: treatedAsNonterminals)
@@ -167,7 +166,7 @@ final class EarleyParser<C : ConstructResult, In : Input> where In.Char == C.Par
             case .failed: break
             case let .success(length: length, results: results):
                 for (value, result) in results {
-                    let tr = G.TokenResult(length: length, value: value, result: result)
+                    let tr = TokenResult(length: length, outputParam: value, result: result)
                     insertTo(dict: &newTokens, key: candidate, value: tr)
                 }
             }
@@ -193,11 +192,11 @@ final class EarleyParser<C : ConstructResult, In : Input> where In.Char == C.Par
             if let nextSymbol = rule.nextSymbol(dot: item.dot) {
                 switch nextSymbol {
                 case let .terminal(index: index) where !treatAsNonterminal(nextSymbol):
-                    let candidate = TerminalKey(terminalIndex: index, value: item.nextParam)
+                    let candidate = TerminalKey(terminalIndex: index, inputParam: item.nextParam)
                     if let results = tokens[candidate] {
                         for result in results {
                             let l = k + result.length
-                            if let nextItem = rule.nextItem(item: item, k: l , value: result.value, result: result.result) {
+                            if let nextItem = rule.nextItem(item: item, k: l , value: result.outputParam, result: result.result) {
                                 if add(bins: &bins, k: l, item: nextItem) {
                                     changed = true
                                 }
