@@ -110,31 +110,31 @@ public struct TerminalKey<Param : Hashable> : Hashable {
     public let inputParam : Param
 }
 
+public typealias Tokens<Param : Hashable, Result> = [TerminalKey<Param> : Set<TokenResult<Param, Result>>]
+
+public typealias Selector<Param : Hashable, Result> = (Tokens<Param, Result>) -> Tokens<Param, Result>
+
 public final class Grammar<C : ConstructResult> {
     
     public typealias Param = C.Param
     
     public typealias Result = C.Result
-                
-    public typealias RuleIndex = Int
-        
-    public typealias Tokens = [TerminalKey<Param> : Set<TokenResult<Param, Result>>]
     
-    public typealias Selector = (Tokens) -> Tokens
+    public typealias RuleIndex = Int
 
     public let rules : [Rule<Param>]
     
-    let selector : Selector
+    public let selector : Selector<Param, Result>
     
     private let rulesOfSymbols : [Symbol : [RuleIndex]]
     
-    let constructResult : C
+    public let constructResult : C
     
     public func rulesOf(symbol : Symbol) -> [RuleIndex] {
         return rulesOfSymbols[symbol] ?? []
     }
     
-    public init(rules : [Rule<Param>], selector : @escaping Selector, constructResult : C) {
+    public init(rules : [Rule<Param>], selector : @escaping Selector<Param, Result>, constructResult : C) {
         self.rules = rules
         self.selector = selector
         self.constructResult = constructResult

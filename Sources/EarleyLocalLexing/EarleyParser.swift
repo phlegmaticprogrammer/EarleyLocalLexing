@@ -51,8 +51,8 @@ final class EarleyParser<C : ConstructResult, In : Input> where In.Char == C.Par
     typealias Bins = [Bin]
     typealias G = Grammar<C>
     typealias TerminalSet = Set<Int>
-    typealias Tokens = G.Tokens
     typealias Item = EarleyItem<Param, C.Result>
+    typealias Tokens = EarleyLocalLexing.Tokens<Param, C.Result>
             
     let grammar : G
     let initialSymbol : Symbol
