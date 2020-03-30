@@ -1,13 +1,13 @@
 import Foundation
 
-final class RunResultConstruction<C : ConstructResult, In : Input> where In.Char == C.Value {
+final class RunResultConstruction<C : ConstructResult, In : Input> where In.Char == C.Param {
     
-    typealias Value = C.Value
+    typealias Param = C.Param
     typealias Result = C.Result
-    typealias Bin = EarleyBin<Value, Result>
+    typealias Bin = EarleyBin<Param, Result>
     typealias Bins = [Bin]
-    typealias Item = EarleyItem<C.Value, C.Result>
-    typealias Key = ItemKey<Value>
+    typealias Item = EarleyItem<C.Param, C.Result>
+    typealias Key = ItemKey<Param>
     typealias G = Grammar<C>
     
     let grammar : G
@@ -32,13 +32,13 @@ final class RunResultConstruction<C : ConstructResult, In : Input> where In.Char
         self.input = input
     }
     
-    func construct(symbol : Symbol, param : Value) -> [Value : Result?] {
+    func construct(symbol : Symbol, param : Param) -> [Param : Result?] {
         let startPosition = startOffset
         let endPosition = startOffset + bins.count - 1
         let items = findItems(symbol: symbol, input: param, output: nil, startPosition: startOffset, endPosition: endPosition)
         var keyedResults : [Key : [Result]] = [:]
         for item in items {
-            let key = Key(symbol: symbol, input: param, output: item.out, startPosition: startPosition, endPosition: endPosition)
+            let key = Key(symbol: symbol, inputParam: param, outputParam: item.out, startPosition: startPosition, endPosition: endPosition)
             if let result = computeResult(key: key) {
                 appendTo(dict: &keyedResults, key: key, value: result)
             } else {
@@ -47,10 +47,10 @@ final class RunResultConstruction<C : ConstructResult, In : Input> where In.Char
                 }
             }
         }
-        var results : [Value : Result?] = [:]
+        var results : [Param : Result?] = [:]
         for (key, rs) in keyedResults {
             let result = grammar.constructResult.merge(key: key, results: rs)
-            results[key.output] = result
+            results[key.outputParam] = result
         }
         return results
     }
@@ -98,7 +98,7 @@ final class RunResultConstruction<C : ConstructResult, In : Input> where In.Char
             return
         }
         cache[key] = .computing
-        let items = findItems(symbol: key.symbol, input: key.input, output: key.output, startPosition: key.startPosition, endPosition: key.endPosition)
+        let items = findItems(symbol: key.symbol, input: key.inputParam, output: key.outputParam, startPosition: key.startPosition, endPosition: key.endPosition)
         let count = items.count
         commandStack.append(.completeKeyTask(key: key, count: count))
         for item in items {
@@ -115,17 +115,17 @@ final class RunResultConstruction<C : ConstructResult, In : Input> where In.Char
             let symbol = rule.rhs[i].1
             switch symbol {
             case .nonterminal:
-                let childKey : Key = Key(symbol: symbol, input: child.in, output: child.out, startPosition: child.from, endPosition: child.to)
+                let childKey : Key = Key(symbol: symbol, inputParam: child.inputParam, outputParam: child.outputParam, startPosition: child.from, endPosition: child.to)
                 commandStack.append(.startKeyTask(key: childKey))
             case let .terminal(index: index):
-                let childKey : Key = Key(symbol: symbol, input: child.in, output: child.out, startPosition: child.from, endPosition: child.to)
+                let childKey : Key = Key(symbol: symbol, inputParam: child.inputParam, outputParam: child.outputParam, startPosition: child.from, endPosition: child.to)
                 if treatedAsNonterminals.contains(index) {
                     commandStack.append(.startKeyTask(key: childKey))
                 } else {
                     commandStack.append(.push(result: grammar.constructResult.evalTerminal(key: childKey, result: child.result)))
                 }
             case .character:
-                commandStack.append(.push(result: grammar.constructResult.evalCharacter(position: child.from, character: child.out)))
+                commandStack.append(.push(result: grammar.constructResult.evalCharacter(position: child.from, character: child.outputParam)))
             }
         }
     }
@@ -155,7 +155,7 @@ final class RunResultConstruction<C : ConstructResult, In : Input> where In.Char
         cache[key] = .done(result: result)
     }
     
-    private func findItems(symbol : Symbol, input : Value, output : Value?, startPosition : Int, endPosition : Int) -> [Item] {
+    private func findItems(symbol : Symbol, input : Param, output : Param?, startPosition : Int, endPosition : Int) -> [Item] {
         let bin = bins[endPosition - startOffset]
         var items : [Item] = []
         for item in bin {

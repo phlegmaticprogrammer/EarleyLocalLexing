@@ -2,22 +2,22 @@ import Foundation
 
 public protocol CompletedItem {
     
-    associatedtype Value
+    associatedtype Param
     
     associatedtype Result
 
     var ruleIndex : Int { get }
         
-    func child(rhs : Int) -> (in: Value, out: Value, result: Result?, from: Int, to: Int)
+    func child(rhs : Int) -> (inputParam: Param, outputParam: Param, result: Result?, from: Int, to: Int)
 }
 
-public struct ItemKey<Value : Hashable> : Hashable {
+public struct ItemKey<Param : Hashable> : Hashable {
     
     public let symbol : Symbol
     
-    public let input : Value
+    public let inputParam : Param
     
-    public let output : Value
+    public let outputParam : Param
     
     public let startPosition : Int
     
@@ -29,14 +29,14 @@ public protocol ConstructResult {
     
     associatedtype Result
     
-    associatedtype Value : Hashable
+    associatedtype Param : Hashable
         
-    func evalRule<Item : CompletedItem, In : Input>(input : In, key : ItemKey<Value>, item : Item, rhs : @escaping (Int) -> Result?) -> Result? where Item.Result == Result, Item.Value == Value, In.Char == Value
+    func evalRule<Item : CompletedItem, In : Input>(input : In, key : ItemKey<Param>, item : Item, rhs : @escaping (Int) -> Result?) -> Result? where Item.Result == Result, Item.Param == Param, In.Char == Param
     
-    func evalTerminal(key : ItemKey<Value>, result : Result?) -> Result?
+    func evalTerminal(key : ItemKey<Param>, result : Result?) -> Result?
     
-    func evalCharacter(position : Int, character : Value) -> Result?
+    func evalCharacter(position : Int, character : Param) -> Result?
     
-    func merge(key : ItemKey<Value>, results : [Result]) -> Result?
+    func merge(key : ItemKey<Param>, results : [Result]) -> Result?
     
 }

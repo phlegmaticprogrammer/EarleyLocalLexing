@@ -11,4 +11,6 @@ There exists also a [formal correctness proof in Isabelle](https://www.isa-afp.o
 
 This implementation is not meant to be used directly by an end user working on a concrete parsing project. Instead, it provides one of the backends (currently, the only one) for LocalLexingKit. 
 
+Nevertheless, if you need to understand this library and use it directly, a good starting point is the documentation for `Grammar`.
+
 

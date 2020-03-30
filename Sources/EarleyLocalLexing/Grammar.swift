@@ -6,7 +6,7 @@ public protocol EvalEnv {
 
 }
 
-public typealias EvalFunc<Value> = (EvalEnv, [Value]) -> Value?
+public typealias EvalFunc<Param> = (EvalEnv, [Param]) -> Param?
 
 public enum Symbol : Hashable, CustomStringConvertible {
     
@@ -24,14 +24,14 @@ public enum Symbol : Hashable, CustomStringConvertible {
 
 }
 
-public struct Rule<Value> {
+public struct Rule<Param> {
     public let initialEnv : EvalEnv
     public let lhs : Symbol
-    public let rhs : [(EvalFunc<Value>, Symbol)]
-    public let out : EvalFunc<Value>
+    public let rhs : [(EvalFunc<Param>, Symbol)]
+    public let out : EvalFunc<Param>
     public let ruleIndex : Int
     
-    public init(initialEnv : EvalEnv, lhs : Symbol, rhs : [(EvalFunc<Value>, Symbol)], out : @escaping EvalFunc<Value>, ruleIndex : Int) {
+    public init(initialEnv : EvalEnv, lhs : Symbol, rhs : [(EvalFunc<Param>, Symbol)], out : @escaping EvalFunc<Param>, ruleIndex : Int) {
         precondition(lhs != .character)
         self.initialEnv = initialEnv
         self.lhs = lhs
@@ -45,20 +45,20 @@ public struct Rule<Value> {
         else { return rhs[dot].1 }
     }
     
-    func nextF(dot : Int) -> EvalFunc<Value> {
+    func nextF(dot : Int) -> EvalFunc<Param> {
         if dot >= rhs.count { return out } else { return rhs[dot].0 }
     }
     
-    func initialItem<Result>(k : Int, param : Value) -> EarleyItem<Value, Result>? {
+    func initialItem<Result>(k : Int, param : Param) -> EarleyItem<Param, Result>? {
         let env = initialEnv.copy()
         if let value = nextF(dot: 0)(env, [param]) {
-            return EarleyItem<Value, Result>(ruleIndex: ruleIndex, env: env, values: [param, value], results: [], indices: [k])
+            return EarleyItem<Param, Result>(ruleIndex: ruleIndex, env: env, values: [param, value], results: [], indices: [k])
         } else {
             return nil
         }
     }
     
-    func nextItem<Result>(item : EarleyItem<Value, Result>, k : Int, value : Value, result : Result?) -> EarleyItem<Value, Result>?
+    func nextItem<Result>(item : EarleyItem<Param, Result>, k : Int, value : Param, result : Result?) -> EarleyItem<Param, Result>?
     {
         var values = item.values
         values.append(value)
@@ -84,14 +84,14 @@ public protocol Input {
                 
 }
 
-public enum ParseResult<Value : Hashable, Result> {
+public enum ParseResult<Param : Hashable, Result> {
     case failed(position : Int)
-    case success(length : Int, results : [Value : Result?])
+    case success(length : Int, results : [Param : Result?])
 }
 
 public final class Grammar<C : ConstructResult> {
     
-    public typealias Value = C.Value
+    public typealias Param = C.Param
     
     public typealias Result = C.Result
             
@@ -99,7 +99,7 @@ public final class Grammar<C : ConstructResult> {
     
     public struct TokenResult : Hashable {
         public let length : Int
-        public let value : Value
+        public let value : Param
         public let result : Result?
         
         public func hash(into hasher: inout Hasher) {
@@ -117,14 +117,14 @@ public final class Grammar<C : ConstructResult> {
     
     public struct TerminalKey : Hashable {
         public let terminalIndex : TerminalIndex
-        public let value : Value
+        public let value : Param
     }
     
     public typealias Tokens = [TerminalKey : Set<TokenResult>]
     
     public typealias Selector = (Tokens) -> Tokens
 
-    public let rules : [Rule<Value>]
+    public let rules : [Rule<Param>]
     
     public let selector : Selector
     
@@ -136,7 +136,7 @@ public final class Grammar<C : ConstructResult> {
         return rulesOfSymbols[symbol] ?? []
     }
     
-    public init(rules : [Rule<Value>], selector : @escaping Selector, constructResult : C) {
+    public init(rules : [Rule<Param>], selector : @escaping Selector, constructResult : C) {
         self.rules = rules
         self.selector = selector
         self.constructResult = constructResult
@@ -148,8 +148,8 @@ public final class Grammar<C : ConstructResult> {
         self.rulesOfSymbols = rOf
     }
     
-    public func parse<I : Input>(input : I, position : Int, symbol : Symbol, param : Value) -> ParseResult<Value, Result> where I.Char == Value {
-        let parser = EarleyParser(grammar: self, initialSymbol: symbol, initialParam: param, input: input, startPosition: position, treatedAsNonterminals: [])
+    public func parse<I : Input>(input : I, position : Int, symbol : Symbol, inputParam : Param) -> ParseResult<Param, Result> where I.Char == Param {
+        let parser = EarleyParser(grammar: self, initialSymbol: symbol, initialParam: inputParam, input: input, startPosition: position, treatedAsNonterminals: [])
         return parser.parse()
     }
     

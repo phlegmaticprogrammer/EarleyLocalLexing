@@ -1,21 +1,21 @@
 import Foundation
 
-struct EarleyItem<Value : Hashable, Result> : Hashable, CompletedItem {
+struct EarleyItem<Param : Hashable, Result> : Hashable, CompletedItem {
     let ruleIndex : Int
     let env : EvalEnv
-    let values : [Value]
+    let values : [Param]
     let results : [Result?]
     let indices : [Int]
     
-    var param : Value {
+    var param : Param {
         return values[0]
     }
     
-    var nextParam : Value {
+    var nextParam : Param {
         return values.last!
     }
     
-    var out : Value {
+    var out : Param {
         return values.last!
     }
     
@@ -27,8 +27,8 @@ struct EarleyItem<Value : Hashable, Result> : Hashable, CompletedItem {
         return indices.count - 1
     }
     
-    func child(rhs : Int) -> (in: Value, out: Value, result: Result?, from: Int, to: Int) {
-        return (in: values[2*rhs+1], out: values[2*rhs+2], result: results[rhs], from: indices[rhs], to: indices[rhs+1])
+    func child(rhs : Int) -> (inputParam: Param, outputParam: Param, result: Result?, from: Int, to: Int) {
+        return (inputParam: values[2*rhs+1], outputParam: values[2*rhs+2], result: results[rhs], from: indices[rhs], to: indices[rhs+1])
     }
     
     func hash(into hasher: inout Hasher) {
@@ -37,32 +37,32 @@ struct EarleyItem<Value : Hashable, Result> : Hashable, CompletedItem {
         hasher.combine(indices)
     }
         
-    static func == (left : EarleyItem<Value, Result>, right : EarleyItem<Value, Result>) -> Bool {
+    static func == (left : EarleyItem<Param, Result>, right : EarleyItem<Param, Result>) -> Bool {
         return left.ruleIndex == right.ruleIndex && left.values == right.values && left.indices == right.indices
     }
 }
 
-typealias EarleyBin<Value : Hashable, Result> = Set<EarleyItem<Value, Result>>
+typealias EarleyBin<Param : Hashable, Result> = Set<EarleyItem<Param, Result>>
 
-final class EarleyParser<C : ConstructResult, In : Input> where In.Char == C.Value {
+final class EarleyParser<C : ConstructResult, In : Input> where In.Char == C.Param {
     
-    typealias Value = C.Value
-    typealias Bin = EarleyBin<Value, C.Result>
+    typealias Param = C.Param
+    typealias Bin = EarleyBin<Param, C.Result>
     typealias Bins = [Bin]
     typealias G = Grammar<C>
     typealias TerminalSet = Set<G.TerminalIndex>
     typealias Tokens = G.Tokens
-    typealias Item = EarleyItem<Value, C.Result>
+    typealias Item = EarleyItem<Param, C.Result>
     typealias TerminalKey = G.TerminalKey
             
     let grammar : G
     let initialSymbol : Symbol
-    let initialParam : Value
+    let initialParam : Param
     let input : In
     let treatedAsNonterminals : TerminalSet
     let startPosition : Int
     
-    init(grammar : G, initialSymbol : Symbol, initialParam : Value, input : In, startPosition : Int, treatedAsNonterminals : TerminalSet) {
+    init(grammar : G, initialSymbol : Symbol, initialParam : Param, input : In, startPosition : Int, treatedAsNonterminals : TerminalSet) {
         self.grammar = grammar
         self.initialSymbol = initialSymbol
         self.initialParam = initialParam
@@ -80,7 +80,7 @@ final class EarleyParser<C : ConstructResult, In : Input> where In.Char == C.Val
         var bin : Bin = []
         for ruleIndex in grammar.rulesOf(symbol: initialSymbol) {
             let rule = grammar.rules[ruleIndex]
-            if let item : EarleyItem<Value, C.Result> = rule.initialItem(k: startPosition, param: initialParam) {
+            if let item : EarleyItem<Param, C.Result> = rule.initialItem(k: startPosition, param: initialParam) {
                 bin.insert(item)
             }
         }
@@ -106,7 +106,7 @@ final class EarleyParser<C : ConstructResult, In : Input> where In.Char == C.Val
                 let param = item.nextParam
                 for ruleIndex in grammar.rulesOf(symbol: nextSymbol) {
                     let rule = grammar.rules[ruleIndex]
-                    if let item : EarleyItem<Value, C.Result> = rule.initialItem(k: k, param: param) {
+                    if let item : EarleyItem<Param, C.Result> = rule.initialItem(k: k, param: param) {
                         if bins[k - startPosition].insert(item).inserted {
                             changed = true
                         }
@@ -252,7 +252,7 @@ final class EarleyParser<C : ConstructResult, In : Input> where In.Char == C.Val
         return false
     }
     
-    func parse() -> ParseResult<Value, C.Result> {
+    func parse() -> ParseResult<Param, C.Result> {
         var bins : Bins = []
         bins.append(InitialBin())
         var i = 0
