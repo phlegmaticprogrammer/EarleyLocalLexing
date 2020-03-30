@@ -44,7 +44,6 @@ struct EarleyItem<Value : Hashable, Result> : Hashable, CompletedItem {
 
 typealias EarleyBin<Value : Hashable, Result> = Set<EarleyItem<Value, Result>>
 
-
 public final class EarleyParser<C : ConstructResult, In : Input> where In.Char == C.Value {
     
     public typealias Value = C.Value
