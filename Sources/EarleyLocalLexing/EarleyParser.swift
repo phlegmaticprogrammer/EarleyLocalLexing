@@ -44,27 +44,17 @@ struct EarleyItem<Value : Hashable, Result> : Hashable, CompletedItem {
 
 typealias EarleyBin<Value : Hashable, Result> = Set<EarleyItem<Value, Result>>
 
-public final class EarleyParser<C : ConstructResult, In : Input> where In.Char == C.Value {
+final class EarleyParser<C : ConstructResult, In : Input> where In.Char == C.Value {
     
-    public typealias Value = C.Value
+    typealias Value = C.Value
     typealias Bin = EarleyBin<Value, C.Result>
     typealias Bins = [Bin]
-    public typealias G = Grammar<C>
-    public typealias TerminalSet = Set<G.TerminalIndex>
+    typealias G = Grammar<C>
+    typealias TerminalSet = Set<G.TerminalIndex>
     typealias Tokens = G.Tokens
     typealias Item = EarleyItem<Value, C.Result>
     typealias TerminalKey = G.TerminalKey
-    
-    enum RecognitionResult {
-        case failed(position : Int)
-        case success(bins : [Bin], results : Set<Value>)
-    }
-    
-    public enum ParseResult {
-        case failed(position : Int)
-        case success(length : Int, results : [Value : C.Result?])
-    }
-    
+            
     let grammar : G
     let initialSymbol : Symbol
     let initialParam : Value
@@ -72,7 +62,7 @@ public final class EarleyParser<C : ConstructResult, In : Input> where In.Char =
     let treatedAsNonterminals : TerminalSet
     let startPosition : Int
     
-    public init(grammar : G, initialSymbol : Symbol, initialParam : Value, input : In, startPosition : Int, treatedAsNonterminals : TerminalSet) {
+    init(grammar : G, initialSymbol : Symbol, initialParam : Value, input : In, startPosition : Int, treatedAsNonterminals : TerminalSet) {
         self.grammar = grammar
         self.initialSymbol = initialSymbol
         self.initialParam = initialParam
@@ -249,20 +239,7 @@ public final class EarleyParser<C : ConstructResult, In : Input> where In.Char =
             CollectTokens(bins: bins, tokens: &tokens, k: k)
         } while Pi(bins: &bins, tokens: tokens, k: k)
     }
-    
-    func recognizedResults(bin : Bin) -> Set<Value> {
-        var values : Set<Value> = []
-        for item in bin {
-            if item.origin == startPosition {
-                let rule = grammar.rules[item.ruleIndex]
-                if rule.lhs == initialSymbol && rule.nextSymbol(dot: item.dot) == nil && item.param == initialParam {
-                    values.insert(item.out)
-                }
-            }
-        }
-        return values
-    }
-    
+        
     func hasBeenRecognized(bin : Bin) -> Bool {
         for item in bin {
             if item.origin == startPosition {
@@ -274,31 +251,8 @@ public final class EarleyParser<C : ConstructResult, In : Input> where In.Char =
         }
         return false
     }
-
-    func recognize() -> RecognitionResult {
-        var bins : Bins = []
-        bins.append(InitialBin())
-        var i = 0
-        while i < bins.count {
-            computeBin(bins: &bins, k: startPosition + i)
-            i += 1
-        }
-        i = bins.count - 1
-        var lastNonEmpty : Int? = nil
-        while i >= 0 {
-            let results = recognizedResults(bin: bins[i])
-            if !results.isEmpty {
-                return .success(bins: Array(bins[0 ... i]), results: results)
-            }
-            if lastNonEmpty == nil && !bins[i].isEmpty {
-                lastNonEmpty = startPosition + i
-            }
-            i -= 1
-        }
-        return .failed(position: lastNonEmpty ?? startPosition)
-    }
     
-    public func parse() -> ParseResult {
+    func parse() -> ParseResult<Value, C.Result> {
         var bins : Bins = []
         bins.append(InitialBin())
         var i = 0

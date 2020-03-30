@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Steven Obua on 29/03/2020.
-//
-
 import Foundation
 
 public protocol EvalEnv {
@@ -14,6 +7,22 @@ public protocol EvalEnv {
 }
 
 public typealias EvalFunc<Value> = (EvalEnv, [Value]) -> Value?
+
+public enum Symbol : Hashable, CustomStringConvertible {
+    
+    case terminal(index : Int)
+    case nonterminal(index : Int)
+    case character
+    
+    public var description : String {
+        switch self {
+        case let .terminal(index: index): return "terminal(\(index))"
+        case let .nonterminal(index: index): return "nonterminal(\(index))"
+        case .character: return "character"
+        }
+    }
+
+}
 
 public struct Rule<Value> {
     public let initialEnv : EvalEnv
@@ -65,6 +74,19 @@ public struct Rule<Value> {
             return nil
         }
     }
+}
+
+public protocol Input {
+    
+    associatedtype Char
+    
+    subscript(position : Int) -> Char? { get }
+                
+}
+
+public enum ParseResult<Value : Hashable, Result> {
+    case failed(position : Int)
+    case success(length : Int, results : [Value : Result?])
 }
 
 public final class Grammar<C : ConstructResult> {
@@ -124,6 +146,11 @@ public final class Grammar<C : ConstructResult> {
             appendTo(dict: &rOf, key: rule.lhs, value: ruleIndex)
         }
         self.rulesOfSymbols = rOf
+    }
+    
+    public func parse<I : Input>(input : I, position : Int, symbol : Symbol, param : Value) -> ParseResult<Value, Result> where I.Char == Value {
+        let parser = EarleyParser(grammar: self, initialSymbol: symbol, initialParam: param, input: input, startPosition: position, treatedAsNonterminals: [])
+        return parser.parse()
     }
     
 }

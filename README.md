@@ -1,6 +1,6 @@
 # EarleyLocalLexing
 
-This is an implementation of *parameterized local lexing*. It is an extension of Earley's parsing algorithm. 
+This is a simple implementation of *parameterized local lexing*. It is an extension of Earley's parsing algorithm. 
 
 Background information on (parameterized) local lexing can be found in these two papers:
 
