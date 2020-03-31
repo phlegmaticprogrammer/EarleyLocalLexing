@@ -83,7 +83,7 @@ public struct Rule<Param> {
     /// The evaluation function responsible for this rule.
     public let eval : EvalFunc<Param>
     
-    /// Creates a new rule.
+    /// Creates a rule.
     /// - parameter lhs: The left-hand side `L` of the rule.
     /// - parameter rhs: The right-hand side `R1 ... Rn` of the rule.
     /// - parameter initialEnv: The initial environment of the rule.
