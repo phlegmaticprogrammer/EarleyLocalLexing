@@ -175,8 +175,7 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult, In : Inpu
             }
         }
         guard !newTokens.isEmpty else { return }
-        insertTo(dict: &newTokens, tokens)
-        let selectedTokens = grammar.selector.select(from: newTokens)
+        let selectedTokens = grammar.selector.select(from: newTokens, alreadySelected: tokens)
         insertTo(dict: &tokens, selectedTokens)
     }
     

@@ -131,7 +131,7 @@ public typealias Tokens<Param : Hashable, Result> = [TerminalKey<Param> : Set<To
 
 public protocol Selector : GrammarComponent {
     
-    func select(from tokens : Tokens<Param, Result>) -> Tokens<Param, Result>
+    func select(from : Tokens<Param, Result>, alreadySelected : Tokens<Param, Result>) -> Tokens<Param, Result>
     
 }
 
