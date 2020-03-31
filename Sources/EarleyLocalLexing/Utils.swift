@@ -38,7 +38,6 @@ func insertTo<S, T>(dict : inout [S : Set<T>], key : S, values : Set<T>) -> Bool
     }
 }
 
-
 @discardableResult
 func insertTo<S, T>(dict : inout [S : Set<T>], _ other : [S : Set<T>]) -> Bool {
     var changed = false
