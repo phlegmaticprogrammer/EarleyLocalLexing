@@ -35,15 +35,19 @@ public protocol EvalEnv {
 /// - seealso: `Rule`
 public typealias EvalFunc<Param> = (_ env: EvalEnv,  _ k: Int, _ params: [Param]) -> Param?
 
+/// A `Symbol` denotes either a terminal or a nonterminal.
 public enum Symbol : Hashable, CustomStringConvertible {
     
+    /// A terminal symbol.
     case terminal(index : Int)
+    
+    /// A nonterminal symbol.
     case nonterminal(index : Int)
     
     public var description : String {
         switch self {
-        case let .terminal(index: index): return "terminal(\(index))"
-        case let .nonterminal(index: index): return "nonterminal(\(index))"
+        case let .terminal(index: index): return "T\(index)"
+        case let .nonterminal(index: index): return "N\(index)"
         }
     }
 
