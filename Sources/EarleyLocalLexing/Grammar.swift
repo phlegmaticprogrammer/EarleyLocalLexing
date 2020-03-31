@@ -135,7 +135,7 @@ public protocol Selector : GrammarComponent {
 /**
  A `Grammar` describes the syntax of the language to be parsed. Parsing is based on the concept of [*parameterized local lexing*](https://arxiv.org/abs/1704.04215).
  
- A `Grammar` consists of a list of *rules*, a *lexer*, a *selector*, and a specification of how to construct the `Result` of a successful parse.
+ A `Grammar` consists of a list of *rules*, a *lexer*, a *selector*, and a specification of how to construct the `Grammar.Result` of a successful parse.
  
  -  The `Rule`s basically describe a context-free grammar whose *nonterminals* and *terminals* are parameterized by an input and an output parameter, each of type `Param`.
     The computation of these parameters is guided via *evaluation functions* of type `EvalFunc`.
