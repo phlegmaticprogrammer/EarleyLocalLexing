@@ -44,7 +44,7 @@ struct EarleyItem<Param : Hashable, Result> : Hashable, CompletedItem {
 
 typealias EarleyBin<Param : Hashable, Result> = Set<EarleyItem<Param, Result>>
 
-final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult, In : Input> where In.Char == C.Param, L.Param == C.Param, L.Result == C.Result, S.Param == C.Param, S.Result == C.Result {
+final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult, I : Input> where I.Char == L.Char, I.Char == C.Char, L.Param == C.Param, L.Result == C.Result, S.Param == C.Param, S.Result == C.Result {
     
     typealias Param = C.Param
     typealias Bin = EarleyBin<Param, C.Result>
@@ -57,11 +57,11 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult, In : Inpu
     let grammar : G
     let initialSymbol : Symbol
     let initialParam : Param
-    let input : In
+    let input : I
     let treatedAsNonterminals : TerminalSet
     let startPosition : Int
     
-    init(grammar : G, initialSymbol : Symbol, initialParam : Param, input : In, startPosition : Int, treatedAsNonterminals : TerminalSet) {
+    init(grammar : G, initialSymbol : Symbol, initialParam : Param, input : I, startPosition : Int, treatedAsNonterminals : TerminalSet) {
         self.grammar = grammar
         self.initialSymbol = initialSymbol
         self.initialParam = initialParam
@@ -88,7 +88,6 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult, In : Inpu
     
     func treatAsNonterminal(_ symbol : Symbol) -> Bool {
         switch symbol {
-        case .character: return false
         case .nonterminal: return true
         case let .terminal(index: index): return treatedAsNonterminals.contains(index)
         }
@@ -205,14 +204,6 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult, In : Inpu
                             }
                         }
                     }
-                case .character:
-                    if let c = input[k] {
-                        if let nextItem = rule.nextItem(item: item, k: k+1, value: c, result: nil) {
-                            if add(bins: &bins, k: k+1, item: nextItem) {
-                                changed = true
-                            }
-                        }
-                    }
                 default:
                     break
                 }
@@ -265,7 +256,7 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult, In : Inpu
         var lastNonEmpty : Int? = nil
         while i >= 0 {
             if hasBeenRecognized(bin: bins[i]) {
-                let c = RunResultConstruction<L, S, C, In>(input: input, grammar: grammar, treatedAsNonterminals: treatedAsNonterminals, bins: Array(bins[0 ... i]), startOffset: startPosition)
+                let c = RunResultConstruction<L, S, C, I>(input: input, grammar: grammar, treatedAsNonterminals: treatedAsNonterminals, bins: Array(bins[0 ... i]), startOffset: startPosition)
                 return .success(length: i, results: c.construct(symbol: initialSymbol, param: initialParam))
             }
             if lastNonEmpty == nil && !bins[i].isEmpty {

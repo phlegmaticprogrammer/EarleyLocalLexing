@@ -26,13 +26,11 @@ public struct ItemKey<Param : Hashable> : Hashable {
 }
 
 public protocol ConstructResult : GrammarComponent {
+    
+    associatedtype Char
             
-    func evalRule<Item : CompletedItem, In : Input>(input : In, key : ItemKey<Param>, item : Item, rhs : @escaping (Int) -> Result?) -> Result? where Item.Result == Result, Item.Param == Param, In.Char == Param
-    
-    func evalTerminal(key : ItemKey<Param>, result : Result?) -> Result?
-    
-    func evalCharacter(position : Int, character : Param) -> Result?
-    
+    func evalRule<Item : CompletedItem, I : Input>(input : I, key : ItemKey<Param>, item : Item, rhs : @escaping (Int) -> Result?) -> Result? where Item.Result == Result, Item.Param == Param, I.Char == Char
+            
     func merge(key : ItemKey<Param>, results : [Result]) -> Result?
     
 }

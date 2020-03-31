@@ -1,6 +1,6 @@
 import Foundation
 
-final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult, In : Input> where In.Char == C.Param, L.Param == C.Param, L.Result == C.Result, S.Param == C.Param, S.Result == C.Result  {
+final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult, I : Input> where I.Char == L.Char, I.Char == C.Char, L.Param == C.Param, L.Result == C.Result, S.Param == C.Param, S.Result == C.Result  {
     
     typealias Param = C.Param
     typealias Result = C.Result
@@ -9,11 +9,11 @@ final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult, 
     typealias Item = EarleyItem<C.Param, C.Result>
     typealias Key = ItemKey<Param>
     typealias G = Grammar<L, S, C>
-    typealias TerminalSet = EarleyParser<L, S, C, In>.TerminalSet
+    typealias TerminalSet = EarleyParser<L, S, C, I>.TerminalSet
     
     let grammar : G
     let bins : Bins
-    let input : In
+    let input : I
         
     enum CachedResult {
         case computing
@@ -24,7 +24,7 @@ final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult, 
     private let treatedAsNonterminals : TerminalSet
     private let startOffset : Int
     
-    init(input : In, grammar : G, treatedAsNonterminals : TerminalSet, bins : Bins, startOffset : Int) {
+    init(input : I, grammar : G, treatedAsNonterminals : TerminalSet, bins : Bins, startOffset : Int) {
         self.grammar = grammar
         self.bins = bins
         self.cache = [:]
@@ -123,10 +123,8 @@ final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult, 
                 if treatedAsNonterminals.contains(index) {
                     commandStack.append(.startKeyTask(key: childKey))
                 } else {
-                    commandStack.append(.push(result: grammar.constructResult.evalTerminal(key: childKey, result: child.result)))
+                    commandStack.append(.push(result: child.result))
                 }
-            case .character:
-                commandStack.append(.push(result: grammar.constructResult.evalCharacter(position: child.from, character: child.outputParam)))
             }
         }
     }

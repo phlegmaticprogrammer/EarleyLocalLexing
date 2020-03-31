@@ -12,13 +12,11 @@ public enum Symbol : Hashable, CustomStringConvertible {
     
     case terminal(index : Int)
     case nonterminal(index : Int)
-    case character
     
     public var description : String {
         switch self {
         case let .terminal(index: index): return "terminal(\(index))"
         case let .nonterminal(index: index): return "nonterminal(\(index))"
-        case .character: return "character"
         }
     }
 
@@ -32,7 +30,6 @@ public struct Rule<Param> {
     public let ruleIndex : Int
     
     public init(initialEnv : EvalEnv, lhs : Symbol, rhs : [(EvalFunc<Param>, Symbol)], out : @escaping EvalFunc<Param>, ruleIndex : Int) {
-        precondition(lhs != .character)
         self.initialEnv = initialEnv
         self.lhs = lhs
         self.rhs = rhs
@@ -122,8 +119,10 @@ public protocol GrammarComponent {
 }
 
 public protocol Lexer : GrammarComponent {
+    
+    associatedtype Char
         
-    func parse<I : Input>(input : I, position : Int, key : TerminalKey<Param>) -> Set<TokenResult<Param, Result>>
+    func parse<I : Input>(input : I, position : Int, key : TerminalKey<Param>) -> Set<TokenResult<Param, Result>> where I.Char == Char
 
 }
 
@@ -143,7 +142,7 @@ public protocol Selector : GrammarComponent {
  -  The `Rule`s basically describe a context-free grammar whose *nonterminals* and *terminals* are parameterized by an input and an output parameter, each of type `Grammar.Param`.
     The computation of these parameters is guided via *evaluation functions* of type `EvalFunc`.
     Note that although context-free grammars require the symbol on the left hand side of a rule to be a nonterminal, here we also allow it to be a terminal instead.
- -  The `Lexer` component makes it possible to associate each terminal with a custom parser. These associations are optional, as the syntax of terminals can also be described via rules.
+ -  The `Lexer` component makes it possible to associate a terminal with a custom parser. Note that the syntax of terminals can not only be described via this lexer, but can also be described via rules.
  -  The `Selector` component makes it possible to resolve undesired ambiguities arising between terminals starting at the same position, while also allowing to keep desired or unproblematic ambiguities.
  -  The `ConstructResult` component is a specification of how to construct the `Grammar.Result` of a successful parse.
  
@@ -162,13 +161,15 @@ public protocol Selector : GrammarComponent {
  Here we parse the symbol `S` with input parameter `param` from the beginning of the input source `input` of type `Input`. Note that `S` can be **either** a nonterminal or a terminal.
  See the description of `ParseResult` on how to interpret `parseResult`.
  */
-public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : GrammarComponent where L.Param == C.Param, L.Result == C.Result, S.Param == C.Param, S.Result == C.Result {
+public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : GrammarComponent where L.Char == C.Char, L.Param == C.Param, L.Result == C.Result, S.Param == C.Param, S.Result == C.Result {
         
     public typealias Param = C.Param
     
     public typealias Result = C.Result
     
     public typealias RuleIndex = Int
+    
+    public typealias Char = L.Char
 
     public let rules : [Rule<Param>]
     
@@ -185,6 +186,10 @@ public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : Gramm
     }
     
     /// Creates a grammar with the given rules, lexer, selector and result construction specification.
+    /// - parameter rules: The rules of the grammar.
+    /// - parameter lexer: The lexer of this grammar.
+    /// - parameter selector: The selector of this grammar.
+    /// - parameter constructResult: A specification of how to construct the result of a successful parse.
     public init(rules : [Rule<Param>], lexer : L, selector : S, constructResult : C) {
         self.rules = rules
         self.lexer = lexer
@@ -204,7 +209,7 @@ public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : Gramm
     /// - parameter symbol: The start symbol of the parsing process. This can be either a terminal or a nonterminal (but not a character).
     /// - parameter inputParam: The input parameter associated with the start symbol.
     /// - returns: The parse result (see `ParseResult` for a description on how to interpret this).
-    public func parse<I : Input>(input : I, position : Int, symbol : Symbol, inputParam : Param) -> ParseResult<Param, Result> where I.Char == Param {
+    public func parse<I : Input>(input : I, position : Int, symbol : Symbol, inputParam : Param) -> ParseResult<Param, Result> where I.Char == L.Char {
         let parser = EarleyParser(grammar: self, initialSymbol: symbol, initialParam: inputParam, input: input, startPosition: position, treatedAsNonterminals: [])
         return parser.parse()
     }
