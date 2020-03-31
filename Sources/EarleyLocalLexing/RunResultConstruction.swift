@@ -1,6 +1,6 @@
 import Foundation
 
-final class RunResultConstruction<C : ConstructResult, In : Input> where In.Char == C.Param {
+final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult, In : Input> where In.Char == C.Param, L.Param == C.Param, L.Result == C.Result, S.Param == C.Param, S.Result == C.Result  {
     
     typealias Param = C.Param
     typealias Result = C.Result
@@ -8,8 +8,8 @@ final class RunResultConstruction<C : ConstructResult, In : Input> where In.Char
     typealias Bins = [Bin]
     typealias Item = EarleyItem<C.Param, C.Result>
     typealias Key = ItemKey<Param>
-    typealias G = Grammar<C>
-    typealias TerminalSet = EarleyParser<C, In>.TerminalSet
+    typealias G = Grammar<L, S, C>
+    typealias TerminalSet = EarleyParser<L, S, C, In>.TerminalSet
     
     let grammar : G
     let bins : Bins

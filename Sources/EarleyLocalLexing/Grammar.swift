@@ -110,14 +110,57 @@ public struct TerminalKey<Param : Hashable> : Hashable {
     public let inputParam : Param
 }
 
-public typealias Lexer<Param : Hashable, Result> = (TerminalKey<Param>) -> Set<TokenResult<Param, Result>>
+public protocol GrammarComponent {
+    
+    associatedtype Param : Hashable
+    
+    associatedtype Result
+
+}
+
+public protocol Lexer : GrammarComponent {
+        
+    func parse<I : Input>(input : I, position : Int, key : TerminalKey<Param>) -> Set<TokenResult<Param, Result>> where I.Char == Param
+
+}
 
 public typealias Tokens<Param : Hashable, Result> = [TerminalKey<Param> : Set<TokenResult<Param, Result>>]
 
-public typealias Selector<Param : Hashable, Result> = (Tokens<Param, Result>) -> Tokens<Param, Result>
-
-public final class Grammar<C : ConstructResult> {
+public protocol Selector : GrammarComponent {
     
+    func select(from tokens : Tokens<Param, Result>) -> Tokens<Param, Result>
+    
+}
+
+/**
+ A `Grammar` describes the syntax of the language to be parsed. Parsing is based on the concept of [*parameterized local lexing*](https://arxiv.org/abs/1704.04215).
+ 
+ A `Grammar` consists of a list of *rules*, a *lexer*, a *selector*, and a specification of how to construct the `Result` of a successful parse.
+ 
+ -  The `Rule`s basically describe a context-free grammar whose *nonterminals* and *terminals* are parameterized by an input and an output parameter, each of type `Param`.
+    The computation of these parameters is guided via *evaluation functions* of type `EvalFunc`.
+    Note that although context-free grammars require the symbol on the left hand side of a rule to be a nonterminal, here we also allow it to be a terminal instead.
+ -  The `Lexer` component makes it possible to associate each terminal with a custom parser. These associations are optional, as the syntax of terminals can also be described via rules.
+ -  The `Selector` component makes it possible to resolve undesired ambiguities arising between terminals starting at the same position, while also allowing to keep desired or unproblematic ambiguities.
+ -  The `ConstructResult` component is a specification of how to construct the `Result` of a successful parse.
+ 
+ Given a list of `rules`, a `lexer`, a `selector` and result construction specification `constructResult`, you create a `grammar` via
+ 
+ ```
+ let grammar = Grammar(rules: rules, lexer: lexer, selector: selector, constructResult: constructResult)
+ ```
+ 
+ You can then use it for parsing:
+ 
+ ```
+ let parseResult = grammar.parse(input: input, position: 0, symbol: S, inputParam: param)
+ ```
+
+ Here we parse the symbol `S` with input parameter `param` from the beginning of the input source `input` of type `Input`. Note that `S` can be **either** a nonterminal or a terminal.
+ See the description of `ParseResult` on how to interpret `parseResult`.
+ */
+public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : GrammarComponent where L.Param == C.Param, L.Result == C.Result, S.Param == C.Param, S.Result == C.Result {
+        
     public typealias Param = C.Param
     
     public typealias Result = C.Result
@@ -126,9 +169,9 @@ public final class Grammar<C : ConstructResult> {
 
     public let rules : [Rule<Param>]
     
-    public let lexer : Lexer<Param, Result>
+    public let lexer : L
     
-    public let selector : Selector<Param, Result>
+    public let selector : S
     
     private let rulesOfSymbols : [Symbol : [RuleIndex]]
     
@@ -138,7 +181,7 @@ public final class Grammar<C : ConstructResult> {
         return rulesOfSymbols[symbol] ?? []
     }
     
-    public init(rules : [Rule<Param>], lexer : @escaping Lexer<Param, Result>, selector : @escaping Selector<Param, Result>, constructResult : C) {
+    public init(rules : [Rule<Param>], lexer : L, selector : S, constructResult : C) {
         self.rules = rules
         self.lexer = lexer
         self.selector = selector

@@ -25,12 +25,8 @@ public struct ItemKey<Param : Hashable> : Hashable {
 
 }
 
-public protocol ConstructResult {
-    
-    associatedtype Result
-    
-    associatedtype Param : Hashable
-        
+public protocol ConstructResult : GrammarComponent {
+            
     func evalRule<Item : CompletedItem, In : Input>(input : In, key : ItemKey<Param>, item : Item, rhs : @escaping (Int) -> Result?) -> Result? where Item.Result == Result, Item.Param == Param, In.Char == Param
     
     func evalTerminal(key : ItemKey<Param>, result : Result?) -> Result?

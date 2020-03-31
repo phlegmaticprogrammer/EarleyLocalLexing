@@ -44,12 +44,12 @@ struct EarleyItem<Param : Hashable, Result> : Hashable, CompletedItem {
 
 typealias EarleyBin<Param : Hashable, Result> = Set<EarleyItem<Param, Result>>
 
-final class EarleyParser<C : ConstructResult, In : Input> where In.Char == C.Param {
+final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult, In : Input> where In.Char == C.Param, L.Param == C.Param, L.Result == C.Result, S.Param == C.Param, S.Result == C.Result {
     
     typealias Param = C.Param
     typealias Bin = EarleyBin<Param, C.Result>
     typealias Bins = [Bin]
-    typealias G = Grammar<C>
+    typealias G = Grammar<L, S, C>
     typealias TerminalSet = Set<Int>
     typealias Item = EarleyItem<Param, C.Result>
     typealias Tokens = EarleyLocalLexing.Tokens<Param, C.Result>
@@ -170,13 +170,13 @@ final class EarleyParser<C : ConstructResult, In : Input> where In.Char == C.Par
                     insertTo(dict: &newTokens, key: candidate, value: tr)
                 }
             }
-            for tr in grammar.lexer(candidate) {
+            for tr in grammar.lexer.parse(input: input, position: startPosition, key: candidate) {
                 insertTo(dict: &newTokens, key: candidate, value: tr)
             }
         }
         guard !newTokens.isEmpty else { return }
         insertTo(dict: &newTokens, tokens)
-        let selectedTokens = grammar.selector(newTokens)
+        let selectedTokens = grammar.selector.select(from: newTokens)
         insertTo(dict: &tokens, selectedTokens)
     }
     
@@ -266,7 +266,7 @@ final class EarleyParser<C : ConstructResult, In : Input> where In.Char == C.Par
         var lastNonEmpty : Int? = nil
         while i >= 0 {
             if hasBeenRecognized(bin: bins[i]) {
-                let c = RunResultConstruction<C, In>(input: input, grammar: grammar, treatedAsNonterminals: treatedAsNonterminals, bins: Array(bins[0 ... i]), startOffset: startPosition)
+                let c = RunResultConstruction<L, S, C, In>(input: input, grammar: grammar, treatedAsNonterminals: treatedAsNonterminals, bins: Array(bins[0 ... i]), startOffset: startPosition)
                 return .success(length: i, results: c.construct(symbol: initialSymbol, param: initialParam))
             }
             if lastNonEmpty == nil && !bins[i].isEmpty {
