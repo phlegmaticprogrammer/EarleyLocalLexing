@@ -58,14 +58,12 @@ public struct Rule<Param> {
     public let lhs : Symbol
     public let rhs : [(EvalFunc<Param>, Symbol)]
     public let out : EvalFunc<Param>
-    public let ruleIndex : Int
     
-    public init(initialEnv : EvalEnv, lhs : Symbol, rhs : [(EvalFunc<Param>, Symbol)], out : @escaping EvalFunc<Param>, ruleIndex : Int) {
+    public init(initialEnv : EvalEnv, lhs : Symbol, rhs : [(EvalFunc<Param>, Symbol)], out : @escaping EvalFunc<Param>) {
         self.initialEnv = initialEnv
         self.lhs = lhs
         self.rhs = rhs
         self.out = out
-        self.ruleIndex = ruleIndex
     }
     
     func nextSymbol(dot : Int) -> Symbol? {
@@ -77,7 +75,7 @@ public struct Rule<Param> {
         if dot >= rhs.count { return out } else { return rhs[dot].0 }
     }
     
-    func initialItem<Result>(k : Int, param : Param) -> EarleyItem<Param, Result>? {
+    func initialItem<Result>(ruleIndex: Int, k : Int, param : Param) -> EarleyItem<Param, Result>? {
         let env = initialEnv.copy()
         if let value = nextF(dot: 0)(env, 0, [param]) {
             return EarleyItem<Param, Result>(ruleIndex: ruleIndex, env: env, values: [param, value], results: [], indices: [k])
@@ -228,7 +226,6 @@ public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : Gramm
         self.constructResult = constructResult
         var rOf : [Symbol : [RuleIndex]] = [:]
         for (ruleIndex, rule) in rules.enumerated() {
-            precondition(rule.ruleIndex == ruleIndex)
             appendTo(dict: &rOf, key: rule.lhs, value: ruleIndex)
         }
         self.rulesOfSymbols = rOf
