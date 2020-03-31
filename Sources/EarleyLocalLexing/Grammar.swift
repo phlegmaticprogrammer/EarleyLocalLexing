@@ -1,12 +1,39 @@
 import Foundation
 
+/// An environment which an `EvalFunc` can use to store information needed during evaluation.
 public protocol EvalEnv {
     
+    /// Makes a copy of this environment.
+    /// - returns: An identical copy of `self` such that subsequent modifications of the copy or `self` do no affect each other.
+    ///   If no corresponding `EvalFunc` modifies this environment or its copy, then this method can just return `self`.
     func copy() -> Self
 
 }
 
-public typealias EvalFunc<Param> = (EvalEnv, [Param]) -> Param?
+/// A function which is used to compute the parameters of the involved symbols during the parsing progress of an invocation of a rule.
+///
+/// Assume that the rule has the form
+/// ```
+/// L => R1 R2 ... Rn
+/// ```
+/// Then the function will be called at a certain *stage* `k`, where `k` is the number of symbols
+/// `R1` ... `Rk` whose parameters have already been computed during previous stages.
+/// - parameter env: An environment which functions can use to store information in between calls during the parsing progress of the rule. The environment is a copy of an environment used during the previous stage.
+/// - parameter k: The current stage, where `0 <= k <= n`, and `n` is the number of symbols on the right hand side of the rule.
+/// - parameter params: The parameters that have been evaluated so far.
+///   We have `params.count == 1 + 2 * k` and the following layout:
+///
+///   - `params[0]`: the input parameter of `L`
+///   - `params[1]`: the input parameter of `R1`
+///   - `params[2]`: the output parameter of `R1`
+///   - `params[3]`: the input parameter of `R2`
+///   - `params[4]`: the output parameter of `R2`
+///   - ...
+///   - `params[2*k-1]`: the input parameter of `Rk`
+///   - `params[2*k]`: the output parameter of `Rk`
+/// - returns: For `k < n` this returns the input parameter of `R(k+1)`. For `k == n` this returns the output parameter of `L`. In case of a return value of `nil`, the parsing at this particular stage is aborted.
+/// - seealso: `Rule`
+public typealias EvalFunc<Param> = (_ env: EvalEnv,  _ k: Int, _ params: [Param]) -> Param?
 
 public enum Symbol : Hashable, CustomStringConvertible {
     
@@ -48,7 +75,7 @@ public struct Rule<Param> {
     
     func initialItem<Result>(k : Int, param : Param) -> EarleyItem<Param, Result>? {
         let env = initialEnv.copy()
-        if let value = nextF(dot: 0)(env, [param]) {
+        if let value = nextF(dot: 0)(env, 0, [param]) {
             return EarleyItem<Param, Result>(ruleIndex: ruleIndex, env: env, values: [param, value], results: [], indices: [k])
         } else {
             return nil
@@ -62,7 +89,8 @@ public struct Rule<Param> {
         var results = item.results
         results.append(result)
         let env = item.env.copy()
-        if let value = nextF(dot: item.dot+1)(env, values) {
+        let nextDot = item.dot + 1
+        if let value = nextF(dot: nextDot)(env, nextDot, values) {
             values.append(value)
             var indices = item.indices
             indices.append(k)
@@ -205,7 +233,7 @@ public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : Gramm
     /// Parses the given `symbol` associated with input parameter `inputParam` from a specified `position` in `input`.
     /// - parameter input: The input which is being parsed.
     /// - parameter position: The position in the input from where to start parsing.
-    /// - parameter symbol: The start symbol of the parsing process. This can be either a terminal or a nonterminal.
+    /// - parameter symbol: The start symbol of the parsing process. This can be either a nonterminal or a terminal.
     /// - parameter inputParam: The input parameter associated with the start symbol.
     /// - returns: The parse result (see `ParseResult` for a description on how to interpret this).
     public func parse<I : Input>(input : I, position : Int, symbol : Symbol, inputParam : Param) -> ParseResult<Param, Result> where I.Char == L.Char {
