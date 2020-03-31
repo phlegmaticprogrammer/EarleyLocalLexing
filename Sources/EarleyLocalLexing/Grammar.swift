@@ -64,7 +64,7 @@ public enum Symbol : Hashable, CustomStringConvertible {
 /// The property `eval` (in tandem with the property `initialEnv`) is responsible for computing these parameters along the stages of the parsing process.
 ///
 /// Furthermore, the symbol `L` does not have to be a nonterminal, but can also be a terminal symbol. In this case, the invocation of this rule during parsing spawns a separate
-/// parsing process with a grammar identical with the current grammar, except that `L` is now treated as a nonterminal symbol. This enables *scannerless parsing*.
+/// parsing process with a grammar identical with the current grammar, except that `L` is now treated as a nonterminal symbol. This enables a form of *scannerless parsing*.
 ///
 /// - seealso: Grammar
 /// - seealso: EvalFunc
@@ -128,10 +128,15 @@ public struct Rule<Param> {
     }
 }
 
+/// Abstracts the input source which is being parsed, and presents itself as a random access vector of characters of type `Input.Char`.
 public protocol Input {
     
+    /// The input source presents itself as a random access vector of characters of this type.
     associatedtype Char
     
+    /// Accesses the character at the given position.
+    /// - parameter position: The position of the character in the input.
+    /// - returns: The character at the given `position`. If the position is outside the range of the input, in particular at the end of the input, `nil` is returned.
     subscript(position : Int) -> Char? { get }
                 
 }
@@ -196,7 +201,7 @@ public protocol Selector : GrammarComponent {
  
  -  The `Rule`s basically describe a context-free grammar whose *nonterminals* and *terminals* are parameterized by an input and an output parameter, each of type `Grammar.Param`.
     The computation of these parameters is guided via *evaluation functions* of type `EvalFunc`.
-    Note that although context-free grammars require the symbol on the left hand side of a rule to be a nonterminal, here we also allow it to be a terminal instead.
+    Note that although context-free grammars require the symbol on the left hand side of a rule to be a nonterminal, here we also allow it to be a terminal instead. This enables a form of *scannerless parsing*.
  -  The `Lexer` component makes it possible to associate a terminal with a custom parser. Note that the syntax of terminals can not only be described via this lexer, but can also be described via rules.
  -  The `Selector` component makes it possible to resolve undesired ambiguities arising between terminals starting at the same position, while also allowing to keep desired or unproblematic ambiguities.
  -  The `ConstructResult` component is a specification of how to construct the `Grammar.Result` of a successful parse.
