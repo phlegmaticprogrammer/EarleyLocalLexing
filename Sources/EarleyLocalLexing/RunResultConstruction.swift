@@ -126,7 +126,7 @@ final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult, 
         commandStack.append(.completeKeyItemTask(key: key, item: item, count: count))
         for i in 0 ..< count {
             let child = item.child(rhs: i)
-            let symbol = rule.rhs[i].1
+            let symbol = rule.rhs[i]
             switch symbol {
             case .nonterminal:
                 let childKey : Key = Key(symbol: symbol, inputParam: child.inputParam, outputParam: child.outputParam, startPosition: child.from, endPosition: child.to)

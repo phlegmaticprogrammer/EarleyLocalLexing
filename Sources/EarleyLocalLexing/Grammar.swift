@@ -18,11 +18,10 @@ public protocol EvalEnv {
 /// ```
 /// Then the function will be called at a certain *stage* `k`, where `k` is the number of symbols
 /// `R1` ... `Rk` whose parameters have already been computed during previous stages.
-/// - parameter env: An environment which functions can use to store information in between calls during the parsing progress of the rule. The environment is a copy of an environment used during the previous stage.
+/// - parameter env: An environment which a function can use to store information in between calls to it during the parsing progress of the rule as it progresses from stage to stage. The environment is a copy of an environment used during the previous stage.
 /// - parameter k: The current stage, where `0 <= k <= n`, and `n` is the number of symbols on the right hand side of the rule.
 /// - parameter params: The parameters that have been evaluated so far.
 ///   We have `params.count == 1 + 2 * k` and the following layout:
-///
 ///   - `params[0]`: the input parameter of `L`
 ///   - `params[1]`: the input parameter of `R1`
 ///   - `params[2]`: the output parameter of `R1`
@@ -53,31 +52,57 @@ public enum Symbol : Hashable, CustomStringConvertible {
 
 }
 
+/// Represents a rule of the grammar.
+///
+/// A rule is similar to a rule in a context-free grammar, and has the form
+/// ```
+/// L => R1 ... Rn
+/// ```
+/// where `L` is the left-hand side of the rule, and `R1 ... Rn` is the right-hand side of the rule.
+///
+/// Unlike the rules of a context-free grammar though, each of the symbols `L`, `R1`, ..., `Rn` carries an input and an output parameter with them.
+/// The property `eval` (in tandem with the property `initialEnv`) is responsible for computing these parameters along the stages of the parsing process.
+///
+/// Furthermore, the symbol `L` does not have to be a nonterminal, but can also be a terminal symbol. In this case, the invocation of this rule during parsing spawns a separate
+/// parsing process with a grammar identical with the current grammar, except that `L` is now treated as a nonterminal symbol. This enables *scannerless parsing*.
+///
+/// - seealso: Grammar
+/// - seealso: EvalFunc
 public struct Rule<Param> {
-    public let initialEnv : EvalEnv
+
+    /// The left-hand side `L` of a rule of the form `L => R1 ... Rn`.
     public let lhs : Symbol
-    public let rhs : [(EvalFunc<Param>, Symbol)]
-    public let out : EvalFunc<Param>
+
+    /// The right-hand side `[R1 ... Rn]` of a rule of the form `L => R1 ... Rn`
+    public let rhs : [Symbol]
+
+    /// The initial environment (actually a copy of it) is  passed to `eval` at stage 0.
+    /// - seealso: EvalFunc
+    public let initialEnv : EvalEnv
+
+    /// The evaluation function responsible for this rule.
+    public let eval : EvalFunc<Param>
     
-    public init(initialEnv : EvalEnv, lhs : Symbol, rhs : [(EvalFunc<Param>, Symbol)], out : @escaping EvalFunc<Param>) {
+    /// Creates a new rule.
+    /// - parameter lhs: The left-hand side `L` of the rule.
+    /// - parameter rhs: The right-hand side `R1 ... Rn` of the rule.
+    /// - parameter initialEnv: The initial environment of the rule.
+    /// - parameter eval: The evaluation function of the rule.
+    public init(lhs : Symbol, rhs : [Symbol], initialEnv : EvalEnv, eval : @escaping EvalFunc<Param>) {
         self.initialEnv = initialEnv
         self.lhs = lhs
         self.rhs = rhs
-        self.out = out
+        self.eval = eval
     }
     
     func nextSymbol(dot : Int) -> Symbol? {
         if dot >= rhs.count { return nil }
-        else { return rhs[dot].1 }
+        else { return rhs[dot] }
     }
-    
-    func nextF(dot : Int) -> EvalFunc<Param> {
-        if dot >= rhs.count { return out } else { return rhs[dot].0 }
-    }
-    
+        
     func initialItem<Result>(ruleIndex: Int, k : Int, param : Param) -> EarleyItem<Param, Result>? {
         let env = initialEnv.copy()
-        if let value = nextF(dot: 0)(env, 0, [param]) {
+        if let value = eval(env, 0, [param]) {
             return EarleyItem<Param, Result>(ruleIndex: ruleIndex, env: env, values: [param, value], results: [], indices: [k])
         } else {
             return nil
@@ -92,7 +117,7 @@ public struct Rule<Param> {
         results.append(result)
         let env = item.env.copy()
         let nextDot = item.dot + 1
-        if let value = nextF(dot: nextDot)(env, nextDot, values) {
+        if let value = eval(env, nextDot, values) {
             values.append(value)
             var indices = item.indices
             indices.append(k)
