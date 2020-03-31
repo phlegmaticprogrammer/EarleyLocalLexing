@@ -170,6 +170,9 @@ final class EarleyParser<C : ConstructResult, In : Input> where In.Char == C.Par
                     insertTo(dict: &newTokens, key: candidate, value: tr)
                 }
             }
+            for tr in grammar.lexer(candidate) {
+                insertTo(dict: &newTokens, key: candidate, value: tr)
+            }
         }
         guard !newTokens.isEmpty else { return }
         insertTo(dict: &newTokens, tokens)
