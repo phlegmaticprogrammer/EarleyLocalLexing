@@ -1,5 +1,18 @@
 import Foundation
 
+struct CompletedRHS<Param : Hashable, Result> : CompletedRightHandSide {
+    let item : EarleyItem<Param, Result>
+    
+    let results : [Result?]
+    
+    var ruleIndex : Int { return item.ruleIndex }
+    
+    func child(rhs: Int) -> (inputParam: Param, outputParam: Param, result: Result?, from: Int, to: Int) {
+        let c = item.child(rhs: rhs)
+        return (inputParam: c.inputParam, outputParam: c.outputParam, result: results[rhs], from: c.from, to: c.to)
+    }
+}
+
 final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult, I : Input> where I.Char == L.Char, I.Char == C.Char, L.Param == C.Param, L.Result == C.Result, S.Param == C.Param, S.Result == C.Result  {
     
     typealias Param = C.Param
@@ -135,10 +148,8 @@ final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult, 
             let r = resultStack.popLast()!
             results.append(r)
         }
-        func subtrees(i : Int) -> Result? {
-            return results[i]
-        }
-        let result = grammar.constructResult.evalRule(input: input, key: key, item : item, rhs: subtrees)
+        let rhs = CompletedRHS(item: item, results: results)
+        let result = grammar.constructResult.evalRule(input: input, key: key, rhs : rhs)
         resultStack.append(result)
     }
     

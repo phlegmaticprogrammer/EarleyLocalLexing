@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol CompletedItem {
+public protocol CompletedRightHandSide {
     
     associatedtype Param
     
@@ -29,7 +29,7 @@ public protocol ConstructResult : GrammarComponent {
     
     associatedtype Char
             
-    func evalRule<Item : CompletedItem, I : Input>(input : I, key : ItemKey<Param>, item : Item, rhs : @escaping (Int) -> Result?) -> Result? where Item.Result == Result, Item.Param == Param, I.Char == Char
+    func evalRule<RHS : CompletedRightHandSide, I : Input>(input : I, key : ItemKey<Param>, rhs : RHS) -> Result? where RHS.Result == Result, RHS.Param == Param, I.Char == Char
             
     func merge(key : ItemKey<Param>, results : [Result]) -> Result?
     

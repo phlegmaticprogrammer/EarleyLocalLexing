@@ -1,10 +1,16 @@
 import Foundation
 
-struct EarleyItem<Param : Hashable, Result> : Hashable, CompletedItem {
+struct EarleyItem<Param : Hashable, Result> : Hashable {
+    
     let ruleIndex : Int
+    
     let env : EvalEnv
+    
     let values : [Param]
+    
+    /// Stores the results of terminal symbols. Results of nonterminals are not stored here, but computed later.
     let results : [Result?]
+    
     let indices : [Int]
     
     var param : Param {

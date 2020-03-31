@@ -159,7 +159,6 @@ public protocol Selector : GrammarComponent {
  ```
 
  Here we parse the symbol `S` with input parameter `param` from the beginning of the input source `input` of type `Input`. Note that `S` can be **either** a nonterminal or a terminal.
- See the description of `ParseResult` on how to interpret `parseResult`.
  */
 public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : GrammarComponent where L.Char == C.Char, L.Param == C.Param, L.Result == C.Result, S.Param == C.Param, S.Result == C.Result {
         
@@ -206,7 +205,7 @@ public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : Gramm
     /// Parses the given `symbol` associated with input parameter `inputParam` from a specified `position` in `input`.
     /// - parameter input: The input which is being parsed.
     /// - parameter position: The position in the input from where to start parsing.
-    /// - parameter symbol: The start symbol of the parsing process. This can be either a terminal or a nonterminal (but not a character).
+    /// - parameter symbol: The start symbol of the parsing process. This can be either a terminal or a nonterminal.
     /// - parameter inputParam: The input parameter associated with the start symbol.
     /// - returns: The parse result (see `ParseResult` for a description on how to interpret this).
     public func parse<I : Input>(input : I, position : Int, symbol : Symbol, inputParam : Param) -> ParseResult<Param, Result> where I.Char == L.Char {
