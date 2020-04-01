@@ -83,7 +83,7 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult, I : Input
     
     func InitialBin() -> Bin {
         var bin : Bin = []
-        for ruleIndex in grammar.rulesOf(symbol: initialSymbol) {
+        for ruleIndex in grammar.rulesOf(lhs: initialSymbol) {
             let rule = grammar.rules[ruleIndex]
             if let item : EarleyItem<Param, C.Result> = rule.initialItem(ruleIndex: ruleIndex, k: startPosition, param: initialParam) {
                 bin.insert(item)
@@ -108,7 +108,7 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult, I : Input
                 treatAsNonterminal(nextSymbol)
             {
                 let param = item.nextParam
-                for ruleIndex in grammar.rulesOf(symbol: nextSymbol) {
+                for ruleIndex in grammar.rulesOf(lhs: nextSymbol) {
                     let rule = grammar.rules[ruleIndex]
                     if let item : EarleyItem<Param, C.Result> = rule.initialItem(ruleIndex: ruleIndex, k: k, param: param) {
                         if bins[k - startPosition].insert(item).inserted {
@@ -171,7 +171,7 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult, I : Input
             case .failed: break
             case let .success(length: length, results: results):
                 for (value, result) in results {
-                    let tr = TokenResult(length: length, outputParam: value, result: result)
+                    let tr = Token(length: length, outputParam: value, result: result)
                     insertTo(dict: &newTokens, key: candidate, value: tr)
                 }
             }

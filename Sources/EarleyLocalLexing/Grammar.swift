@@ -35,20 +35,13 @@ public protocol EvalEnv {
 public typealias EvalFunc<Param> = (_ env: EvalEnv,  _ k: Int, _ params: [Param]) -> Param?
 
 /// A `Symbol` denotes either a terminal or a nonterminal.
-public enum Symbol : Hashable, CustomStringConvertible {
+public enum Symbol : Hashable {
     
     /// A terminal symbol.
     case terminal(index : Int)
     
     /// A nonterminal symbol.
     case nonterminal(index : Int)
-    
-    public var description : String {
-        switch self {
-        case let .terminal(index: index): return "T\(index)"
-        case let .nonterminal(index: index): return "N\(index)"
-        }
-    }
 
 }
 
@@ -141,14 +134,33 @@ public protocol Input {
                 
 }
 
+/// The result of parsing a particular symbol with a particular input parameter.
+/// - seealso: `Grammar.parse(input:position:symbol:param:)`
 public enum ParseResult<Param : Hashable, Result> {
+    
+    /// This denotes the case that parsing has failed at the given `position` in the input.
     case failed(position : Int)
+    
+    /// This denotes the case of a successful parse.
+    /// - `length`: The number of characters in the input that the successful parse encompasses.
+    /// - `results`: A dictionary mapping the output parameter of the successfully parsed symbol to an optional result.
+    ///   This dictionary will contain at least one entry, and can contain multiple entries in case of an ambiguous parse.
+    ///   If the dictionary contains only a single entry this does not necessarily imply that the parse has been unambiguous. This is because
+    ///   ambiguity might have been subsumed into the optional result via `ConstructResult.merge(key:results:)`.
     case success(length : Int, results : [Param : Result?])
+
 }
 
-public struct TokenResult<Param : Hashable, Result> : Hashable {
+/// The result of parsing a terminal (either via a lexer or via rules).
+public struct Token<Param : Hashable, Result> : Hashable {
+    
+    /// The number of characters in the input that this token encompasses.
     public let length : Int
+    
+    /// The output parameter associated with the parsed terminal.
     public let outputParam : Param
+    
+    /// An optional result computed for this terminal.
     public let result : Result?
     
     public func hash(into hasher: inout Hasher) {
@@ -156,40 +168,68 @@ public struct TokenResult<Param : Hashable, Result> : Hashable {
         hasher.combine(outputParam)
     }
     
-    public static func == (left : TokenResult<Param, Result>, right : TokenResult<Param, Result>) -> Bool {
+    public static func == (left : Token<Param, Result>, right : Token<Param, Result>) -> Bool {
         return left.length == right.length && left.outputParam == right.outputParam
     }
 
 }
 
+/// A `TerminalKey` is used to distinguish which terminal and input parameter are under consideration.
 public struct TerminalKey<Param : Hashable> : Hashable {
+    
+    /// Designates the terminal under consideration, which is `Symbol.terminal(index: terminalIndex)`.
     public let terminalIndex : Int
+    
+    /// The input parameter associated with the terminal under consideration.
     public let inputParam : Param
 }
 
 /// Hosts the associated types `Param` amd `Result` which are needed throughout the grammar specification.
 public protocol GrammarComponent {
     
-    /// Symbols have parameters of this type associated with them. Nonterminals and terminals have input and output parameters, characters just output parameters.
+    /// Each symbol has an input and an output parameter of this type associated with them.
     associatedtype Param : Hashable
     
-    /// For a successful parse a result of this type is computed, as specified per `ConstructResult`.
+    /// For a successful parse, optionally a result of this type is computed, as specified per `ConstructResult`.
     associatedtype Result
 
 }
 
+/// A `Lexer` manages the custom parsing of terminals.
+///
+/// Given a `position` in some `input`, and a given terminal with given associated input parameter, the lexer returns a set of tokens.
+///
+/// - note: Terminals can not only be parsed via the lexer, but also via rules, therefore enabling *scannerless parsing*.
+///   In those cases the returned set of tokens will typically be empty, but does not have to be, thus making it possible to mix scannerless and scannerful parsing of terminals.
+///   Nevertheless, even in a fully scannerless parser, there needs to be one terminal parsed via the lexer, representing a general character.
+/// - seealso: `Rule`
 public protocol Lexer : GrammarComponent {
     
+    /// The type of character inputs processed by the lexer have.
     associatedtype Char
         
-    func parse<I : Input>(input : I, position : Int, key : TerminalKey<Param>) -> Set<TokenResult<Param, Result>> where I.Char == Char
+    /// Given a `position` in `input`, and a given terminal with given associated input parameter, the lexer returns a set of parsed tokens.
+    /// - parameter input: The input providing the characters to parse.
+    /// - parameter position: The position in the input from where to start parsing.
+    /// - parameter key: The terminal key distinguishing the terminal with associated input parameter that is being parsed.
+    /// - returns: A set of tokens, each token representing a successful parse. An empty set is returned in case of a failed parse.
+    func parse<I : Input>(input : I, position : Int, key : TerminalKey<Param>) -> Set<Token<Param, Result>> where I.Char == Char
 
 }
 
-public typealias Tokens<Param : Hashable, Result> = [TerminalKey<Param> : Set<TokenResult<Param, Result>>]
+/// Represents the result of parsing a set of terminals at the same position. Each terminal and associated input parameter under consideration is mapped to its set of successfully parsed tokens.
+public typealias Tokens<Param : Hashable, Result> = [TerminalKey<Param> : Set<Token<Param, Result>>]
 
+/// A `Selector` selects a subset of tokens from those tokens which have been successfully parsed at at particular position.
 public protocol Selector : GrammarComponent {
     
+    /// Selects a subset of tokens from those tokens which have been successfully parsed at a particular position.
+    /// Selection happens in iterative phases, which correspond to a discovery process of which terminals could possibly occur at the current position based on the current parsing progress.
+    /// Tokens already selected in previous phases cannot be deselected in later phases.
+    /// - parameter from: Those tokens which have been newly parsed in the current selection phase.
+    ///   The terminal keys in `from` are guaranteed to be different from those in `alreadySelected`.
+    /// - parameter alreadySelected: The tokens which have been selected in earlier phases.
+    /// - returns: The selected tokens, which must be contained in `from`.
     func select(from : Tokens<Param, Result>, alreadySelected : Tokens<Param, Result>) -> Tokens<Param, Result>
     
 }
@@ -222,26 +262,41 @@ public protocol Selector : GrammarComponent {
  */
 public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : GrammarComponent where L.Char == C.Char, L.Param == C.Param, L.Result == C.Result, S.Param == C.Param, S.Result == C.Result {
         
+    /// Each nonterminal and terminal has an input and an output parameter of this type associated with them.
     public typealias Param = C.Param
     
+    /// For a successful parse, optionally a result of this type is computed, as specified per `ConstructResult`.
     public typealias Result = C.Result
     
+    /// The index of a rule in the `rules` array.
     public typealias RuleIndex = Int
     
+    /// The type of characters that inputs must have which can be parsed by this grammar.
     public typealias Char = L.Char
 
+    /// The rules of this grammar.
+    /// - seealso: `Rule`
     public let rules : [Rule<Param>]
     
+    /// The lexer of this grammar.
+    /// - seealso: `Lexer`
     public let lexer : L
     
+    /// The selector of this grammar.
+    /// - seealso: `Selector`
     public let selector : S
     
     private let rulesOfSymbols : [Symbol : [RuleIndex]]
     
+    /// The specification on how to compute a result from a successful parse.
+    /// - seealso: `ConstructResult`
     public let constructResult : C
     
-    public func rulesOf(symbol : Symbol) -> [RuleIndex] {
-        return rulesOfSymbols[symbol] ?? []
+    /// The rules of this grammar that have `lhs` as its left-hand side.
+    /// - parameter lhs: The left-hand side symbol of rules queried.
+    /// - returns: All rules `L => R1 ... Rn` such that `L == lhs`.
+    public func rulesOf(lhs : Symbol) -> [RuleIndex] {
+        return rulesOfSymbols[lhs] ?? []
     }
     
     /// Creates a grammar with the given rules, lexer, selector and result construction specification.
@@ -265,10 +320,10 @@ public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : Gramm
     /// - parameter input: The input which is being parsed.
     /// - parameter position: The position in the input from where to start parsing.
     /// - parameter symbol: The start symbol of the parsing process. This can be either a nonterminal or a terminal.
-    /// - parameter inputParam: The input parameter associated with the start symbol.
+    /// - parameter param: The input parameter associated with the start symbol.
     /// - returns: The parse result (see `ParseResult` for a description on how to interpret this).
-    public func parse<I : Input>(input : I, position : Int, symbol : Symbol, inputParam : Param) -> ParseResult<Param, Result> where I.Char == L.Char {
-        let parser = EarleyParser(grammar: self, initialSymbol: symbol, initialParam: inputParam, input: input, startPosition: position, treatedAsNonterminals: [])
+    public func parse<I : Input>(input : I, position : Int, symbol : Symbol, param : Param) -> ParseResult<Param, Result> where I.Char == L.Char {
+        let parser = EarleyParser(grammar: self, initialSymbol: symbol, initialParam: param, input: input, startPosition: position, treatedAsNonterminals: [])
         return parser.parse()
     }
     
