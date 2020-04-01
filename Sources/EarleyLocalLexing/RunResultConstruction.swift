@@ -7,9 +7,10 @@ struct CompletedRHS<Param : Hashable, Result> : CompletedRightHandSide {
     
     var ruleIndex : Int { return item.ruleIndex }
     
-    func child(rhs: Int) -> (inputParam: Param, outputParam: Param, result: Result?, from: Int, to: Int) {
+    func rhs(_ k : Int) -> (inputParam: Param, outputParam: Param, result: Result?, startPosition: Int, endPosition: Int) {
+        let rhs = k - 1
         let c = item.child(rhs: rhs)
-        return (inputParam: c.inputParam, outputParam: c.outputParam, result: results[rhs], from: c.from, to: c.to)
+        return (inputParam: c.inputParam, outputParam: c.outputParam, result: results[rhs], startPosition: c.from, endPosition: c.to)
     }
 }
 
@@ -149,7 +150,7 @@ final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult, 
             results.append(r)
         }
         let rhs = CompletedRHS(item: item, results: results)
-        let result = grammar.constructResult.evalRule(input: input, key: key, rhs : rhs)
+        let result = grammar.constructResult.evalRule(input: input, key: key, completed : rhs)
         resultStack.append(result)
     }
     

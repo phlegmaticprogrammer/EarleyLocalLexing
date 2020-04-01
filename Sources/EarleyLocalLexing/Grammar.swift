@@ -234,6 +234,9 @@ public protocol Selector : GrammarComponent {
     
 }
 
+/// The index of a rule in the `Grammar.rules` array.
+public typealias RuleIndex = Int
+
 /**
  A `Grammar` describes the syntax of the language to be parsed. Parsing is based on the concept of [*parameterized local lexing*](https://arxiv.org/abs/1704.04215).
  
@@ -267,10 +270,7 @@ public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : Gramm
     
     /// For a successful parse, optionally a result of this type is computed, as specified per `ConstructResult`.
     public typealias Result = C.Result
-    
-    /// The index of a rule in the `rules` array.
-    public typealias RuleIndex = Int
-    
+        
     /// The type of characters that inputs must have which can be parsed by this grammar.
     public typealias Char = L.Char
 
