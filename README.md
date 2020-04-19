@@ -1,4 +1,4 @@
-# EarleyLocalLexing
+# EarleyLocalLexing  ![](https://github.com/phlegmaticprogrammer/EarleyLocalLexing/workflows/macOS/badge.svg)  ![](https://github.com/phlegmaticprogrammer/EarleyLocalLexing/workflows/Linux/badge.svg) 
 
 Copyright (c) 2020 Steven Obua
 
