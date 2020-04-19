@@ -1,5 +1,3 @@
-import Foundation
-
 func appendTo<S, T>(dict : inout [S : [T]], key : S, value : T) {
     if var values = dict[key] {
         values.append(value)

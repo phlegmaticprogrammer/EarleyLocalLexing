@@ -1,5 +1,3 @@
-import Foundation
-
 struct EarleyItem<Param : Hashable, Result> : Hashable {
     
     let ruleIndex : Int

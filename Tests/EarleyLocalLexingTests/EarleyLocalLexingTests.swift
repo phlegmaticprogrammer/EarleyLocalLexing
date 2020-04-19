@@ -8,8 +8,4 @@ final class EarleyLocalLexingTests: XCTestCase {
         // results.
         //XCTAssertEqual(EarleyLocalLexing().text, "Hello, World!")
     }
-
-    static var allTests = [
-        ("testExample", testExample),
-    ]
 }

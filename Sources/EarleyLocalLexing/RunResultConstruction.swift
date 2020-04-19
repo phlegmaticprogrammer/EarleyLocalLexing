@@ -1,5 +1,3 @@
-import Foundation
-
 struct CompletedRHS<Param : Hashable, Result> : CompletedRightHandSide {
     let item : EarleyItem<Param, Result>
     

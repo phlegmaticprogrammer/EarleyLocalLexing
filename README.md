@@ -1,5 +1,11 @@
 # EarleyLocalLexing
 
+Copyright (c) 2020 Steven Obua
+
+License: MIT License
+
+---
+
 This is an implementation of *parameterized local lexing*. It is an extension of Earley's parsing algorithm. 
 
 The focus of this implementation is to be simple and correct, and thus to be able to serve as a reference implementation.

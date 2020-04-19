@@ -1,5 +1,3 @@
-import Foundation
-
 /// An environment which an `EvalFunc` can use to store information needed during evaluation.
 public protocol EvalEnv {
     

@@ -1,5 +1,3 @@
-import Foundation
-
 /// Information about the right-hand side of a rule that has successfully completed parsing. This information is used when constructing the result of a successful parse.
 /// - seealso: ConstructResult
 public protocol CompletedRightHandSide : GrammarComponent {
