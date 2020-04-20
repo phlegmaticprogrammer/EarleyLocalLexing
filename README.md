@@ -10,7 +10,7 @@ This is an implementation of *parameterized local lexing*. It is an extension of
 
 The focus of this implementation is to be simple and correct, and thus to be able to serve as a reference implementation.
 
-The API of this package is fully documented. A good starting point to understand it is the documentation for `Grammar`.
+[The API of this package is fully documented](https://phlegmaticprogrammer.github.io/EarleyLocalLexing). A good starting point to understand it is the documentation for `Grammar`.
 
 Background information on (parameterized) local lexing can be found in these two papers:
 
