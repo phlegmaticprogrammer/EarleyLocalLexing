@@ -62,9 +62,6 @@
                 <a href="../Protocols/GrammarComponent.html">GrammarComponent</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/Input.html">Input</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Protocols/Lexer.html">Lexer</a>
               </li>
               <li class="nav-group-task">
@@ -94,6 +91,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Typealiases.html#/s:17EarleyLocalLexing8EvalFunca">EvalFunc</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:17EarleyLocalLexing5Inputa">Input</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Typealiases.html#/s:17EarleyLocalLexing9RuleIndexa">RuleIndex</a>
@@ -136,7 +136,7 @@ Note that although context-free grammars require the symbol on the left hand sid
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">parseResult</span> <span class="o">=</span> <span class="n">grammar</span><span class="o">.</span><span class="nf">parse</span><span class="p">(</span><span class="nv">input</span><span class="p">:</span> <span class="n">input</span><span class="p">,</span> <span class="nv">position</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">symbol</span><span class="p">:</span> <span class="kt">S</span><span class="p">,</span> <span class="nv">inputParam</span><span class="p">:</span> <span class="n">param</span><span class="p">)</span>
 </code></pre>
 
-<p>Here we parse the symbol <code>S</code> with input parameter <code>param</code> from the beginning of the input source <code>input</code> of type <code><a href="../Protocols/Input.html">Input</a></code>. Note that <code>S</code> can be <strong>either</strong> a nonterminal or a terminal.</p>
+<p>Here we parse the symbol <code>S</code> with input parameter <code>param</code> from the beginning of the input source <code>input</code> of type <code><a href="../Typealiases.html#/s:17EarleyLocalLexing5Inputa">Input</a></code>. Note that <code>S</code> can be <strong>either</strong> a nonterminal or a terminal.</p>
 
           </section>
           <section class="section task-group-section">
@@ -486,9 +486,9 @@ Note that although context-free grammars require the symbol on the left hand sid
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:17EarleyLocalLexing7GrammarC5parse5input8position6symbol5paramAA11ParseResultOy5ParamQz0K0QzGqd___SiAA6SymbolOALtAA5InputRd__4CharQyd__ASRt0_lF"></a>
+                    <a name="/s:17EarleyLocalLexing7GrammarC5parse5input8position6symbol5paramAA11ParseResultOy5ParamQz0K0QzG4CharQzSgSic_SiAA6SymbolOALtF"></a>
                     <a name="//apple_ref/swift/Method/parse(input:position:symbol:param:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17EarleyLocalLexing7GrammarC5parse5input8position6symbol5paramAA11ParseResultOy5ParamQz0K0QzGqd___SiAA6SymbolOALtAA5InputRd__4CharQyd__ASRt0_lF">parse(input:position:symbol:param:)</a>
+                    <a class="token" href="#/s:17EarleyLocalLexing7GrammarC5parse5input8position6symbol5paramAA11ParseResultOy5ParamQz0K0QzG4CharQzSgSic_SiAA6SymbolOALtF">parse(input:position:symbol:param:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -503,7 +503,7 @@ Note that although context-free grammars require the symbol on the left hand sid
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">parse</span><span class="o">&lt;</span><span class="kt">I</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">input</span><span class="p">:</span> <span class="kt">I</span><span class="p">,</span> <span class="nv">position</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">symbol</span><span class="p">:</span> <span class="kt"><a href="../Enums/Symbol.html">Symbol</a></span><span class="p">,</span> <span class="nv">param</span><span class="p">:</span> <span class="kt"><a href="../Classes/Grammar.html#/s:17EarleyLocalLexing7GrammarC5Parama">Param</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/ParseResult.html">ParseResult</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Grammar.html#/s:17EarleyLocalLexing7GrammarC5Parama">Param</a></span><span class="p">,</span> <span class="kt"><a href="../Classes/Grammar.html#/s:17EarleyLocalLexing7GrammarC6Resulta">Result</a></span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">I</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/Input.html">Input</a></span><span class="p">,</span> <span class="kt">C</span><span class="o">.</span><span class="kt"><a href="../Classes/Grammar.html#/s:17EarleyLocalLexing7GrammarC4Chara">Char</a></span> <span class="o">==</span> <span class="kt">I</span><span class="o">.</span><span class="kt"><a href="../Classes/Grammar.html#/s:17EarleyLocalLexing7GrammarC4Chara">Char</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">parse</span><span class="p">(</span><span class="nv">input</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:17EarleyLocalLexing5Inputa">Input</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Grammar.html#/s:17EarleyLocalLexing7GrammarC4Chara">Char</a></span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">position</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">symbol</span><span class="p">:</span> <span class="kt"><a href="../Enums/Symbol.html">Symbol</a></span><span class="p">,</span> <span class="nv">param</span><span class="p">:</span> <span class="kt"><a href="../Classes/Grammar.html#/s:17EarleyLocalLexing7GrammarC5Parama">Param</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/ParseResult.html">ParseResult</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Grammar.html#/s:17EarleyLocalLexing7GrammarC5Parama">Param</a></span><span class="p">,</span> <span class="kt"><a href="../Classes/Grammar.html#/s:17EarleyLocalLexing7GrammarC6Resulta">Result</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -574,7 +574,7 @@ Note that although context-free grammars require the symbol on the left hand sid
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2020-04-20)</p>
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2020-04-21)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
