@@ -122,6 +122,7 @@ public struct Rule<Param> {
 /// Abstracts the input source which is being parsed, and presents itself as a random access vector of characters of type `Char`.
 open class Input<Char> {
     
+    /// Empty initializer.
     public init() {}
     
     /// Accesses the character at the given position.
@@ -162,6 +163,13 @@ public struct Token<Param : Hashable, Result> : Hashable {
     /// An optional result computed for this terminal.
     public let result : Result?
     
+    /// The default initializer.
+    public init(length : Int, outputParam : Param, result : Result?) {
+        self.length = length
+        self.outputParam = outputParam
+        self.result = result
+    }
+    
     public func hash(into hasher: inout Hasher) {
         hasher.combine(length)
         hasher.combine(outputParam)
@@ -181,6 +189,12 @@ public struct TerminalKey<Param : Hashable> : Hashable {
     
     /// The input parameter associated with the terminal under consideration.
     public let inputParam : Param
+    
+    /// The default initializer.
+    public init(terminalIndex : Int, inputParam : Param) {
+        self.terminalIndex = terminalIndex
+        self.inputParam = inputParam
+    }
 }
 
 /// Hosts the associated types `Param` amd `Result` which are needed throughout the grammar specification.
