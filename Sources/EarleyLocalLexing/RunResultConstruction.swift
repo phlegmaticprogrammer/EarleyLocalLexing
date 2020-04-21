@@ -36,7 +36,7 @@ final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult> 
     private let treatedAsNonterminals : TerminalSet
     private let startOffset : Int
     
-    init(input : @escaping Input<L.Char>, grammar : G, treatedAsNonterminals : TerminalSet, bins : Bins, startOffset : Int) {
+    init(input : Input<L.Char>, grammar : G, treatedAsNonterminals : TerminalSet, bins : Bins, startOffset : Int) {
         self.grammar = grammar
         self.bins = bins
         self.cache = [:]

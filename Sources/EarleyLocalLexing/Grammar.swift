@@ -120,10 +120,16 @@ public struct Rule<Param> {
 }
 
 /// Abstracts the input source which is being parsed, and presents itself as a random access vector of characters of type `Char`.
-/// Accesses the character at the given position.
-/// - parameter position: The position of the character in the input.
-/// - returns: The character at the given `position`. If the position is outside the range of the input, in particular at the end of the input, `nil` is returned.
-public typealias Input<Char> = (_ position : Int) -> Char?
+open class Input<Char> {
+    
+    /// Accesses the character at the given position.
+    /// - parameter position: The position of the character in the input.
+    /// - returns: The character at the given `position`. If the position is outside the range of the input, in particular at the end of the input, `nil` is returned.
+    open subscript (position : Int) -> Char? {
+        fatalError("needs to be overriden in subclass")
+    }
+    
+}
 
 /// The result of parsing a particular symbol with a particular input parameter.
 /// - seealso: `Grammar.parse(input:position:symbol:param:)`
@@ -313,7 +319,7 @@ public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : Gramm
     /// - parameter symbol: The start symbol of the parsing process. This can be either a nonterminal or a terminal.
     /// - parameter param: The input parameter associated with the start symbol.
     /// - returns: The parse result (see `ParseResult` for a description on how to interpret this).
-    public func parse(input : @escaping Input<Char>, position : Int, symbol : Symbol, param : Param) -> ParseResult<Param, Result> {
+    public func parse(input : Input<Char>, position : Int, symbol : Symbol, param : Param) -> ParseResult<Param, Result> {
         let parser = EarleyParser(grammar: self, initialSymbol: symbol, initialParam: param, input: input, startPosition: position, treatedAsNonterminals: [])
         return parser.parse()
     }

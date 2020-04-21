@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Selector Protocol Reference</title>
+    <title>Input Class Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Protocol/Selector" class="dashAnchor"></a>
-    <a title="Selector Protocol Reference"></a>
+    <a name="//apple_ref/swift/Class/Input" class="dashAnchor"></a>
+    <a title="Input Class Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">EarleyLocalLexing Docs</a> (100% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">EarleyLocalLexing Reference</a>
         <img id="carat" src="../img/carat.png" />
-        Selector Protocol Reference
+        Input Class Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -108,14 +108,14 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>Selector</h1>
+            <h1>Input</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Selector</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/GrammarComponent.html">GrammarComponent</a></span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">class</span> <span class="kt">Input</span><span class="o">&lt;</span><span class="kt">Char</span><span class="o">&gt;</span></code></pre>
 
                 </div>
               </div>
-            <p>A <code>Selector</code> selects a subset of tokens from those tokens which have been successfully parsed at at particular position.</p>
+            <p>Abstracts the input source which is being parsed, and presents itself as a random access vector of characters of type <code>Char</code>.</p>
 
           </section>
           <section class="section task-group-section">
@@ -124,9 +124,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:17EarleyLocalLexing8SelectorP6select4from15alreadySelectedSDyAA11TerminalKeyVy5ParamQzGShyAA5TokenVyAJ6ResultQzGGGAR_ARtF"></a>
-                    <a name="//apple_ref/swift/Method/select(from:alreadySelected:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17EarleyLocalLexing8SelectorP6select4from15alreadySelectedSDyAA11TerminalKeyVy5ParamQzGShyAA5TokenVyAJ6ResultQzGGGAR_ARtF">select(from:alreadySelected:)</a>
+                    <a name="/s:17EarleyLocalLexing5InputCyxSgSicip"></a>
+                    <a name="//apple_ref/swift/Method/subscript(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing5InputCyxSgSicip">subscript(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -134,16 +134,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Selects a subset of tokens from those tokens which have been successfully parsed at a particular position.
-Selection happens in iterative phases, which correspond to a discovery process of which terminals could possibly occur at the current position based on the current parsing progress.
-Tokens already selected in previous phases cannot be deselected in later phases.</p>
+                        <p>Accesses the character at the given position.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">select</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:17EarleyLocalLexing6Tokensa">Tokens</a></span><span class="o">&lt;</span><span class="kt">Param</span><span class="p">,</span> <span class="kt">Result</span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">alreadySelected</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:17EarleyLocalLexing6Tokensa">Tokens</a></span><span class="o">&lt;</span><span class="kt">Param</span><span class="p">,</span> <span class="kt">Result</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Typealiases.html#/s:17EarleyLocalLexing6Tokensa">Tokens</a></span><span class="o">&lt;</span><span class="kt">Param</span><span class="p">,</span> <span class="kt">Result</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="nf">subscript</span><span class="p">(</span><span class="nv">position</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Char</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -154,25 +152,12 @@ Tokens already selected in previous phases cannot be deselected in later phases.
                             <tr>
                               <td>
                                 <code>
-                                <em>from</em>
+                                <em>position</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>Those tokens which have been newly parsed in the current selection phase.
-The terminal keys in <code>from</code> are guaranteed to be different from those in <code>alreadySelected</code>.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>alreadySelected</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The tokens which have been selected in earlier phases.</p>
+                                  <p>The position of the character in the input.</p>
                                 </div>
                               </td>
                             </tr>
@@ -181,7 +166,7 @@ The terminal keys in <code>from</code> are guaranteed to be different from those
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>The selected tokens, which must be contained in <code>from</code>.</p>
+                        <p>The character at the given <code>position</code>. If the position is outside the range of the input, in particular at the end of the input, <code>nil</code> is returned.</p>
                       </div>
                     </section>
                   </div>

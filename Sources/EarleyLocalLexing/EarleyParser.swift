@@ -65,7 +65,7 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
     let treatedAsNonterminals : TerminalSet
     let startPosition : Int
     
-    init(grammar : G, initialSymbol : Symbol, initialParam : Param, input : @escaping Input<L.Char>, startPosition : Int, treatedAsNonterminals : TerminalSet) {
+    init(grammar : G, initialSymbol : Symbol, initialParam : Param, input : Input<L.Char>, startPosition : Int, treatedAsNonterminals : TerminalSet) {
         self.grammar = grammar
         self.initialSymbol = initialSymbol
         self.initialParam = initialParam
