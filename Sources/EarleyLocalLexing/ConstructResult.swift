@@ -4,6 +4,9 @@ public protocol CompletedRightHandSide : GrammarComponent {
     
     /// The index of the rule in `Grammar.rules`.
     var ruleIndex : RuleIndex { get }
+    
+    /// The number of symbols on the right-hand side of the rule.
+    var count : Int { get }
         
     /// Returns information about the parse of the `k`-th symbol on the right-hand side of the rule.
     /// - parameter k: For a rule of the form `L => R1 ... Rn`, the information returned is about `Rk`.

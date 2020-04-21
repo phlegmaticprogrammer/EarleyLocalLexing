@@ -1,12 +1,6 @@
 {
   "warnings": [
-    {
-      "file": "/Users/stevenobua/Repositories/EarleyLocalLexing/Sources/EarleyLocalLexing/Grammar.swift",
-      "line": 125,
-      "symbol": "Input.init()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    }
+
   ],
   "source_directory": "/Users/stevenobua/Repositories/EarleyLocalLexing"
 }

@@ -3,6 +3,10 @@ struct CompletedRHS<Param : Hashable, Result> : CompletedRightHandSide {
     
     let results : [Result?]
     
+    var count : Int {
+        return results.count
+    }
+    
     var ruleIndex : Int { return item.ruleIndex }
     
     func rhs(_ k : Int) -> (inputParam: Param, outputParam: Param, result: Result?, startPosition: Int, endPosition: Int) {
