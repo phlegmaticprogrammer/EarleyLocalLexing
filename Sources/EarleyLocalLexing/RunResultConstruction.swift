@@ -12,7 +12,7 @@ struct CompletedRHS<Param : Hashable, Result> : CompletedRightHandSide {
     }
 }
 
-final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult, I : Input> where I.Char == L.Char, I.Char == C.Char, L.Param == C.Param, L.Result == C.Result, S.Param == C.Param, S.Result == C.Result  {
+final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult> where L.Char == C.Char, L.Param == C.Param, L.Result == C.Result, S.Param == C.Param, S.Result == C.Result  {
     
     typealias Param = C.Param
     typealias Result = C.Result
@@ -21,11 +21,11 @@ final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult, 
     typealias Item = EarleyItem<C.Param, C.Result>
     typealias Key = ItemKey<Param>
     typealias G = Grammar<L, S, C>
-    typealias TerminalSet = EarleyParser<L, S, C, I>.TerminalSet
+    typealias TerminalSet = EarleyParser<L, S, C>.TerminalSet
     
     let grammar : G
     let bins : Bins
-    let input : I
+    let input : Input<L.Char>
         
     enum CachedResult {
         case computing
@@ -36,7 +36,7 @@ final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult, 
     private let treatedAsNonterminals : TerminalSet
     private let startOffset : Int
     
-    init(input : I, grammar : G, treatedAsNonterminals : TerminalSet, bins : Bins, startOffset : Int) {
+    init(input : @escaping Input<L.Char>, grammar : G, treatedAsNonterminals : TerminalSet, bins : Bins, startOffset : Int) {
         self.grammar = grammar
         self.bins = bins
         self.cache = [:]

@@ -119,18 +119,11 @@ public struct Rule<Param> {
     }
 }
 
-/// Abstracts the input source which is being parsed, and presents itself as a random access vector of characters of type `Input.Char`.
-public protocol Input {
-    
-    /// The input source presents itself as a random access vector of characters of this type.
-    associatedtype Char
-    
-    /// Accesses the character at the given position.
-    /// - parameter position: The position of the character in the input.
-    /// - returns: The character at the given `position`. If the position is outside the range of the input, in particular at the end of the input, `nil` is returned.
-    subscript(position : Int) -> Char? { get }
-                
-}
+/// Abstracts the input source which is being parsed, and presents itself as a random access vector of characters of type `Char`.
+/// Accesses the character at the given position.
+/// - parameter position: The position of the character in the input.
+/// - returns: The character at the given `position`. If the position is outside the range of the input, in particular at the end of the input, `nil` is returned.
+public typealias Input<Char> = (_ position : Int) -> Char?
 
 /// The result of parsing a particular symbol with a particular input parameter.
 /// - seealso: `Grammar.parse(input:position:symbol:param:)`
@@ -211,7 +204,7 @@ public protocol Lexer : GrammarComponent {
     /// - parameter position: The position in the input from where to start parsing.
     /// - parameter key: The terminal key distinguishing the terminal with associated input parameter that is being parsed.
     /// - returns: A set of tokens, each token representing a successful parse. An empty set is returned in case of a failed parse.
-    func parse<I : Input>(input : I, position : Int, key : TerminalKey<Param>) -> Set<Token<Param, Result>> where I.Char == Char
+    func parse(input : Input<Char>, position : Int, key : TerminalKey<Param>) -> Set<Token<Param, Result>>
 
 }
 
@@ -320,7 +313,7 @@ public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : Gramm
     /// - parameter symbol: The start symbol of the parsing process. This can be either a nonterminal or a terminal.
     /// - parameter param: The input parameter associated with the start symbol.
     /// - returns: The parse result (see `ParseResult` for a description on how to interpret this).
-    public func parse<I : Input>(input : I, position : Int, symbol : Symbol, param : Param) -> ParseResult<Param, Result> where I.Char == L.Char {
+    public func parse(input : @escaping Input<Char>, position : Int, symbol : Symbol, param : Param) -> ParseResult<Param, Result> {
         let parser = EarleyParser(grammar: self, initialSymbol: symbol, initialParam: param, input: input, startPosition: position, treatedAsNonterminals: [])
         return parser.parse()
     }

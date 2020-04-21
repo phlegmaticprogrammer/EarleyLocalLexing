@@ -48,7 +48,7 @@ public protocol ConstructResult : GrammarComponent {
     /// - parameter key: This key designates which part of the input has been parsed as what symbol.
     /// - parameter completed: Information about the completed right-hand side of the rule.
     /// - returns: An optional result. Note that it is perfectly legal to return `nil` here.
-    func evalRule<RHS : CompletedRightHandSide, I : Input>(input : I, key : ItemKey<Param>, completed : RHS) -> Result? where RHS.Result == Result, RHS.Param == Param, I.Char == Char
+    func evalRule<RHS : CompletedRightHandSide>(input : Input<Char>, key : ItemKey<Param>, completed : RHS) -> Result? where RHS.Result == Result, RHS.Param == Param
             
     /// This is called to merge all results for that particular `key` into a single result.
     /// - parameter key: The key for which parsing has completed successfully.
