@@ -122,6 +122,8 @@ public struct Rule<Param> {
 /// Abstracts the input source which is being parsed, and presents itself as a random access vector of characters of type `Char`.
 open class Input<Char> {
     
+    public init() {}
+    
     /// Accesses the character at the given position.
     /// - parameter position: The position of the character in the input.
     /// - returns: The character at the given `position`. If the position is outside the range of the input, in particular at the end of the input, `nil` is returned.
