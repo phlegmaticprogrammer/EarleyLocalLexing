@@ -64,8 +64,9 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
     let input : Input<L.Char>
     let treatedAsNonterminals : TerminalSet
     let startPosition : Int
+    let semantics : G.Semantics
     
-    init(grammar : G, initialSymbol : Symbol, initialParam : Param, input : Input<L.Char>, startPosition : Int, treatedAsNonterminals : TerminalSet) {
+    init(grammar : G, initialSymbol : Symbol, initialParam : Param, input : Input<L.Char>, startPosition : Int, treatedAsNonterminals : TerminalSet, semantics : G.Semantics) {
         self.grammar = grammar
         self.initialSymbol = initialSymbol
         self.initialParam = initialParam
@@ -77,6 +78,7 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
         default:
             self.treatedAsNonterminals = treatedAsNonterminals
         }
+        self.semantics = semantics
     }
     
     func InitialBin() -> Bin {
@@ -141,7 +143,7 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
         return changed
     }
     
-    func CollectTokens(bins : Bins, tokens : inout Tokens, k : Int) {
+    func CollectNewTokens(bins : Bins, tokens : Tokens, k : Int) -> Tokens {
         var tokenCandidates : Set<TerminalKey<Param>> = []
         for item in bins[k - startPosition] {
             let rule = grammar.rules[item.ruleIndex]
@@ -156,7 +158,7 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
                 }
             }
         }
-        guard !tokenCandidates.isEmpty else { return }
+        guard !tokenCandidates.isEmpty else { return [:] }
         var newTokens : Tokens = [:]
         for candidate in tokenCandidates {
             let parser = EarleyParser(grammar: grammar,
@@ -164,7 +166,8 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
                                       initialParam: candidate.inputParam,
                                       input: input,
                                       startPosition: k,
-                                      treatedAsNonterminals: treatedAsNonterminals)
+                                      treatedAsNonterminals: treatedAsNonterminals,
+                                      semantics: semantics)
             switch parser.parse() {
             case .failed: break
             case let .success(length: length, results: results):
@@ -177,8 +180,36 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
                 insertTo(dict: &newTokens, key: candidate, value: tr)
             }
         }
+        return newTokens
+    }
+    
+    func selectNewTokens_paper(bins : Bins, tokens : inout Tokens, newTokens : Tokens, k : Int) {
         guard !newTokens.isEmpty else { return }
         let selectedTokens = grammar.selector.select(from: newTokens, alreadySelected: tokens)
+        insertTo(dict: &tokens, selectedTokens)
+    }
+
+    func selectNewTokens_modified(bins : Bins, tokens : inout Tokens, newTokens : Tokens, k : Int) {
+        guard !newTokens.isEmpty else { return }
+        var validNewTokens : Tokens = [:]
+        for item in bins[k - startPosition] {
+            let rule = grammar.rules[item.ruleIndex]
+            if let nextSymbol = rule.nextSymbol(dot: item.dot) {
+                switch nextSymbol {
+                case let .terminal(index: index) where !treatAsNonterminal(nextSymbol):
+                    let candidate = TerminalKey(terminalIndex: index, inputParam: item.nextParam)
+                    if let results = newTokens[candidate] {
+                        for result in results {
+                            if rule.hasNextItem(item: item, value: result.outputParam) {
+                                insertTo(dict: &validNewTokens, key: candidate, value: result)
+                            }
+                        }
+                    }
+                default: break
+                }
+            }
+        }
+        let selectedTokens = grammar.selector.select(from: validNewTokens, alreadySelected: tokens)
         insertTo(dict: &tokens, selectedTokens)
     }
     
@@ -231,9 +262,13 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
     
     func computeBin(bins : inout Bins, k : Int) {
         var tokens : Tokens = [:]
-        repeat {
-            CollectTokens(bins: bins, tokens: &tokens, k: k)
-        } while Pi(bins: &bins, tokens: tokens, k: k)
+        while Pi(bins: &bins, tokens: tokens, k: k) {
+            let newTokens = CollectNewTokens(bins: bins, tokens: tokens, k: k)
+            switch semantics {
+            case .paper: selectNewTokens_paper(bins: bins, tokens: &tokens, newTokens: newTokens, k: k)
+            case .modified: selectNewTokens_modified(bins: bins, tokens: &tokens, newTokens: newTokens, k: k)
+            }
+        }
     }
         
     func hasBeenRecognized(bin : Bin) -> Bool {
