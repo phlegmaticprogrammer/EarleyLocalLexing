@@ -139,7 +139,8 @@ final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult> 
                 if treatedAsNonterminals.contains(index) {
                     commandStack.append(.startKeyTask(key: childKey))
                 } else {
-                    commandStack.append(.push(result: child.result))
+                    let result = grammar.constructResult.terminal(key: childKey, result: child.result)
+                    commandStack.append(.push(result: result))
                 }
             }
         }

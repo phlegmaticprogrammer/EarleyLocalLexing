@@ -52,7 +52,13 @@ public protocol ConstructResult : GrammarComponent {
     /// - parameter completed: Information about the completed right-hand side of the rule.
     /// - returns: An optional result. Note that it is perfectly legal to return `nil` here.
     func evalRule<RHS : CompletedRightHandSide>(input : Input<Char>, key : ItemKey<Param>, completed : RHS) -> Result? where RHS.Result == Result, RHS.Param == Param
-            
+    
+    /// Constructs the result from a terminal result.
+    /// - parameter key: The key for which this terminal has been parsed successfully.
+    /// - parameter result: The result of parsing / lexing the terminal.
+    /// - returns: An optional result. Note that it is perfectly legal to return `nil` here.
+    func terminal(key : ItemKey<Param>, result : Result?) -> Result?
+    
     /// This is called to merge all results for that particular `key` into a single result.
     /// - parameter key: The key for which parsing has completed successfully.
     /// - parameter results: The results of all successful parses for the particular `key` under consideration. If all such parses have returned a `nil` result, then `results` will be empty.
