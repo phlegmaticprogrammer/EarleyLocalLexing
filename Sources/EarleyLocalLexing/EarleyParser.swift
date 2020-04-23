@@ -176,7 +176,7 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
                     insertTo(dict: &newTokens, key: candidate, value: tr)
                 }
             }
-            for tr in grammar.lexer.parse(input: input, position: startPosition, key: candidate) {
+            for tr in grammar.lexer.parse(input: input, position: k, key: candidate) {
                 insertTo(dict: &newTokens, key: candidate, value: tr)
             }
         }
