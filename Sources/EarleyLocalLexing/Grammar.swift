@@ -339,16 +339,6 @@ public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : Gramm
     }
     
     /// Designates two slightly different parsing semantics.
-    ///
-    /// The `paper` semantics selects the possible terminal candidates independent of whether continuing parsing is actually possible with
-    /// the terminal candidate. This the semantics of parameterized local lexing as described in [*parameterized local lexing*](https://arxiv.org/abs/1704.04215).
-    /// 
-    /// The `modified` semantics modifies this by replacing the induced rule
-    /// $$N^\alpha_\beta \rightarrow {X_1}_{\beta_1}^{\alpha_1} \ldots {X_h}_{\beta_h}^{\alpha_h} \bot$$
-    /// with the induced rule
-    /// $$N^\alpha_\beta \rightarrow {X_1}_{\beta_1}^{\alpha_1} \ldots {X_{h - 1}}_{\beta_{h-1}}^{\alpha_{h-1}} \bot$$
-    /// whenever $X_h$ is a terminal.
-    ///
     public enum Semantics {
         
         /// Semantics as described in the paper *Parameterized Local Lexing*.
