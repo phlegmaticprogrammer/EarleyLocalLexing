@@ -263,7 +263,9 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
     
     func computeBin(bins : inout Bins, k : Int) {
         var tokens : Tokens = [:]
-        while Pi(bins: &bins, tokens: tokens, k: k) {
+        var first : Bool = true
+        while first || Pi(bins: &bins, tokens: tokens, k: k) {
+            first = false
             let newTokens = CollectNewTokens(bins: bins, tokens: tokens, k: k)
             print("newTokens = \(newTokens)")
             switch semantics {
