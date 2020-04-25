@@ -248,7 +248,6 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
     }
     
     func Pi(bins : inout Bins, tokens : Tokens, k : Int) -> Bool {
-        print("Pi k = \(k)")
         var changeInStep : Bool
         var changed = false
         repeat {
@@ -267,7 +266,6 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
         while first || Pi(bins: &bins, tokens: tokens, k: k) {
             first = false
             let newTokens = CollectNewTokens(bins: bins, tokens: tokens, k: k)
-            print("newTokens = \(newTokens)")
             switch semantics {
             case .paper: selectNewTokens_paper(bins: bins, tokens: &tokens, newTokens: newTokens, k: k)
             case .modified: selectNewTokens_modified(bins: bins, tokens: &tokens, newTokens: newTokens, k: k)
