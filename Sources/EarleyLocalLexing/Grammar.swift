@@ -321,16 +321,23 @@ public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : Gramm
         return rulesOfSymbols[lhs] ?? []
     }
     
+    /// Optional modes for each terminal. Note that the lexer must only deal with terminals that are in `longestMatch` mode.
+    public typealias TerminalParseModes = [Int : TerminalParseMode<Param, Result>]
+    
+    /// An optional parse mode for each terminal, default is `longestMatch`
+    public let terminalParseModes : TerminalParseModes
+    
     /// Creates a grammar with the given rules, lexer, selector and result construction specification.
     /// - parameter rules: The rules of the grammar.
     /// - parameter lexer: The lexer of this grammar.
     /// - parameter selector: The selector of this grammar.
     /// - parameter constructResult: A specification of how to construct the result of a successful parse.
-    public init(rules : [Rule<Param>], lexer : L, selector : S, constructResult : C) {
+    public init(rules : [Rule<Param>], lexer : L, selector : S, constructResult : C, terminalParseModes : TerminalParseModes) {
         self.rules = rules
         self.lexer = lexer
         self.selector = selector
         self.constructResult = constructResult
+        self.terminalParseModes = terminalParseModes
         var rOf : [Symbol : [RuleIndex]] = [:]
         for (ruleIndex, rule) in rules.enumerated() {
             appendTo(dict: &rOf, key: rule.lhs, value: ruleIndex)
@@ -356,8 +363,8 @@ public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : Gramm
     /// - parameter terminalParseModes: The terminal modes for parsing terminals via the grammar (does not affect Lexer!)
     /// - parameter semantics: The parsing semantics.
     /// - returns: The parse result (see `ParseResult` for a description on how to interpret this).
-    public func parse(input : Input<Char>, position : Int, symbol : Symbol, param : Param, terminalParseModes : [Int : TerminalParseMode<Param, Result>], semantics : Semantics = .paper) -> ParseResult<Param, Result> {
-        let parser = EarleyParser(grammar: self, initialSymbol: symbol, initialParam: param, input: input, startPosition: position, terminalParseModes: terminalParseModes, semantics: semantics)
+    public func parse(input : Input<Char>, position : Int, symbol : Symbol, param : Param, semantics : Semantics = .paper) -> ParseResult<Param, Result> {
+        let parser = EarleyParser(grammar: self, initialSymbol: symbol, initialParam: param, input: input, startPosition: position, semantics: semantics)
         return parser.parse()
     }
     

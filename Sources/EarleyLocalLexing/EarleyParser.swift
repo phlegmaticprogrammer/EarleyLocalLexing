@@ -70,11 +70,11 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
     let initialParam : Param
     let input : Input<L.Char>
     let treatedAsNonterminals : TerminalSet
-    let terminalParseModes : TerminalParseModes
+    let terminalParseModes : G.TerminalParseModes
     let startPosition : Int
     let semantics : G.Semantics
     
-    init(grammar : G, initialSymbol : Symbol, initialParam : Param, input : Input<L.Char>, startPosition : Int, terminalParseModes : TerminalParseModes, semantics : G.Semantics) {
+    init(grammar : G, initialSymbol : Symbol, initialParam : Param, input : Input<L.Char>, startPosition : Int, semantics : G.Semantics) {
         self.grammar = grammar
         self.initialSymbol = initialSymbol
         self.initialParam = initialParam
@@ -86,8 +86,8 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
         default:
             self.treatedAsNonterminals = []
         }
-        self.terminalParseModes = terminalParseModes
         self.semantics = semantics
+        self.terminalParseModes = grammar.terminalParseModes
     }
     
     func InitialBin() -> Bin {
@@ -175,7 +175,6 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
                                       initialParam: candidate.inputParam,
                                       input: input,
                                       startPosition: k,
-                                      terminalParseModes: terminalParseModes,
                                       semantics: semantics)
             switch parser.parse() {
             case .failed:
