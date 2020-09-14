@@ -48,10 +48,10 @@ struct EarleyItem<Param : Hashable, Result> : Hashable {
 
 typealias EarleyBin<Param : Hashable, Result> = Set<EarleyItem<Param, Result>>
 
-public enum TerminalParseMode<Param, Result> {
+public enum TerminalParseMode<Param> {
     case longestMatch
     case andNext
-    case notNext(param : Param, result : Result)
+    case notNext(param : Param)
 }
 
 final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.Char == C.Char, L.Param == C.Param, L.Result == C.Result, S.Param == C.Param, S.Result == C.Result {
@@ -61,7 +61,7 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
     typealias Bins = [Bin]
     typealias G = Grammar<L, S, C>
     typealias TerminalSet = Set<Int>
-    typealias TerminalParseModes = [Int : TerminalParseMode<Param, C.Result>]
+    typealias TerminalParseModes = [Int : TerminalParseMode<Param>]
     typealias Item = EarleyItem<Param, C.Result>
     typealias Tokens = EarleyLocalLexing.Tokens<Param, C.Result>
             
@@ -179,7 +179,9 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
             switch parser.parse() {
             case .failed:
                 switch terminalParseModes[candidate.terminalIndex] ?? .longestMatch {
-                case let .notNext(param: param, result: result):
+                case let .notNext(param: param):
+                    let symbol : Symbol = .terminal(index: candidate.terminalIndex)
+                    let result = grammar.constructResult.terminal(key: .init(symbol: symbol, inputParam: candidate.inputParam, outputParam: param, startPosition: k, endPosition: k), result: nil)
                     let tr = Token(length: 0, outputParam: param, result: result)
                     insertTo(dict: &newTokens, key: candidate, value: tr)
                 case .andNext, .longestMatch: break

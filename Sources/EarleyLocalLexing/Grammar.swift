@@ -322,7 +322,7 @@ public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : Gramm
     }
     
     /// Optional modes for each terminal. Note that the lexer must only deal with terminals that are in `longestMatch` mode.
-    public typealias TerminalParseModes = [Int : TerminalParseMode<Param, Result>]
+    public typealias TerminalParseModes = [Int : TerminalParseMode<Param>]
     
     /// An optional parse mode for each terminal, default is `longestMatch`
     public let terminalParseModes : TerminalParseModes
