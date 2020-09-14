@@ -170,8 +170,9 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
         guard !tokenCandidates.isEmpty else { return [:] }
         var newTokens : Tokens = [:]
         for candidate in tokenCandidates {
+            let candidateSymbol : Symbol = .terminal(index: candidate.terminalIndex)
             let parser = EarleyParser(grammar: grammar,
-                                      initialSymbol: .terminal(index: candidate.terminalIndex),
+                                      initialSymbol: candidateSymbol,
                                       initialParam: candidate.inputParam,
                                       input: input,
                                       startPosition: k,
@@ -180,8 +181,7 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
             case .failed:
                 switch terminalParseModes[candidate.terminalIndex] ?? .longestMatch {
                 case let .notNext(param: param):
-                    let symbol : Symbol = .terminal(index: candidate.terminalIndex)
-                    let result = grammar.constructResult.terminal(key: .init(symbol: symbol, inputParam: candidate.inputParam, outputParam: param, startPosition: k, endPosition: k), result: nil)
+                    let result = grammar.constructResult.terminal(key: .init(symbol: candidateSymbol, inputParam: candidate.inputParam, outputParam: param, startPosition: k, endPosition: k), result: nil)
                     let tr = Token(length: 0, outputParam: param, result: result)
                     insertTo(dict: &newTokens, key: candidate, value: tr)
                 case .andNext, .longestMatch: break
