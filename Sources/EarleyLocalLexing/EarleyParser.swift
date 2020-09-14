@@ -48,6 +48,12 @@ struct EarleyItem<Param : Hashable, Result> : Hashable {
 
 typealias EarleyBin<Param : Hashable, Result> = Set<EarleyItem<Param, Result>>
 
+public enum TerminalParseMode<Param, Result> {
+    case longestMatch
+    case andNext
+    case notNext(param : Param, result : Result)
+}
+
 final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.Char == C.Char, L.Param == C.Param, L.Result == C.Result, S.Param == C.Param, S.Result == C.Result {
     
     typealias Param = C.Param
@@ -55,6 +61,7 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
     typealias Bins = [Bin]
     typealias G = Grammar<L, S, C>
     typealias TerminalSet = Set<Int>
+    typealias TerminalParseModes = [Int : TerminalParseMode<Param, C.Result>]
     typealias Item = EarleyItem<Param, C.Result>
     typealias Tokens = EarleyLocalLexing.Tokens<Param, C.Result>
             
@@ -63,10 +70,11 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
     let initialParam : Param
     let input : Input<L.Char>
     let treatedAsNonterminals : TerminalSet
+    let terminalParseModes : TerminalParseModes
     let startPosition : Int
     let semantics : G.Semantics
     
-    init(grammar : G, initialSymbol : Symbol, initialParam : Param, input : Input<L.Char>, startPosition : Int, treatedAsNonterminals : TerminalSet, semantics : G.Semantics) {
+    init(grammar : G, initialSymbol : Symbol, initialParam : Param, input : Input<L.Char>, startPosition : Int, terminalParseModes : TerminalParseModes, semantics : G.Semantics) {
         self.grammar = grammar
         self.initialSymbol = initialSymbol
         self.initialParam = initialParam
@@ -74,10 +82,11 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
         self.startPosition = startPosition
         switch initialSymbol {
         case let .terminal(index: index):
-            self.treatedAsNonterminals = treatedAsNonterminals.union([index])
+            self.treatedAsNonterminals = [index]
         default:
-            self.treatedAsNonterminals = treatedAsNonterminals
+            self.treatedAsNonterminals = []
         }
+        self.terminalParseModes = terminalParseModes
         self.semantics = semantics
     }
     
@@ -166,14 +175,30 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
                                       initialParam: candidate.inputParam,
                                       input: input,
                                       startPosition: k,
-                                      treatedAsNonterminals: treatedAsNonterminals,
+                                      terminalParseModes: terminalParseModes,
                                       semantics: semantics)
             switch parser.parse() {
-            case .failed: break
-            case let .success(length: length, results: results):
-                for (value, result) in results {
-                    let tr = Token(length: length, outputParam: value, result: result)
+            case .failed:
+                switch terminalParseModes[candidate.terminalIndex] ?? .longestMatch {
+                case let .notNext(param: param, result: result):
+                    let tr = Token(length: 0, outputParam: param, result: result)
                     insertTo(dict: &newTokens, key: candidate, value: tr)
+                case .andNext, .longestMatch: break
+                }
+            case let .success(length: length, results: results):
+                switch terminalParseModes[candidate.terminalIndex] ?? .longestMatch {
+                case .andNext:
+                    for (value, result) in results {
+                        let tr = Token(length: 0, outputParam: value, result: result)
+                        insertTo(dict: &newTokens, key: candidate, value: tr)
+                    }
+                case .longestMatch:
+                    for (value, result) in results {
+                        let tr = Token(length: length, outputParam: value, result: result)
+                        insertTo(dict: &newTokens, key: candidate, value: tr)
+                    }
+                case .notNext:
+                    break
                 }
             }
             for tr in grammar.lexer.parse(input: input, position: k, key: candidate) {

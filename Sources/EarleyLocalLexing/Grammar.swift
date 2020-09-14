@@ -353,10 +353,11 @@ public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : Gramm
     /// - parameter position: The position in the input from where to start parsing.
     /// - parameter symbol: The start symbol of the parsing process. This can be either a nonterminal or a terminal.
     /// - parameter param: The input parameter associated with the start symbol.
+    /// - parameter terminalParseModes: The terminal modes for parsing terminals via the grammar (does not affect Lexer!)
     /// - parameter semantics: The parsing semantics.
     /// - returns: The parse result (see `ParseResult` for a description on how to interpret this).
-    public func parse(input : Input<Char>, position : Int, symbol : Symbol, param : Param, semantics : Semantics = .paper) -> ParseResult<Param, Result> {
-        let parser = EarleyParser(grammar: self, initialSymbol: symbol, initialParam: param, input: input, startPosition: position, treatedAsNonterminals: [], semantics: semantics)
+    public func parse(input : Input<Char>, position : Int, symbol : Symbol, param : Param, terminalParseModes : [Int : TerminalParseMode<Param, Result>], semantics : Semantics = .paper) -> ParseResult<Param, Result> {
+        let parser = EarleyParser(grammar: self, initialSymbol: symbol, initialParam: param, input: input, startPosition: position, terminalParseModes: terminalParseModes, semantics: semantics)
         return parser.parse()
     }
     
