@@ -60,7 +60,6 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
     typealias Bin = EarleyBin<Param, C.Result>
     typealias Bins = [Bin]
     typealias G = Grammar<L, S, C>
-    typealias TerminalSet = Set<Int>
     typealias TerminalParseModes = [Int : TerminalParseMode<Param>]
     typealias Item = EarleyItem<Param, C.Result>
     typealias Tokens = EarleyLocalLexing.Tokens<Param, C.Result>
@@ -69,7 +68,6 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
     let initialSymbol : Symbol
     let initialParam : Param
     let input : Input<L.Char>
-    let treatedAsNonterminals : TerminalSet
     let terminalParseModes : G.TerminalParseModes
     let startPosition : Int
     let semantics : G.Semantics
@@ -80,12 +78,6 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
         self.initialParam = initialParam
         self.input = input
         self.startPosition = startPosition
-        switch initialSymbol {
-        case let .terminal(index: index):
-            self.treatedAsNonterminals = [index]
-        default:
-            self.treatedAsNonterminals = []
-        }
         self.semantics = semantics
         self.terminalParseModes = grammar.terminalParseModes
     }
@@ -104,7 +96,7 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
     func treatAsNonterminal(_ symbol : Symbol) -> Bool {
         switch symbol {
         case .nonterminal: return true
-        case let .terminal(index: index): return treatedAsNonterminals.contains(index)
+        case .terminal: return false
         }
     }
     
@@ -323,7 +315,7 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
         var lastNonEmpty : Int? = nil
         while i >= 0 {
             if hasBeenRecognized(bin: bins[i]) {
-                let c = RunResultConstruction<L, S, C>(input: input, grammar: grammar, treatedAsNonterminals: treatedAsNonterminals, bins: Array(bins[0 ... i]), startOffset: startPosition)
+                let c = RunResultConstruction<L, S, C>(input: input, grammar: grammar, bins: Array(bins[0 ... i]), startOffset: startPosition)
                 return .success(length: i, results: c.construct(symbol: initialSymbol, param: initialParam))
             }
             if lastNonEmpty == nil && !bins[i].isEmpty {

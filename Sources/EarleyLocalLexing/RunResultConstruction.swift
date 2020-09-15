@@ -25,7 +25,6 @@ final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult> 
     typealias Item = EarleyItem<C.Param, C.Result>
     typealias Key = ItemKey<Param>
     typealias G = Grammar<L, S, C>
-    typealias TerminalSet = EarleyParser<L, S, C>.TerminalSet
     
     let grammar : G
     let bins : Bins
@@ -37,14 +36,12 @@ final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult> 
     }
     
     private var cache : [Key : CachedResult]
-    private let treatedAsNonterminals : TerminalSet
     private let startOffset : Int
     
-    init(input : Input<L.Char>, grammar : G, treatedAsNonterminals : TerminalSet, bins : Bins, startOffset : Int) {
+    init(input : Input<L.Char>, grammar : G, bins : Bins, startOffset : Int) {
         self.grammar = grammar
         self.bins = bins
         self.cache = [:]
-        self.treatedAsNonterminals = treatedAsNonterminals
         self.startOffset = startOffset
         self.input = input
     }
@@ -134,14 +131,10 @@ final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult> 
             case .nonterminal:
                 let childKey : Key = Key(symbol: symbol, inputParam: child.inputParam, outputParam: child.outputParam, startPosition: child.from, endPosition: child.to)
                 commandStack.append(.startKeyTask(key: childKey))
-            case let .terminal(index: index):
+            case .terminal:
                 let childKey : Key = Key(symbol: symbol, inputParam: child.inputParam, outputParam: child.outputParam, startPosition: child.from, endPosition: child.to)
-                if treatedAsNonterminals.contains(index) {
-                    commandStack.append(.startKeyTask(key: childKey))
-                } else {
-                    let result = grammar.constructResult.terminal(key: childKey, result: child.result)
-                    commandStack.append(.push(result: result))
-                }
+                let result = grammar.constructResult.terminal(key: childKey, result: child.result)
+                commandStack.append(.push(result: result))
             }
         }
     }
