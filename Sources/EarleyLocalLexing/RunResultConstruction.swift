@@ -107,7 +107,8 @@ final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult> 
             case let .done(result: result):
                 resultStack.append(result)
             case .computing:
-                resultStack.append(nil)
+                let r = grammar.constructResult.bailout(key: key)
+                resultStack.append(r)
             }
             return
         }

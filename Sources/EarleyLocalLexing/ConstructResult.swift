@@ -65,4 +65,9 @@ public protocol ConstructResult : GrammarComponent {
     /// - returns: An optional result that represents the merge of `results`. Note that it is perfectly legal to return `nil` here.
     func merge(key : ItemKey<Param>, results : [Result]) -> Result?
     
+    /// This is called when the result construction depends on itself and is therefore failing.
+    /// - parameter key: The key for which constructing the parsing result fails
+    /// - returns: An optional result to bail the parser out of this situation
+    func bailout(key : ItemKey<Param>) -> Result?
+    
 }
