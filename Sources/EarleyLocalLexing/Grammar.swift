@@ -344,27 +344,16 @@ public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : Gramm
         }
         self.rulesOfSymbols = rOf
     }
-    
-    /// Designates two slightly different parsing semantics.
-    public enum Semantics {
-        
-        /// Semantics as described in the paper *Parameterized Local Lexing*.
-        case paper
-        
-        /// Experimental semantics that should lead to improved terminal selection.
-        case modified
-    }
-        
+            
     /// Parses the given `symbol` associated with input parameter `inputParam` from a specified `position` in `input`.
     /// - parameter input: The input which is being parsed.
     /// - parameter position: The position in the input from where to start parsing.
     /// - parameter symbol: The start symbol of the parsing process. This can be either a nonterminal or a terminal.
     /// - parameter param: The input parameter associated with the start symbol.
     /// - parameter terminalParseModes: The terminal modes for parsing terminals via the grammar (does not affect Lexer!)
-    /// - parameter semantics: The parsing semantics.
     /// - returns: The parse result (see `ParseResult` for a description on how to interpret this).
-    public func parse(input : Input<Char>, position : Int, symbol : Symbol, param : Param, semantics : Semantics = .paper) -> ParseResult<Param, Result> {
-        let parser = EarleyParser(grammar: self, initialSymbol: symbol, initialParam: param, input: input, startPosition: position, semantics: semantics)
+    public func parse(input : Input<Char>, position : Int, symbol : Symbol, param : Param) -> ParseResult<Param, Result> {
+        let parser = EarleyParser(grammar: self, initialSymbol: symbol, initialParam: param, input: input, startPosition: position)
         return parser.parse()
     }
     

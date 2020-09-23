@@ -70,15 +70,13 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
     let input : Input<L.Char>
     let terminalParseModes : G.TerminalParseModes
     let startPosition : Int
-    let semantics : G.Semantics
     
-    init(grammar : G, initialSymbol : Symbol, initialParam : Param, input : Input<L.Char>, startPosition : Int, semantics : G.Semantics) {
+    init(grammar : G, initialSymbol : Symbol, initialParam : Param, input : Input<L.Char>, startPosition : Int) {
         self.grammar = grammar
         self.initialSymbol = initialSymbol
         self.initialParam = initialParam
         self.input = input
         self.startPosition = startPosition
-        self.semantics = semantics
         self.terminalParseModes = grammar.terminalParseModes
     }
     
@@ -167,8 +165,7 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
                                       initialSymbol: candidateSymbol,
                                       initialParam: candidate.inputParam,
                                       input: input,
-                                      startPosition: k,
-                                      semantics: semantics)
+                                      startPosition: k)
             switch parser.parse() {
             case .failed:
                 switch terminalParseModes[candidate.terminalIndex] ?? .longestMatch {
@@ -201,14 +198,8 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
         return newTokens
     }
     
-    func selectNewTokens_paper(bins : Bins, tokens : inout Tokens, newTokens : Tokens, k : Int) {
-        guard !newTokens.isEmpty else { return }
-        let selectedTokens = grammar.selector.select(from: newTokens, alreadySelected: tokens)
-        insertTo(dict: &tokens, selectedTokens)
-    }
-
-    func selectNewTokens_modified(bins : Bins, tokens : inout Tokens, newTokens : Tokens, k : Int) {
-        guard !newTokens.isEmpty else { return }
+    func filterNewTokens(bins : Bins, newTokens : Tokens, k : Int) -> Tokens {
+        guard !newTokens.isEmpty else { return newTokens }
         var validNewTokens : Tokens = [:]
         for item in bins[k - startPosition] {
             let rule = grammar.rules[item.ruleIndex]
@@ -227,8 +218,18 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
                 }
             }
         }
-        let selectedTokens = grammar.selector.select(from: validNewTokens, alreadySelected: tokens)
-        insertTo(dict: &tokens, selectedTokens)
+        return validNewTokens
+    }
+    
+    func filterEmptyTokens(_ tokens : Tokens) -> Tokens {
+        var result : Tokens = [:]
+        for (k, t) in tokens {
+            let filtered = Set(t.filter { token in token.length == 0})
+            if !filtered.isEmpty {
+                result[k] = filtered
+            }
+        }
+        return result
     }
     
     func add(bins : inout Bins, k : Int, item : Item) -> Bool {
@@ -290,17 +291,17 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
     
     func computeBin(bins : inout Bins, k : Int) {
         var tokens : Tokens = [:]
+        var alreadySelected : Tokens = [:]
         var first : Bool = true
-        while first || Pi(bins: &bins, tokens: tokens, k: k) {
+        let selector = grammar.selector
+        while first || Pi(bins: &bins, tokens: alreadySelected, k: k) {
             first = false
-            let newTokens = CollectNewTokens(bins: bins, tokens: tokens, k: k)
-            switch semantics {
-            case .paper: selectNewTokens_paper(bins: bins, tokens: &tokens, newTokens: newTokens, k: k)
-            case .modified:
-                selectNewTokens_modified(bins: bins, tokens: &tokens, newTokens: newTokens, k: k)
-                print("k = \(k), tokens = \(printTokens(tokens))")
-            }
+            let newTokens = filterNewTokens(bins: bins, newTokens: CollectNewTokens(bins: bins, tokens: tokens, k: k), k: k)
+            insertTo(dict: &tokens, newTokens)
+            alreadySelected = filterEmptyTokens(selector.select(from: tokens, alreadySelected: alreadySelected))
         }
+        let selected = selector.select(from: tokens, alreadySelected: alreadySelected)
+        let _ = Scan(bins: &bins, tokens: selected, k: k)
     }
         
     func hasBeenRecognized(bin : Bin) -> Bool {
