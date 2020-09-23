@@ -278,6 +278,16 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
         return changed
     }
     
+    func printTokens(_ tokens : Tokens) -> String {
+        guard tokens.count > 0 else { return "none" }
+        var s = ""
+        for (t, r) in tokens {
+            let len = r.first!.length
+            s.append(" \(t.terminalIndex)[\(len)]")
+        }
+        return s
+    }
+    
     func computeBin(bins : inout Bins, k : Int) {
         var tokens : Tokens = [:]
         var first : Bool = true
@@ -286,7 +296,9 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
             let newTokens = CollectNewTokens(bins: bins, tokens: tokens, k: k)
             switch semantics {
             case .paper: selectNewTokens_paper(bins: bins, tokens: &tokens, newTokens: newTokens, k: k)
-            case .modified: selectNewTokens_modified(bins: bins, tokens: &tokens, newTokens: newTokens, k: k)
+            case .modified:
+                selectNewTokens_modified(bins: bins, tokens: &tokens, newTokens: newTokens, k: k)
+                print("k = \(k), tokens = \(printTokens(tokens))")
             }
         }
     }
