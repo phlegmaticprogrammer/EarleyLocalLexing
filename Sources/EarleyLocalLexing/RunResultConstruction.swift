@@ -1,7 +1,7 @@
 struct CompletedRHS<Param : Hashable, Result> : CompletedRightHandSide {
     let item : EarleyItem<Param, Result>
     
-    let results : [Result?]
+    let results : [Result]
     
     var count : Int {
         return results.count
@@ -9,7 +9,7 @@ struct CompletedRHS<Param : Hashable, Result> : CompletedRightHandSide {
     
     var ruleIndex : Int { return item.ruleIndex }
     
-    func rhs(_ k : Int) -> (inputParam: Param, outputParam: Param, result: Result?, startPosition: Int, endPosition: Int) {
+    func rhs(_ k : Int) -> (inputParam: Param, outputParam: Param, result: Result, startPosition: Int, endPosition: Int) {
         let rhs = k - 1
         let c = item.child(rhs: rhs)
         return (inputParam: c.inputParam, outputParam: c.outputParam, result: results[rhs], startPosition: c.from, endPosition: c.to)
@@ -107,8 +107,7 @@ final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult> 
             case let .done(result: result):
                 resultStack.append(result)
             case .computing:
-                let r = grammar.constructResult.bailout(key: key)
-                resultStack.append(r)
+                resultStack.append(nil)
             }
             return
         }
@@ -141,14 +140,23 @@ final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult> 
     }
     
     private func completeTask(key: Key, item: Item, count: Int, commandStack: inout CommandStack, resultStack: inout ResultStack) {
-        var results : [Result?] = []
+        var results : [Result] = []
+        var success = true
         for _ in 0 ..< count {
             let r = resultStack.popLast()!
-            results.append(r)
+            if let result = r {
+                results.append(result)
+            } else {
+                success = false
+            }
         }
-        let rhs = CompletedRHS(item: item, results: results)
-        let result = grammar.constructResult.evalRule(input: input, key: key, completed : rhs)
-        resultStack.append(result)
+        if success {
+            let rhs = CompletedRHS(item: item, results: results)
+            let result = grammar.constructResult.evalRule(input: input, key: key, completed : rhs)
+            resultStack.append(result)
+        } else {
+            resultStack.append(nil)
+        }
     }
     
     private func completeTask(key: Key, count: Int, commandStack: inout CommandStack, resultStack: inout ResultStack) {

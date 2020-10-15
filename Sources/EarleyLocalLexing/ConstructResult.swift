@@ -13,10 +13,10 @@ public protocol CompletedRightHandSide : GrammarComponent {
     /// - returns: Information about the parse of the `k`-th symbol `Rk` on the right hand side of the rule.
     ///     - `inputParam`: The input parameter of `Rk`.
     ///     - `outputParam`: The output parameter of `Rk`
-    ///     - `result`: An optional result of parsing `Rk`. Note that it is perfectly legal for a successful parse to return `nil` as its result.
+    ///     - `result`: The result of parsing `Rk`.
     ///     - `startPosition`: The (inclusive) position of the input where the successful parse started.
     ///     - `endPosition`: The (exclusive) position of the input where the successful parse ended.
-    func rhs(_ k : Int) -> (inputParam: Param, outputParam: Param, result: Result?, startPosition: Int, endPosition: Int)
+    func rhs(_ k : Int) -> (inputParam: Param, outputParam: Param, result: Result, startPosition: Int, endPosition: Int)
 }
 
 /// An `ItemKey` designates a part of the input that has been successfully parsed as a certain symbol with certain parameters.
@@ -50,24 +50,19 @@ public protocol ConstructResult : GrammarComponent {
     /// - parameter input: The input, part of which has been successfully parsed.
     /// - parameter key: This key designates which part of the input has been parsed as what symbol.
     /// - parameter completed: Information about the completed right-hand side of the rule.
-    /// - returns: An optional result. Note that it is perfectly legal to return `nil` here.
-    func evalRule<RHS : CompletedRightHandSide>(input : Input<Char>, key : ItemKey<Param>, completed : RHS) -> Result? where RHS.Result == Result, RHS.Param == Param
+    /// - returns: The result.
+    func evalRule<RHS : CompletedRightHandSide>(input : Input<Char>, key : ItemKey<Param>, completed : RHS) -> Result where RHS.Result == Result, RHS.Param == Param
     
     /// Constructs the result from a terminal result.
     /// - parameter key: The key for which this terminal has been parsed successfully.
     /// - parameter result: The result of parsing / lexing the terminal.
-    /// - returns: An optional result. Note that it is perfectly legal to return `nil` here.
-    func terminal(key : ItemKey<Param>, result : Result?) -> Result?
+    /// - returns: The result.
+    func terminal(key : ItemKey<Param>, result : Result?) -> Result
     
     /// This is called to merge all results for that particular `key` into a single result.
     /// - parameter key: The key for which parsing has completed successfully.
     /// - parameter results: The results of all successful parses for the particular `key` under consideration. If all such parses have returned a `nil` result, then `results` will be empty.
-    /// - returns: An optional result that represents the merge of `results`. Note that it is perfectly legal to return `nil` here.
-    func merge(key : ItemKey<Param>, results : [Result]) -> Result?
-    
-    /// This is called when the result construction depends on itself and is therefore failing.
-    /// - parameter key: The key for which constructing the parsing result fails
-    /// - returns: An optional result to bail the parser out of this situation
-    func bailout(key : ItemKey<Param>) -> Result?
-    
+    /// - returns: An  result that represents the merge of `results`.
+    func merge(key : ItemKey<Param>, results : [Result]) -> Result
+        
 }
