@@ -248,8 +248,8 @@ public protocol Selector : GrammarComponent {
     /// Selects a subset of tokens from those tokens which have been successfully parsed at a particular position.
     /// Selection happens in iterative phases, which correspond to a discovery process of which terminals could possibly occur at the current position based on the current parsing progress.
     /// Tokens already selected in previous phases cannot be deselected in later phases.
-    /// - parameter from: Those tokens which have been newly parsed in the current selection phase.
-    ///   The terminal keys in `from` are guaranteed to be different from those in `alreadySelected`.
+    /// - parameter from: Those tokens which have been parsed in the current selection phase.
+    ///   (that is not true anymore, I think: The terminal keys in `from` are guaranteed to be different from those in `alreadySelected`.)
     /// - parameter alreadySelected: The tokens which have been selected in earlier phases.
     /// - returns: The selected tokens, which must be contained in `from`.
     func select(from : Tokens<Param, Result>, alreadySelected : Tokens<Param, Result>) -> Tokens<Param, Result>
