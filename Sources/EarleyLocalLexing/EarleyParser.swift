@@ -1,3 +1,5 @@
+import Foundation
+
 struct EarleyItem<Param : Hashable, Result> : Hashable {
     
     let ruleIndex : Int
@@ -142,7 +144,7 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
         return changed
     }
     
-    func CollectNewTokens(bins : Bins, tokens : Tokens, k : Int) -> Tokens {
+    func CollectNewTokens(level: Int, bins : Bins, tokens : Tokens, k : Int) -> Tokens {
         var tokenCandidates : Set<TerminalKey<Param>> = []
         for item in bins[k - startPosition] {
             let rule = grammar.rules[item.ruleIndex]
@@ -166,7 +168,7 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
                                       initialParam: candidate.inputParam,
                                       input: input,
                                       startPosition: k)
-            switch parser.parse() {
+            switch parser.parse(level: level + 1) {
             case .failed:
                 switch terminalParseModes[candidate.terminalIndex] ?? .longestMatch {
                 case let .notNext(param: param):
@@ -289,14 +291,14 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
         return s
     }
     
-    func computeBin(bins : inout Bins, k : Int) {
+    func computeBin(level : Int, bins : inout Bins, k : Int) {
         var tokens : Tokens = [:]
         var alreadySelected : Tokens = [:]
         var first : Bool = true
         let selector = grammar.selector
         while first || Pi(bins: &bins, tokens: alreadySelected, k: k) {
             first = false
-            let newTokens = filterNewTokens(bins: bins, newTokens: CollectNewTokens(bins: bins, tokens: tokens, k: k), k: k)
+            let newTokens = filterNewTokens(bins: bins, newTokens: CollectNewTokens(level: level, bins: bins, tokens: tokens, k: k), k: k)
             insertTo(dict: &tokens, newTokens)
             alreadySelected = filterEmptyTokens(selector.select(from: tokens, alreadySelected: alreadySelected))
         }
@@ -316,16 +318,31 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
         return false
     }
     
-    func parse() -> ParseResult<Param, C.Result> {
+    func parse(level : Int = 0) -> ParseResult<Param, C.Result> {
         var bins : Bins = []
         bins.append(InitialBin())
+        let startDate = Date()
         var i = 0
         while i < bins.count {
-            computeBin(bins: &bins, k: i + startPosition)
+            let before = Date()
+            computeBin(level: level, bins: &bins, k: i + startPosition)
+            let after = Date()
+            let diff = after.timeIntervalSince(before)
+            if level == 0 {
+                if bins[i].count > 0 {
+                    print("computed bin \(i + startPosition) with \(bins[i].count) elements in \(diff * 1000)ms")
+                }
+            }
             i += 1
         }
         i = bins.count - 1
         var lastNonEmpty : Int? = nil
+        let endDate = Date()
+        let timeInterval = endDate.timeIntervalSince(startDate)
+        if timeInterval*1000 > 10 {
+            let offset = String(repeating: " ", count: level * 2)
+            print("\(offset)parsed symbol \(grammar.constructResult.nameOf(symbol: initialSymbol)) in \(timeInterval * 1000)ms")
+        }
         while i >= 0 {
             if hasBeenRecognized(bin: bins[i]) {
                 let c = RunResultConstruction<L, S, C>(input: input, grammar: grammar, bins: Array(bins[0 ... i]), startOffset: startPosition)

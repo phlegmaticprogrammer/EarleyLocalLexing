@@ -64,5 +64,7 @@ public protocol ConstructResult : GrammarComponent {
     /// - parameter results: The results of all successful parses for the particular `key` under consideration. If all such parses have returned a `nil` result, then `results` will be empty.
     /// - returns: An  result that represents the merge of `results`.
     func merge(key : ItemKey<Param>, results : [Result]) -> Result
+    
+    func nameOf(symbol : Symbol) -> String
         
 }
