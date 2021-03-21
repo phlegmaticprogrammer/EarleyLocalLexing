@@ -321,28 +321,28 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
     func parse(level : Int = 0) -> ParseResult<Param, C.Result> {
         var bins : Bins = []
         bins.append(InitialBin())
-        let startDate = Date()
+        //let startDate = Date()
         var i = 0
         while i < bins.count {
-            let before = Date()
+            //let before = Date()
             computeBin(level: level, bins: &bins, k: i + startPosition)
-            let after = Date()
+            /*let after = Date()
             let diff = after.timeIntervalSince(before)
             if level == 0 {
                 if bins[i].count > 0 {
                     print("computed bin \(i + startPosition) with \(bins[i].count) elements in \(diff * 1000)ms")
                 }
-            }
+            }*/
             i += 1
         }
         i = bins.count - 1
         var lastNonEmpty : Int? = nil
-        let endDate = Date()
-        let timeInterval = endDate.timeIntervalSince(startDate)
-        if timeInterval*1000 > 10 {
+        //let endDate = Date()
+        //let timeInterval = endDate.timeIntervalSince(startDate)
+        /*if timeInterval*1000 > 10 {
             let offset = String(repeating: " ", count: level * 2)
             print("\(offset)parsed symbol \(grammar.constructResult.nameOf(symbol: initialSymbol)) in \(timeInterval * 1000)ms")
-        }
+        }*/
         while i >= 0 {
             if hasBeenRecognized(bin: bins[i]) {
                 let c = RunResultConstruction<L, S, C>(input: input, grammar: grammar, bins: Array(bins[0 ... i]), startOffset: startPosition)
