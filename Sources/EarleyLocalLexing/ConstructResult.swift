@@ -37,6 +37,14 @@ public struct ItemKey<Param : Hashable> : Hashable {
     
     /// The (exclusive) end position of the input range that has been parsed successfully.
     public let endPosition : Int
+    
+    public init(symbol : Symbol, inputParam : Param, outputParam : Param, startPosition : Int, endPosition : Int) {
+        self.symbol = symbol
+        self.inputParam = inputParam
+        self.outputParam = outputParam
+        self.startPosition = startPosition
+        self.endPosition = endPosition
+    }
 
 }
 
