@@ -320,24 +320,17 @@ public final class Grammar<L : Lexer, S : Selector, C : ConstructResult> : Gramm
     public func rulesOf(lhs : Symbol) -> [RuleIndex] {
         return rulesOfSymbols[lhs] ?? []
     }
-    
-    /// Optional modes for each terminal. Note that the lexer must only deal with terminals that are in `longestMatch` mode.
-    public typealias TerminalParseModes = [Int : TerminalParseMode<Param>]
-    
-    /// An optional parse mode for each terminal, default is `longestMatch`
-    public let terminalParseModes : TerminalParseModes
-    
+            
     /// Creates a grammar with the given rules, lexer, selector and result construction specification.
     /// - parameter rules: The rules of the grammar.
     /// - parameter lexer: The lexer of this grammar.
     /// - parameter selector: The selector of this grammar.
     /// - parameter constructResult: A specification of how to construct the result of a successful parse.
-    public init(rules : [Rule<Param>], lexer : L, selector : S, constructResult : C, terminalParseModes : TerminalParseModes) {
+    public init(rules : [Rule<Param>], lexer : L, selector : S, constructResult : C) {
         self.rules = rules
         self.lexer = lexer
         self.selector = selector
         self.constructResult = constructResult
-        self.terminalParseModes = terminalParseModes
         var rOf : [Symbol : [RuleIndex]] = [:]
         for (ruleIndex, rule) in rules.enumerated() {
             appendTo(dict: &rOf, key: rule.lhs, value: ruleIndex)

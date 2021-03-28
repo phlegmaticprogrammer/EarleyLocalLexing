@@ -50,19 +50,12 @@ struct EarleyItem<Param : Hashable, Result> : Hashable {
 
 typealias EarleyBin<Param : Hashable, Result> = Set<EarleyItem<Param, Result>>
 
-public enum TerminalParseMode<Param> {
-    case longestMatch
-    case andNext
-    case notNext(param : Param)
-}
-
 final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.Char == C.Char, L.Param == C.Param, L.Result == C.Result, S.Param == C.Param, S.Result == C.Result {
     
     typealias Param = C.Param
     typealias Bin = EarleyBin<Param, C.Result>
     typealias Bins = [Bin]
     typealias G = Grammar<L, S, C>
-    typealias TerminalParseModes = [Int : TerminalParseMode<Param>]
     typealias Item = EarleyItem<Param, C.Result>
     typealias Tokens = EarleyLocalLexing.Tokens<Param, C.Result>
             
@@ -70,7 +63,6 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
     let initialSymbol : Symbol
     let initialParam : Param
     let input : Input<L.Char>
-    let terminalParseModes : G.TerminalParseModes
     let startPosition : Int
     
     init(grammar : G, initialSymbol : Symbol, initialParam : Param, input : Input<L.Char>, startPosition : Int) {
@@ -79,7 +71,6 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
         self.initialParam = initialParam
         self.input = input
         self.startPosition = startPosition
-        self.terminalParseModes = grammar.terminalParseModes
     }
     
     func InitialBin() -> Bin {
@@ -162,37 +153,6 @@ final class EarleyParser<L : Lexer, S : Selector, C : ConstructResult> where L.C
         guard !tokenCandidates.isEmpty else { return [:] }
         var newTokens : Tokens = [:]
         for candidate in tokenCandidates {
-            let candidateSymbol : Symbol = .terminal(index: candidate.terminalIndex)
-            let parser = EarleyParser(grammar: grammar,
-                                      initialSymbol: candidateSymbol,
-                                      initialParam: candidate.inputParam,
-                                      input: input,
-                                      startPosition: k)
-            switch parser.parse(level: level + 1) {
-            case .failed:
-                switch terminalParseModes[candidate.terminalIndex] ?? .longestMatch {
-                case let .notNext(param: param):
-                    let result = grammar.constructResult.terminal(key: .init(symbol: candidateSymbol, inputParam: candidate.inputParam, outputParam: param, startPosition: k, endPosition: k), result: nil)
-                    let tr = Token(length: 0, outputParam: param, result: result)
-                    insertTo(dict: &newTokens, key: candidate, value: tr)
-                case .andNext, .longestMatch: break
-                }
-            case let .success(length: length, results: results):
-                switch terminalParseModes[candidate.terminalIndex] ?? .longestMatch {
-                case .andNext:
-                    for (value, result) in results {
-                        let tr = Token(length: 0, outputParam: value, result: result)
-                        insertTo(dict: &newTokens, key: candidate, value: tr)
-                    }
-                case .longestMatch:
-                    for (value, result) in results {
-                        let tr = Token(length: length, outputParam: value, result: result)
-                        insertTo(dict: &newTokens, key: candidate, value: tr)
-                    }
-                case .notNext:
-                    break
-                }
-            }
             for tr in grammar.lexer.parse(input: input, position: k, key: candidate) {
                 insertTo(dict: &newTokens, key: candidate, value: tr)
             }
