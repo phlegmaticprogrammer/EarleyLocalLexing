@@ -65,7 +65,7 @@ public protocol ConstructResult : GrammarComponent {
     /// - parameter key: The key for which this terminal has been parsed successfully.
     /// - parameter result: The result of parsing / lexing the terminal.
     /// - returns: The result.
-    func terminal(key : ItemKey<Param>, result : Result) -> Result
+    func terminal(key : ItemKey<Param>, result : Result?) -> Result
     
     /// This is called to merge all results for that particular `key` into a single result.
     /// - parameter key: The key for which parsing has completed successfully.

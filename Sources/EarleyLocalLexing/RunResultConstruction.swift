@@ -133,7 +133,7 @@ final class RunResultConstruction<L : Lexer, S : Selector, C : ConstructResult> 
                 commandStack.append(.startKeyTask(key: childKey))
             case .terminal:
                 let childKey : Key = Key(symbol: symbol, inputParam: child.inputParam, outputParam: child.outputParam, startPosition: child.from, endPosition: child.to)
-                let result = grammar.constructResult.terminal(key: childKey, result: child.result!)
+                let result = grammar.constructResult.terminal(key: childKey, result: child.result)
                 commandStack.append(.push(result: result))
             }
         }
