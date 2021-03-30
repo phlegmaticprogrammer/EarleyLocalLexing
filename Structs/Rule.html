@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Rule Structure Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Struct/Rule" class="dashAnchor"></a>
+    <a title="Rule Structure Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">EarleyLocalLexing Docs</a> (97% documented)</p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">EarleyLocalLexing Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        Rule Structure Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/Grammar.html">Grammar</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Input.html">Input</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/ParseResult.html">ParseResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Symbol.html">Symbol</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/CompletedRightHandSide.html">CompletedRightHandSide</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConstructResult.html">ConstructResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/EvalEnv.html">EvalEnv</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/GrammarComponent.html">GrammarComponent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Lexer.html">Lexer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Selector.html">Selector</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/ItemKey.html">ItemKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Rule.html">Rule</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TerminalKey.html">TerminalKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Token.html">Token</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:17EarleyLocalLexing8EvalFunca">EvalFunc</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:17EarleyLocalLexing9RuleIndexa">RuleIndex</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:17EarleyLocalLexing6Tokensa">Tokens</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Rule</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Rule</span><span class="o">&lt;</span><span class="kt">Param</span><span class="o">&gt;</span></code></pre>
+
+                </div>
+              </div>
+            <p>Represents a rule of the grammar.</p>
+
+<p>A rule is similar to a rule in a context-free grammar, and has the form</p>
+<pre class="highlight swift"><code><span class="kt">L</span> <span class="o">=&gt;</span> <span class="kt">R1</span> <span class="o">...</span> <span class="kt">Rn</span>
+</code></pre>
+
+<p>where <code>L</code> is the left-hand side of the rule, and <code>R1 ... Rn</code> is the right-hand side of the rule.</p>
+
+<p>Unlike the rules of a context-free grammar though, each of the symbols <code>L</code>, <code>R1</code>, &hellip;, <code>Rn</code> carries an input and an output parameter with them.
+The property <code>eval</code> (in tandem with the property <code>initialEnv</code>) is responsible for computing these parameters along the stages of the parsing process.</p>
+
+<p>Furthermore, the symbol <code>L</code> does not have to be a nonterminal, but can also be a terminal symbol. In this case, the invocation of this rule during parsing spawns a separate
+parsing process with a grammar identical with the current grammar, except that <code>L</code> is now treated as a nonterminal symbol. This enables a form of <em>scannerless parsing</em>.</p>
+<div class="aside aside-seealso">
+    <p class="aside-title">Seealso</p>
+    Grammar
+
+</div><div class="aside aside-seealso">
+    <p class="aside-title">Seealso</p>
+    EvalFunc
+
+</div>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:17EarleyLocalLexing4RuleV3lhsAA6SymbolOvp"></a>
+                    <a name="//apple_ref/swift/Property/lhs" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing4RuleV3lhsAA6SymbolOvp">lhs</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The left-hand side <code>L</code> of a rule of the form <code>L =&gt; R1 ... Rn</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">lhs</span><span class="p">:</span> <span class="kt"><a href="../Enums/Symbol.html">Symbol</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:17EarleyLocalLexing4RuleV3rhsSayAA6SymbolOGvp"></a>
+                    <a name="//apple_ref/swift/Property/rhs" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing4RuleV3rhsSayAA6SymbolOGvp">rhs</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The right-hand side <code>[R1 ... Rn]</code> of a rule of the form <code>L =&gt; R1 ... Rn</code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">rhs</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Enums/Symbol.html">Symbol</a></span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:17EarleyLocalLexing4RuleV10initialEnvAA04EvalF0_pvp"></a>
+                    <a name="//apple_ref/swift/Property/initialEnv" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing4RuleV10initialEnvAA04EvalF0_pvp">initialEnv</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The initial environment (actually a copy of it) is  passed to <code><a href="../Structs/Rule.html#/s:17EarleyLocalLexing4RuleV4evalyxSgAA7EvalEnv_p_SiSayxGtcvp">eval</a></code> at stage 0.</p>
+<div class="aside aside-seealso">
+    <p class="aside-title">Seealso</p>
+    EvalFunc
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">initialEnv</span><span class="p">:</span> <span class="kt"><a href="../Protocols/EvalEnv.html">EvalEnv</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:17EarleyLocalLexing4RuleV4evalyxSgAA7EvalEnv_p_SiSayxGtcvp"></a>
+                    <a name="//apple_ref/swift/Property/eval" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing4RuleV4evalyxSgAA7EvalEnv_p_SiSayxGtcvp">eval</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The evaluation function responsible for this rule.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">eval</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:17EarleyLocalLexing8EvalFunca">EvalFunc</a></span><span class="o">&lt;</span><span class="kt">Param</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:17EarleyLocalLexing4RuleV3lhs3rhs10initialEnv4evalACyxGAA6SymbolO_SayAJGAA04EvalH0_pxSgAaL_p_SiSayxGtctcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(lhs:rhs:initialEnv:eval:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing4RuleV3lhs3rhs10initialEnv4evalACyxGAA6SymbolO_SayAJGAA04EvalH0_pxSgAaL_p_SiSayxGtctcfc">init(lhs:<wbr>rhs:<wbr>initialEnv:<wbr>eval:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a rule.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt"><a href="../Enums/Symbol.html">Symbol</a></span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Enums/Symbol.html">Symbol</a></span><span class="p">],</span> <span class="nv">initialEnv</span><span class="p">:</span> <span class="kt"><a href="../Protocols/EvalEnv.html">EvalEnv</a></span><span class="p">,</span> <span class="nv">eval</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:17EarleyLocalLexing8EvalFunca">EvalFunc</a></span><span class="o">&lt;</span><span class="kt">Param</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>lhs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The left-hand side <code>L</code> of the rule.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>rhs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The right-hand side <code>R1 ... Rn</code> of the rule.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>initialEnv</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The initial environment of the rule.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>eval</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The evaluation function of the rule.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2021-03-30)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

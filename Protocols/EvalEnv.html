@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>EvalEnv Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Protocol/EvalEnv" class="dashAnchor"></a>
+    <a title="EvalEnv Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">EarleyLocalLexing Docs</a> (97% documented)</p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">EarleyLocalLexing Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        EvalEnv Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/Grammar.html">Grammar</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Input.html">Input</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/ParseResult.html">ParseResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Symbol.html">Symbol</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/CompletedRightHandSide.html">CompletedRightHandSide</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConstructResult.html">ConstructResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/EvalEnv.html">EvalEnv</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/GrammarComponent.html">GrammarComponent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Lexer.html">Lexer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Selector.html">Selector</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/ItemKey.html">ItemKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Rule.html">Rule</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TerminalKey.html">TerminalKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Token.html">Token</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:17EarleyLocalLexing8EvalFunca">EvalFunc</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:17EarleyLocalLexing9RuleIndexa">RuleIndex</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:17EarleyLocalLexing6Tokensa">Tokens</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>EvalEnv</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">EvalEnv</span></code></pre>
+
+                </div>
+              </div>
+            <p>An environment which an <code><a href="../Typealiases.html#/s:17EarleyLocalLexing8EvalFunca">EvalFunc</a></code> can use to store information needed during evaluation.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:17EarleyLocalLexing7EvalEnvP4copyxyF"></a>
+                    <a name="//apple_ref/swift/Method/copy()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17EarleyLocalLexing7EvalEnvP4copyxyF">copy()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Makes a copy of this environment.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">copy</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An identical copy of <code>self</code> such that subsequent modifications of the copy or <code>self</code> do no affect each other.
+If no corresponding <code><a href="../Typealiases.html#/s:17EarleyLocalLexing8EvalFunca">EvalFunc</a></code> modifies this environment or its copy, then this method can just return <code>self</code>.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2021-03-30)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

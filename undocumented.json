@@ -1,0 +1,19 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/runner/work/EarleyLocalLexing/EarleyLocalLexing/Sources/EarleyLocalLexing/ConstructResult.swift",
+      "line": 41,
+      "symbol": "ItemKey.init(symbol:inputParam:outputParam:startPosition:endPosition:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/EarleyLocalLexing/EarleyLocalLexing/Sources/EarleyLocalLexing/ConstructResult.swift",
+      "line": 76,
+      "symbol": "ConstructResult.nameOf(symbol:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/runner/work/EarleyLocalLexing/EarleyLocalLexing"
+}
